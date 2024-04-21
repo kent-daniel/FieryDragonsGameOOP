@@ -1,15 +1,17 @@
 from typing import Tuple
 import pygame
 import GameConstants
+from GameConstants import CharacterImage
 
 class Square(pygame.sprite.Sprite):
-    def __init__(self, square_size: int, character: str) -> None:
+    def __init__(self, square_size: int, character: CharacterImage) -> None:
         super().__init__()
-        self._square_size: int = square_size
-        self._character: str = character
+        self._character: CharacterImage = character
+        self._next: Square or None = None
+        self._prev: Square or None = None
 
         # can use flyweight factory
-        self.image: pygame.Surface = pygame.image.load(character).convert_alpha()
+        self.image: pygame.Surface = pygame.image.load(character.value).convert_alpha()
         self.image = pygame.transform.smoothscale(self.image, (square_size*0.8, square_size*0.8))
 
         self.surface: pygame.Surface = pygame.Surface((square_size, square_size), pygame.SRCALPHA)
@@ -25,11 +27,22 @@ class Square(pygame.sprite.Sprite):
         self.rect.topleft = location
         destination_surface.blit(self.surface, self.rect.topleft)
 
-
     @property
-    def character(self) -> str:
+    def character(self) -> CharacterImage:
         return self._character
 
     @property
-    def square_size(self) -> int:
-        return self._square_size
+    def next(self) -> 'Square' or None:
+        return self._next
+
+    @next.setter
+    def next(self, square: 'Square' or None) -> None:
+        self._next = square
+
+    @property
+    def prev(self) -> 'Square' or None:
+        return self._prev
+
+    @prev.setter
+    def prev(self, square: 'Square' or None) -> None:
+        self._prev = square

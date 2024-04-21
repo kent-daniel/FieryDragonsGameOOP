@@ -10,6 +10,7 @@ def main():
     clock = pygame.time.Clock()
     pygame.display.set_caption("Fiery Dragons")
     game = Game("config.ini", screen)
+
     running: bool = True
     while running:
 
@@ -25,9 +26,10 @@ def main():
                 #     if card.isClicked((mouse_x, mouse_y)):
                 #         print(card)
                 #         # cardResult = card.action(playerSquare)
-                Game()
-                square = Square(70, GameConstants.CharacterImage.DRAGON.value)
-                square.draw(screen)
+
+
+                print(square)
+
                 # volcano_card = VolcanoCard([square, square, square])
                 # rotation += 360 // 8
                 # volcano_card.rotate(rotation, (screen.get_width() // 2, screen.get_height() // 2))
@@ -37,7 +39,7 @@ def main():
         screen.fill((255, 255, 255, 0))  # Clear screen with white color
         # for card in dragon_cards:
         #     card.render(screen)
-
+        game.board.draw(screen , location=(screen.get_width()//2,screen.get_height()//2))
         # for volcano in volcanos:
         #     volcano.draw(screen)
 
