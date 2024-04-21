@@ -21,7 +21,7 @@ def main():
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pass
-                ## update cards
+                # update cards
                 #
                 # for card in dragon_cards:
                 #     if card.isClicked((mouse_x, mouse_y)):
