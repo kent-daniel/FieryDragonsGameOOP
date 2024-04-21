@@ -6,7 +6,7 @@ from Square import Square
 from VolcanoCard import VolcanoCard
 import GameConstants
 class Board(pygame.sprite.Sprite):
-    def __init__(self, width: int, height: int,  square_animals: List[str], volcano_size: int, square_size: int, color: pygame.color = GameConstants.GameStyles.COLOR_BROWN.value):
+    def __init__(self, width: int, height: int,  square_animals: List[str], volcano_size: int, square_size: int, color: pygame.color = GameConstants.GameStyles.COLOR_GRAY_500.value):
         super().__init__()
         self.width = width
         self.height = height

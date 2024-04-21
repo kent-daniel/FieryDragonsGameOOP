@@ -20,15 +20,13 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
+                pass
                 ## update cards
                 #
                 # for card in dragon_cards:
                 #     if card.isClicked((mouse_x, mouse_y)):
                 #         print(card)
                 #         # cardResult = card.action(playerSquare)
-
-
-                print(square)
 
                 # volcano_card = VolcanoCard([square, square, square])
                 # rotation += 360 // 8

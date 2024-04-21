@@ -15,10 +15,14 @@ class GameImage(Enum):
 
 
 class GameStyles(Enum):
-    COLOR_RED = pygame.Color(255, 0, 0)
-    COLOR_BROWN = pygame.Color(139, 69, 19)
-    COLOR_BLUE = pygame.Color(0, 0, 255)
+    COLOR_RED = pygame.Color(255, 132, 102)
+    COLOR_BROWN = pygame.Color(153, 102, 51)
+    COLOR_BLUE = pygame.Color(51, 153, 255)
     COLOR_TRANSPARENT = pygame.Color(0, 0, 0, 0)
+
+    COLOR_GRAY_500 = pygame.Color(128, 128, 128)
+    COLOR_GRAY_300 = pygame.Color(192, 192, 192)
+    COLOR_GRAY_700 = pygame.Color(77, 77, 77)
 
     BORDER_RADIUS_SMALL = 5
     BORDER_RADIUS_MEDIUM = 10
