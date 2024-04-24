@@ -13,11 +13,6 @@ class Cave(Drawable):
         self._image = pygame.transform.smoothscale(self._image, (width, height))
         self._surface.blit(self._image, self._image.get_rect(center=(height // 2, width // 2)))
         self._rect: pygame.Rect = self._surface.get_rect()
-
-        # pygame.draw.rect(self._surface,
-        #                  GameStyles.COLOR_TRANSPARENT.value,
-        #                  self._surface.get_rect(),
-        #                  )
         pygame.draw.circle(self._surface,
                            cave_owner.colour,
                            self._rect.center,

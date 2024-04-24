@@ -29,10 +29,9 @@ class Square(Drawable):
 
     def update_square_surface(self) -> None:
         self._rect: pygame.Rect = self._combined_surface.get_rect()
-        self._draw_player()
         self._draw_square()
         self._draw_cave()
-
+        self._draw_player()
 
 
     def _draw_square(self) -> None:
@@ -51,14 +50,14 @@ class Square(Drawable):
 
     def _draw_player(self) -> None:
         if self._occupant is None: return
-        self._occupant.draw(self._square_surface, self._rect.center)
+        self._occupant.draw(self._combined_surface, self._rect.midtop)
 
     def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
         self._rect.topleft = location
         destination_surface.blit(self._combined_surface, self._rect.topleft)
 
     def get_surface(self) -> pygame.Surface:
-        return self._square_surface
+        return self._combined_surface
 
     def get_occupant(self) -> Player or None:
         return self._occupant

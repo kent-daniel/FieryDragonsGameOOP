@@ -47,6 +47,12 @@ class Board(pygame.sprite.Sprite):
         for i in range(len(squares) - 1):
             squares[i].next = squares[i + 1]
             squares[i + 1].prev = squares[i]
+            squares[i].accept_player(players[i%4])
+            if i%3 == 0:
+                squares[i].remove_player()
+
+        squares[-1].next = squares[0]
+        squares[0].prev = squares[-1]
         return squares
 
     def create_volcano_cards(self, squares: List[Square], volcano_size: int, square_size: int, padding: int = 10) -> \
@@ -60,7 +66,7 @@ class Board(pygame.sprite.Sprite):
             # for c in card_squares:
             #     print(c.character)
 
-            self.radius = self.width * 0.5 - 2 * square_size - 30
+            self.radius = self.width * 0.5 - 2 * square_size - GameStyles.PADDING_LARGE.value
             volcano_width = self.get_optimal_volcano_width(board_radius=int(self.radius),
                                                            central_angle=360 / num_volcanoes)
             total_volcano_width = volcano_width + (volcano_size - 1) * padding
