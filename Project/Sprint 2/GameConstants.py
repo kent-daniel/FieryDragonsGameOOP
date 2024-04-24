@@ -13,6 +13,8 @@ class GameImage(Enum):
     CAVE = 'Asset/cave.png'
     VOLCANO_ARENA = 'Asset/VolcanoArena.png'
 
+class GameElementStyles(Enum):
+    SQUARE_LENGTH = 75
 
 class GameStyles(Enum):
     COLOR_RED = pygame.Color(255, 132, 102)

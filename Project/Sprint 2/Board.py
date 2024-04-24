@@ -20,7 +20,7 @@ class Board(pygame.sprite.Sprite):
         self.draw_volcano_cards(self.volcanoes, self.radius)
 
     def create_linked_squares(self, square_animals: List[str], square_size: int) -> List[Square]:
-        squares = [Square(square_size, GameConstants.CharacterImage[animal.upper()]) for animal in square_animals]
+        squares = [Square(1,GameConstants.CharacterImage[animal.upper()]) for animal in square_animals]
         # Link the squares together to form a doubly linked list
         for i in range(len(squares) - 1):
             squares[i].next = squares[i + 1]
@@ -37,8 +37,8 @@ class Board(pygame.sprite.Sprite):
             for c in card_squares:
                 print(c.character)
 
-            self.radius = self.width//2 - 2*square_size
-            volcano_width = self.get_optimal_volcano_width(board_radius=self.radius,
+            self.radius = self.width*0.5 - 2*square_size - 30
+            volcano_width = self.get_optimal_volcano_width(board_radius=int(self.radius),
                                                            central_angle=360 / num_volcanoes)
             total_volcano_width = volcano_width + (volcano_size-1)*padding
             total_volcano_height = square_size + 2*padding

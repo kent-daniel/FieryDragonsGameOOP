@@ -34,7 +34,7 @@ def main():
                 # volcanos.append(volcano_card)
 
         # Drawing the cards
-        screen.fill((255, 255, 255, 0))  # Clear screen with white color
+        screen.fill(GameConstants.GameStyles.COLOR_GRAY_700.value)  # Clear screen with white color
         # for card in dragon_cards:
         #     card.render(screen)
         game.board.draw(screen , location=(screen.get_width()//2,screen.get_height()//2))

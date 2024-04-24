@@ -1,15 +1,12 @@
+import pygame
+from abc import ABC, abstractmethod
 from typing import Tuple
 
-import pygame.sprite
-from Drawable import Drawable
-
-class Player(Drawable):
-
-    def __init__(self):
-        self.colour = None
-
+class Drawable(ABC):
+    @abstractmethod
     def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
         pass
 
+    @abstractmethod
     def get_surface(self) -> pygame.Surface:
         pass
