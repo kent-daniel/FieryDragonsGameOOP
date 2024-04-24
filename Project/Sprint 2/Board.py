@@ -12,7 +12,7 @@ from Cave import Cave
 
 class Board(pygame.sprite.Sprite):
     def __init__(self, width: int, height: int, square_animals: List[str], volcano_size: int, square_size: int,
-                 color: pygame.color = GameStyles.COLOR_GRAY_500.value):
+                 color: pygame.color = GameStyles.COLOR_TRANSPARENT.value):
         super().__init__()
         self.width = width
         self.height = height
@@ -66,12 +66,12 @@ class Board(pygame.sprite.Sprite):
             # for c in card_squares:
             #     print(c.character)
 
-            self.radius = self.width * 0.5 - 2 * square_size - GameStyles.PADDING_LARGE.value
+            self.radius = self.width * 0.5 - 2 * square_size - GameStyles.PADDING_MEDIUM.value
             volcano_width = self.get_optimal_volcano_width(board_radius=int(self.radius),
                                                            central_angle=360 / num_volcanoes)
             total_volcano_width = volcano_width + (volcano_size - 1) * padding
             total_volcano_height = square_size + 2 * padding
-            volcanoes.append(VolcanoCard(card_squares, total_volcano_width, total_volcano_height, padding))
+            volcanoes.append(VolcanoCard(card_squares, total_volcano_width))
         return volcanoes
 
     def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
@@ -92,9 +92,9 @@ class Board(pygame.sprite.Sprite):
             volcano.rotate(rotation_degrees)
 
             # Calculate card center coordinate based on screen center and apothem
-            card_center = (
+            volcano_card_center = (
                 int(self.board_surface.get_rect().centerx + apothem * math.cos(math.radians(rotation_degrees))),
                 int(self.board_surface.get_rect().centery - apothem * math.sin(math.radians(rotation_degrees)))
             )
-            volcano.draw(self.board_surface, card_center)
+            volcano.draw(self.board_surface, volcano_card_center)
             rotation_degrees += central_angle

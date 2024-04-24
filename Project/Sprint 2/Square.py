@@ -16,18 +16,18 @@ class Square(Drawable):
         self._prev: Optional[Square] = None
         self._occupant: Optional[Player] = None
         self._cave: Optional[Cave] = cave
+
         self._rect = None
         self._width = width
         self._height = height
         self._image: pygame.Surface = pygame.image.load(character.value).convert_alpha()
         self._image = pygame.transform.smoothscale(self._image, (width * 0.8, height * 0.8))
-
         self._square_surface: pygame.Surface = pygame.Surface((width, height), pygame.SRCALPHA)
         self._combined_surface: pygame.Surface = self._square_surface if cave is None else pygame.Surface(
             (width, height + cave.get_surface().get_rect().height), pygame.SRCALPHA)
-        self.update_square_surface()
+        self._update_square_surface()
 
-    def update_square_surface(self) -> None:
+    def _update_square_surface(self) -> None:
         self._rect: pygame.Rect = self._combined_surface.get_rect()
         self._draw_square()
         self._draw_cave()
@@ -64,10 +64,10 @@ class Square(Drawable):
 
     def accept_player(self, player: Player) -> None:
         self._occupant = player
-        self.update_square_surface()
+        self._update_square_surface()
     def remove_player(self) -> None:
         self._occupant = None
-        self.update_square_surface()
+        self._update_square_surface()
     @property
     def id(self) -> int:
         return self._id
@@ -77,17 +77,17 @@ class Square(Drawable):
         return self._character
 
     @property
-    def next(self) -> 'Square' or None:
+    def next(self) -> 'Square':
         return self._next
 
     @next.setter
-    def next(self, square: 'Square' or None) -> None:
+    def next(self, square: 'Square') -> None:
         self._next = square
 
     @property
-    def prev(self) -> 'Square' or None:
+    def prev(self) -> 'Square':
         return self._prev
 
     @prev.setter
-    def prev(self, square: 'Square' or None) -> None:
+    def prev(self, square: 'Square') -> None:
         self._prev = square
