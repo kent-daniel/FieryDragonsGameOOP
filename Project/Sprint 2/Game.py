@@ -5,7 +5,7 @@ from typing import List
 import pygame
 from Board import Board
 from Player import Player
-
+from GameDataController import GameDataController
 
 
 
@@ -17,13 +17,10 @@ class Game:
         self.dragon_cards= pygame.sprite.Group()
         self.players: deque[Player] = deque()
         self.screen = screen
-        self.board: Board = self.create_board(config=self.config, screen=self.screen)
 
+        self.data_controller = GameDataController(config_path)
+        self.board: Board = Board(int(screen.get_width()*0.7),screen.get_height(), self.data_controller)
 
-    def create_board(self, config: ConfigParser, screen: pygame.surface.Surface) -> Board:
-        square_animals : List[str] = [animal.strip(" ") for animal in config.get('GameConfig','square_animals').split(",")]
-        volcano_size : int = int(config.get('GameConfig','volcano_size'))
-        return Board(int(screen.get_width()*0.7),screen.get_height(),square_animals,volcano_size,70)
     def run_main_loop(self):
         pass
 

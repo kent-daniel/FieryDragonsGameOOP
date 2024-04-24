@@ -7,7 +7,7 @@ from Drawable import Drawable
 
 class Cave(Drawable):
     def __init__(self, cave_owner: Player, image: str = GameImage.CAVE.value, height: int = GameElementStyles.CAVE_SIZE.value, width: int = GameElementStyles.CAVE_SIZE.value):
-        self._caveOwner = cave_owner
+        self._cave_owner = cave_owner
         self._surface: pygame.Surface = pygame.Surface((height, width), pygame.SRCALPHA)
         self._image: pygame.Surface = pygame.image.load(image).convert_alpha()
         self._image = pygame.transform.smoothscale(self._image, (width, height))
@@ -19,7 +19,8 @@ class Cave(Drawable):
                            radius=height // 2,  # Radius (slightly larger than the cave)
                            width=5)
 
-
+    def get_owner(self):
+        return self._cave_owner
 
 
     def get_surface(self) -> pygame.Surface:
