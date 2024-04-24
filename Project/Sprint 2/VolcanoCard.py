@@ -9,17 +9,17 @@ import GameConstants
 class VolcanoCard(pygame.sprite.Sprite):
     def __init__(self, card_squares: List[Square], width: int, height:int , padding: int) -> None:
         super().__init__()
-        self.card_surface: pygame.Surface = pygame.Surface((width, height), pygame.SRCALPHA)
+        self.width = width
+        self.height = height + 80
+        self.card_surface: pygame.Surface = pygame.Surface((width, height + 50), pygame.SRCALPHA)
         pygame.draw.rect(self.card_surface,
                          GameConstants.GameStyles.COLOR_RED.value,
                          self.card_surface.get_rect(),
                          border_radius=GameConstants.GameStyles.BORDER_RADIUS_SMALL.value)
         self.rect: pygame.Rect = self.card_surface.get_rect()
-        self.width = width
-        self.height = height
         self.card_squares: List[Square] = card_squares
         self._padding: int = padding
-        self._square_height: int = height
+        self._square_height: int = 75
         self._draw_squares_on_card()
 
     @property
@@ -27,7 +27,6 @@ class VolcanoCard(pygame.sprite.Sprite):
         return self.card_squares
     def _draw_squares_on_card(self) -> None:
         total_width = self._square_height * len(self.card_squares) + (len(self.card_squares) - 1) * self._padding
-        print(total_width,self.width)
         start_x = self.rect.centerx - total_width / 2
         start_y = self.rect.centery - self._square_height / 2
 

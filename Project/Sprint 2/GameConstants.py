@@ -10,18 +10,23 @@ class CharacterImage(Enum):
 
 
 class GameImage(Enum):
-    CAVE = 'Asset/cave.png'
-    VOLCANO_ARENA = 'Asset/VolcanoArena.png'
+    CAVE = 'Assets/Cave.png'
+    VOLCANO_ARENA = 'Assets/VolcanoArena.png'
 
 class GameElementStyles(Enum):
     SQUARE_LENGTH = 75
+    CAVE_SIZE = 70
+    CAVE_OFFSET = 3
 
 class GameStyles(Enum):
-    COLOR_RED = pygame.Color(255, 132, 102)
+    COLOR_RED = pygame.Color(255, 100, 80)
     COLOR_BROWN = pygame.Color(153, 102, 51)
     COLOR_BLUE = pygame.Color(51, 153, 255)
-    COLOR_TRANSPARENT = pygame.Color(0, 0, 0, 0)
+    COLOR_PURPLE = pygame.Color(153, 102, 204)
+    COLOR_ORANGE = pygame.Color(255, 153, 51)
+    COLOR_PINK = pygame.Color(255, 153, 204)
 
+    COLOR_TRANSPARENT = pygame.Color(0, 0, 0, 0)
     COLOR_GRAY_500 = pygame.Color(128, 128, 128)
     COLOR_GRAY_300 = pygame.Color(192, 192, 192)
     COLOR_GRAY_700 = pygame.Color(77, 77, 77)
