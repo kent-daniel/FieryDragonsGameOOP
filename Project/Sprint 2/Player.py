@@ -19,6 +19,11 @@ class Player(Drawable):
         radius_inner = radius_outer - 3
         pygame.draw.circle(self._player_surface, self.colour, self._rect.center, radius_inner)
 
+        font = pygame.font.Font(None, 24)
+        text_surface = font.render(str(self.id), True, GameStyles.COLOR_BLACK.value)
+        text_rect = text_surface.get_rect(center=self._rect.center)
+        self._player_surface.blit(text_surface, text_rect)
+
     def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
         self._rect.midtop = location
         destination_surface.blit(self._player_surface, self._rect.bottomleft)

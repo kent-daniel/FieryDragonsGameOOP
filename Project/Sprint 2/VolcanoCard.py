@@ -8,7 +8,7 @@ from GameConstants import GameElementStyles, GameStyles
 
 
 class VolcanoCard(pygame.sprite.Sprite):
-    def __init__(self, card_squares: List[Square], width: int, height: int = GameElementStyles.SQUARE_LENGTH.value,
+    def __init__(self, card_squares: List[Square], width: int = 0, height: int = GameElementStyles.SQUARE_LENGTH.value,
                  paddingx: int = GameStyles.PADDING_SMALL.value,
                  paddingy: int = GameStyles.PADDING_LARGE.value) -> None:
         super().__init__()
@@ -16,7 +16,14 @@ class VolcanoCard(pygame.sprite.Sprite):
         self.height = height + 2 * paddingy
         self.card_squares: List[Square] = card_squares
         self._square_gap: int = paddingx
-        self.card_surface: pygame.Surface = pygame.Surface((width, height + 2 * paddingy), pygame.SRCALPHA)
+        self.card_surface: pygame.Surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+        self._draw_surface()
+
+    @property
+    def squares(self) -> List[Square]:
+        return self.card_squares
+
+    def _draw_surface(self):
         pygame.draw.rect(self.card_surface,
                          GameStyles.COLOR_RED.value,
                          self.card_surface.get_rect(),
@@ -24,9 +31,9 @@ class VolcanoCard(pygame.sprite.Sprite):
         self.rect: pygame.Rect = self.card_surface.get_rect()
         self._draw_squares_on_card()
 
-    @property
-    def squares(self) -> List[Square]:
-        return self.card_squares
+    def set_optimal_width(self, optimal_width: int):
+        self.card_surface: pygame.Surface = pygame.Surface((optimal_width, self.height), pygame.SRCALPHA)
+        self._draw_surface()
 
     def _draw_squares_on_card(self) -> None:
         total_width = GameElementStyles.SQUARE_LENGTH.value * len(self.card_squares) + (
@@ -37,6 +44,8 @@ class VolcanoCard(pygame.sprite.Sprite):
         for index, square in enumerate(self.card_squares):
             x = start_x + index * (GameElementStyles.SQUARE_LENGTH.value + self._square_gap)
             y = start_y
+
+            square.update_square_surface()
             square.draw(self.card_surface, (x, y))
 
     def rotate(self, angle_degrees: float) -> None:
