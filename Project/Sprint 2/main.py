@@ -1,8 +1,9 @@
-import pygame
 from Square import Square
 import GameConstants
 from Game import Game
 import Board
+import pygame
+
 
 def main():
     pygame.init()

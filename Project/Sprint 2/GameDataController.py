@@ -6,16 +6,20 @@ import pygame
 from VolcanoCard import VolcanoCard
 from Player import Player
 from DragonCard import DragonCard
-from GameConstants import GameStyles, CharacterImage
+from GameConstants import CharacterImage
 from Square import Square
 from Cave import Cave
 
+config = {
+    "player_count": "4",
+    "square_animals" : 'BABY_DRAGON ,BAT ,SPIDER ,SALAMANDER ,SPIDER ,BAT ,SPIDER ,SALAMANDER ,BABY_DRAGON ,BAT ,BAT ,BABY_DRAGON ,SALAMANDER ,BABY_DRAGON ,SPIDER ,BABY_DRAGON ,SALAMANDER ,BAT ,SALAMANDER ,BABY_DRAGON ,BAT ,BAT ,BABY_DRAGON ,SALAMANDER'
+}
 
 class GameDataController:
     def __init__(self, config_path: str):
-        self.config = ConfigParser()
-        self.config.read(config_path)
-
+        # self.config = ConfigParser()
+        # self.config.read(config_path)
+        self.config = config
         self.dragon_cards: List[DragonCard] = []
         self._volcano_cards: List[VolcanoCard] = []
         self.players: deque[Player] = deque()
@@ -30,7 +34,7 @@ class GameDataController:
         self._create_volcano_cards()
 
     def _create_players(self) -> None:
-        player_count :int = int(self.config.get('GameConfig', 'player_count'))
+        player_count :int = int(self.config['player_count'])
         for player_id in range(1, player_count + 1):
             self.players.append(Player(player_id, pygame.Color((randint(0, 255), randint(0, 255), randint(0, 255)))))
 
@@ -52,7 +56,7 @@ class GameDataController:
 
     def _parse_squares(self) -> List[Square]:
         square_animals: List[str] = [animal.strip(" ") for animal in
-                                     self.config.get('GameConfig', 'square_animals').split(",")]
+                                     self.config['square_animals'].split(",")]
         squares_list = [Square(i, CharacterImage[square_animals[i]]) for i in range(len(square_animals))]
         for i in range(len(squares_list)):
             squares_list[i].next = squares_list[(i + 1) % len(squares_list)]
