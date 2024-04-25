@@ -6,21 +6,33 @@ import pygame
 from Board import Board
 from Player import Player
 from GameDataController import GameDataController
-
+from DragonCardsGroup import DragonCardsGroup
 
 
 class Game:
-    def __init__(self, config_path: str, screen: pygame.surface.Surface):
-        self.config = ConfigParser()
-        self.config.read(config_path)
+    def __init__(self, config_path: str,screen: pygame.surface.Surface):
+        data_controller = GameDataController(config_path)
+        self._board = Board(int(screen.get_width() * 0.7), screen.get_height(), data_controller)
+        self._dragon_cards = DragonCardsGroup(data_controller)
+        self._screen = screen
+        self.render_game()
 
-        self.dragon_cards= pygame.sprite.Group()
-        self.players: deque[Player] = deque()
-        self.screen = screen
+    def render_game(self):
+        self._draw_board()
+        self._draw_dragon_cards()
+    def _draw_board(self):
+        self._board.draw(self._screen, self._screen.get_rect().center)
 
-        self.data_controller = GameDataController(config_path)
-        self.board: Board = Board(int(screen.get_width()*0.7),screen.get_height(), self.data_controller)
+    def _draw_dragon_cards(self):
+        self._dragon_cards.draw(self._screen, self._screen.get_rect().center)
 
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                card = self._dragon_cards.get_clicked_card(pygame.mouse.get_pos())
+                # print(card)
     def run_main_loop(self):
         pass
 

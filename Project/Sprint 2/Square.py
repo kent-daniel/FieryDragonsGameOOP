@@ -35,10 +35,10 @@ class Square(Drawable):
 
     def _draw_square(self) -> None:
         pygame.draw.rect(self._square_surface,
-                     GameStyles.COLOR_BROWN.value,
-                     self._square_surface.get_rect(),
-                     border_radius=GameStyles.BORDER_RADIUS_MEDIUM.value
-                     )
+                         GameStyles.COLOR_BROWN_LIGHT.value,
+                         self._square_surface.get_rect(),
+                         border_radius=GameStyles.BORDER_RADIUS_MEDIUM.value
+                         )
         self._square_surface.blit(self._image, self._image.get_rect(center=(self._square_surface.get_width() // 2, self._square_surface.get_height() // 2)))
         self._combined_surface.blit(self._square_surface, self._rect.topleft)
 

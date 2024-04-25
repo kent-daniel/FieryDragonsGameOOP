@@ -7,6 +7,7 @@ class CharacterImage(Enum):
     BABY_DRAGON = 'Assets/BabyDragon.png'
     SPIDER = 'Assets/BabySpider.png'
     SALAMANDER = 'Assets/Salamander.png'
+    PIRATE = 'Assets/Cave.png'
 
 
 class GameImage(Enum):
@@ -18,10 +19,11 @@ class GameElementStyles(Enum):
     CAVE_SIZE = 70
     CAVE_OFFSET = 4
     PLAYER_HEIGHT = 35
+    DRAGON_CARD_AREA_HEIGHT = 540
 
 class GameStyles(Enum):
-    COLOR_RED = pygame.Color(255, 100, 80)
-    COLOR_BROWN = pygame.Color(153, 102, 51)
+    COLOR_BROWN_DARK = pygame.Color(70, 30, 10)
+    COLOR_BROWN_LIGHT = pygame.Color(153, 102, 51)
     COLOR_BLUE = pygame.Color(51, 153, 255)
     COLOR_PURPLE = pygame.Color(153, 102, 204)
     COLOR_ORANGE = pygame.Color(255, 153, 51)

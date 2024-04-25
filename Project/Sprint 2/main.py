@@ -1,27 +1,32 @@
 from Square import Square
 import GameConstants
 from Game import Game
-import Board
+from DragonCardsGroup import DragonCardsGroup
 import pygame
-
+from GameDataController import GameDataController
+from Board import Board
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode(pygame.display.get_desktop_sizes()[0], pygame.RESIZABLE)
     clock = pygame.time.Clock()
     pygame.display.set_caption("Fiery Dragons")
-    game = Game("config.ini", screen)
+    config_path = "config.ini"
+
+    game = Game(config_path, screen)
+
 
     running: bool = True
     while running:
 
+        game.handle_events()
         ## scan events
-        for event in pygame.event.get():
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                pass
+        # for event in pygame.event.get():
+        #     mouse_x, mouse_y = pygame.mouse.get_pos()
+        #     if event.type == pygame.QUIT:
+        #         running = False
+        #     if event.type == pygame.MOUSEBUTTONDOWN:
+        #         pass
                 # update cards
                 #
                 # for card in dragon_cards:
@@ -38,7 +43,7 @@ def main():
         screen.fill(GameConstants.GameStyles.COLOR_GRAY_700.value)  # Clear screen with white color
         # for card in dragon_cards:
         #     card.render(screen)
-        game.board.draw(screen , location=(screen.get_width()//2,screen.get_height()//2))
+        game.render_game()
         # for volcano in volcanos:
         #     volcano.draw(screen)
 

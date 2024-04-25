@@ -25,7 +25,7 @@ class VolcanoCard(pygame.sprite.Sprite):
 
     def _draw_surface(self):
         pygame.draw.rect(self.card_surface,
-                         GameStyles.COLOR_RED.value,
+                         GameStyles.COLOR_BROWN_DARK.value,
                          self.card_surface.get_rect(),
                          border_radius=GameStyles.BORDER_RADIUS_SMALL.value)
         self.rect: pygame.Rect = self.card_surface.get_rect()
