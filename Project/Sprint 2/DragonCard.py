@@ -19,6 +19,7 @@ class DragonCard(Drawable, ABC):
         self._image = pygame.transform.smoothscale(self._image, (self._radius * 0.8, self._radius * 0.8))
         self._surface: pygame.Surface = pygame.Surface((self._radius * 2, self._radius * 2), pygame.SRCALPHA)
         self._rect: pygame.Rect = self._surface.get_rect()
+        self.flip()
         self.redraw_view()
     def unflip(self):
         self._is_flipped = False
@@ -38,6 +39,10 @@ class DragonCard(Drawable, ABC):
         self._surface.fill(GameStyles.COLOR_TRANSPARENT.value)
         if self._is_flipped:
             pygame.draw.circle(self._surface, GameStyles.COLOR_PINK.value, (self._radius, self._radius), self._radius)
+            font = pygame.font.SysFont(None, GameStyles.FONT_SIZE_LARGE.value)
+            text = font.render(str(self._value), True, GameStyles.COLOR_GRAY_700.value)
+            text_rect = text.get_rect(center=(self._rect.centerx,self._rect.top+15))
+            self._surface.blit(text, text_rect)
             self._surface.blit(self._image, self._image.get_rect(center=self._surface.get_rect().center))
         else:
             pygame.draw.circle(self._surface, GameStyles.COLOR_BROWN_LIGHT.value, (self._radius, self._radius), self._radius)

@@ -35,7 +35,7 @@ class Board(Drawable):
         return int(side_length)
 
     def _draw_volcano_cards(self) -> None:
-        apothem = self.width * 0.5 - 2 * GameElementStyles.SQUARE_LENGTH.value - GameStyles.PADDING_MEDIUM.value
+        apothem = self.width * 0.56 - 2 * GameElementStyles.SQUARE_LENGTH.value - GameStyles.PADDING_MEDIUM.value
         central_angle = 360 / len(self.volcano_cards)
         optimal_volcano_width = self._get_optimal_volcano_width(apothem,central_angle)
         rotation_degrees = 0

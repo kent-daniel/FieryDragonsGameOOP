@@ -32,7 +32,7 @@ class VolcanoCard(pygame.sprite.Sprite):
         self._draw_squares_on_card()
 
     def set_optimal_width(self, optimal_width: int):
-        self.card_surface: pygame.Surface = pygame.Surface((optimal_width, self.height), pygame.SRCALPHA)
+        self.card_surface: pygame.Surface = pygame.Surface((optimal_width + self._square_gap*2, self.height), pygame.SRCALPHA)
         self._draw_surface()
 
     def _draw_squares_on_card(self) -> None:

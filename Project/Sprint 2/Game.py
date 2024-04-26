@@ -18,8 +18,8 @@ class Game:
         self.render_game()
 
     def render_game(self):
-        self._draw_board()
         self._draw_dragon_cards()
+        self._draw_board()
     def _draw_board(self):
         self._board.draw(self._screen, self._screen.get_rect().center)
 
@@ -33,10 +33,7 @@ class Game:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 card = self._dragon_cards.get_clicked_card(pygame.mouse.get_pos())
                 if card:
-                    self._dragon_cards.redraw_view()
-            if event.type == pygame.MOUSEBUTTONUP:
-                print("space")
-                self._dragon_cards.reset_cards()
+                    print(card)
     def run_main_loop(self):
         pass
 
