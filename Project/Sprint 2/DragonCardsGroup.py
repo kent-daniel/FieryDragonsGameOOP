@@ -20,25 +20,34 @@ class DragonCardsGroup(Drawable):
         self._image = pygame.transform.smoothscale(self._image, (self._width, self._height))
         self._surface: pygame.Surface = pygame.Surface((self._width, self._height), pygame.SRCALPHA)
         pygame.draw.rect(self._surface,
-                         GameStyles.COLOR_BLACK.value,
+                         GameStyles.COLOR_TRANSPARENT.value,
                          self._surface.get_rect(),
                          )
         self._surface.blit(self._image, self._image.get_rect(
             center=self._surface.get_rect().center))
         self._rect = self._surface.get_rect()
-        self._draw_dragon_cards()
+        self.redraw_view()
 
     def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
         self._rect.center = location
         destination_surface.blit(self._surface, self._rect.topleft)
 
     def get_clicked_card(self, mouse_pos: (int, int)) -> Optional[DragonCard]:
-        relative_mouse_pos = (mouse_pos[0] - self._rect.left, mouse_pos[1] - self._rect.top)
-        for card in self._dragon_cards:
+        relative_mouse_pos = (mouse_pos[0] - self._rect.x, mouse_pos[1] - self._rect.y)
+        for i in range(len(self._dragon_cards)):
+            card = self._dragon_cards[i]
             if card.is_clicked(relative_mouse_pos):
-                print(card)
-                return card
+                self._dragon_cards[i] = card
+                return self._dragon_cards[i]
         return None
+
+    def reset_cards(self) -> None:
+        for i in range(len(self._dragon_cards)):
+            self._dragon_cards[i] = self._dragon_cards[i].unflip()
+        self.redraw_view()
+
+    def redraw_view(self) -> None:
+        self._draw_dragon_cards()
 
     def _draw_dragon_cards(self) -> None:
         if not self._dragon_cards:

@@ -36,6 +36,9 @@ class GameDataController:
     def dragon_cards(self):
         return self._dragon_cards
 
+    def set_dragon_cards(self, dragon_cards: List[DragonCard]) -> None:
+        self._dragon_cards = dragon_cards
+
     def load_game_data(self):
         self._create_players()
         self._create_volcano_cards()

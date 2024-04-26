@@ -32,7 +32,11 @@ class Game:
                 self.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 card = self._dragon_cards.get_clicked_card(pygame.mouse.get_pos())
-                # print(card)
+                if card:
+                    self._dragon_cards.redraw_view()
+            if event.type == pygame.MOUSEBUTTONUP:
+                print("space")
+                self._dragon_cards.reset_cards()
     def run_main_loop(self):
         pass
 
