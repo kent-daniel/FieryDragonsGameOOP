@@ -5,15 +5,16 @@ import pygame
 from GameConstants import GameImage, GameStyles, GameElementStyles
 from DragonCard import DragonCard
 from Drawable import Drawable
-from GameDataController import GameDataController
+from MovementEventManager import IMovementEventListener
+from Movement import Movement
 
+class DragonCardsGroup(Drawable, IMovementEventListener):
 
-class DragonCardsGroup(Drawable):
-    def __init__(self, data_controller: GameDataController,
+    def __init__(self, dragon_cards: List[DragonCard],
                  width: int = GameElementStyles.DRAGON_CARD_AREA_HEIGHT.value,
                  height: int = GameElementStyles.DRAGON_CARD_AREA_HEIGHT.value,
                  arena_image: str = GameImage.VOLCANO_ARENA.value):
-        self._dragon_cards = data_controller.dragon_cards
+        self._dragon_cards = dragon_cards
         self._width = width
         self._height = height
         self._image: pygame.Surface = pygame.image.load(arena_image).convert_alpha()
@@ -70,3 +71,6 @@ class DragonCardsGroup(Drawable):
 
     def get_surface(self) -> pygame.Surface:
         return self._surface
+
+    def on_movement_event(self, movement: Movement) -> None:
+        self.reset_cards()

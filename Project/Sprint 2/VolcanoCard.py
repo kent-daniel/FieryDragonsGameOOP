@@ -22,6 +22,9 @@ class VolcanoCard(pygame.sprite.Sprite):
     @property
     def squares(self) -> List[Square]:
         return self.card_squares
+    @squares.setter
+    def squares(self, squares: List[Square]) -> None:
+        self.card_squares = squares
 
     def _draw_surface(self):
         pygame.draw.rect(self.card_surface,

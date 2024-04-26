@@ -28,12 +28,10 @@ class GameDataController:
         self.players: deque[Player] = deque()
         self.load_game_data()
 
-    @property
-    def volcano_cards(self):
+    def get_volcano_cards(self):
         return self._volcano_cards
 
-    @property
-    def dragon_cards(self):
+    def get_dragon_cards(self):
         return self._dragon_cards
 
     def set_dragon_cards(self, dragon_cards: List[DragonCard]) -> None:

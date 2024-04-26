@@ -6,20 +6,23 @@ from VolcanoCard import VolcanoCard
 from GameConstants import GameStyles, GameElementStyles
 from GameDataController import GameDataController
 from Drawable import Drawable
+from MovementEventManager import IMovementEventListener
+from Movement import Movement
 
 
-class Board(Drawable):
+class Board(Drawable, IMovementEventListener):
     def __init__(self, width: int, height: int, data_controller: GameDataController,
                  color: pygame.color = GameStyles.COLOR_TRANSPARENT.value):
         super().__init__()
         self.width = width
         self.height = height
-        self.volcano_cards: List[VolcanoCard] = data_controller.volcano_cards
+        self._data_controller = data_controller
+        self.volcano_cards: List[VolcanoCard] = data_controller.get_dragon_cards()
         self.board_surface: pygame.Surface = pygame.Surface((width, height), pygame.SRCALPHA)
 
         pygame.draw.rect(self.board_surface, color, self.board_surface.get_rect())
         self.rect: pygame.Rect = self.board_surface.get_rect()
-        self._draw_volcano_cards()
+        self.redraw_view()
 
     def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
         self.rect.center = location
@@ -34,10 +37,17 @@ class Board(Drawable):
         side_length = 2 * apothem * math.tan(central_angle_rad / 2)
         return int(side_length)
 
+    def redraw_view(self) -> None:
+        self._draw_volcano_cards()
+
+    def on_movement_event(self, movement: Movement) -> None:
+        self.volcano_cards = self._data_controller.get_volcano_cards()
+        self.redraw_view()
+
     def _draw_volcano_cards(self) -> None:
-        apothem = self.width * 0.56 - 2 * GameElementStyles.SQUARE_LENGTH.value - GameStyles.PADDING_MEDIUM.value
+        apothem = self.width * 0.50 - 2 * GameElementStyles.SQUARE_LENGTH.value - GameStyles.PADDING_MEDIUM.value
         central_angle = 360 / len(self.volcano_cards)
-        optimal_volcano_width = self._get_optimal_volcano_width(apothem,central_angle)
+        optimal_volcano_width = self._get_optimal_volcano_width(apothem, central_angle)
         rotation_degrees = 0
         for volcano in self.volcano_cards:
             volcano.set_optimal_width(optimal_volcano_width)
