@@ -29,3 +29,6 @@ class Cave(Drawable):
     def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
         self._rect.center = location
         destination_surface.blit(self._surface, self._rect.topleft)
+
+    def redraw_view(self) -> None:
+        pass

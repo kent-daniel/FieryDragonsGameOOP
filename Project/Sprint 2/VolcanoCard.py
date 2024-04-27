@@ -1,4 +1,3 @@
-import math
 from typing import Tuple, List
 
 import pygame.sprite
@@ -48,7 +47,7 @@ class VolcanoCard(pygame.sprite.Sprite):
             x = start_x + index * (GameElementStyles.SQUARE_LENGTH.value + self._square_gap)
             y = start_y
 
-            square.update_square_surface()
+            square.redraw_view()
             square.draw(self.card_surface, (x, y))
 
     def rotate(self, angle_degrees: float) -> None:

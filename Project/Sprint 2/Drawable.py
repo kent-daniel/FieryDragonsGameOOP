@@ -10,3 +10,7 @@ class Drawable(ABC):
     @abstractmethod
     def get_surface(self) -> pygame.Surface:
         pass
+
+    @abstractmethod
+    def redraw_view(self) -> None:
+        pass

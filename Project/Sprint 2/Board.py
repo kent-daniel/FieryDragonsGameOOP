@@ -9,7 +9,6 @@ from Drawable import Drawable
 from MovementEventManager import IMovementEventListener
 from Movement import Movement
 
-
 class Board(Drawable, IMovementEventListener):
     def __init__(self, width: int, height: int, data_controller: GameDataController,
                  color: pygame.color = GameStyles.COLOR_TRANSPARENT.value):
@@ -17,7 +16,7 @@ class Board(Drawable, IMovementEventListener):
         self.width = width
         self.height = height
         self._data_controller = data_controller
-        self.volcano_cards: List[VolcanoCard] = data_controller.get_dragon_cards()
+        self.volcano_cards: List[VolcanoCard] = []
         self.board_surface: pygame.Surface = pygame.Surface((width, height), pygame.SRCALPHA)
 
         pygame.draw.rect(self.board_surface, color, self.board_surface.get_rect())
@@ -38,12 +37,22 @@ class Board(Drawable, IMovementEventListener):
         return int(side_length)
 
     def redraw_view(self) -> None:
+        self._arrange_volcano_cards()
         self._draw_volcano_cards()
 
     def on_movement_event(self, movement: Movement) -> None:
-        self.volcano_cards = self._data_controller.get_volcano_cards()
         self.redraw_view()
 
+    def _arrange_volcano_cards(self) -> None:
+        squares = self._data_controller.get_squares()
+        num_volcanoes = self._data_controller.get_num_volcanoes()
+        num_squares_per_volcano = len(squares) // num_volcanoes
+        volcano_cards = []
+        for i in range(0, len(squares), num_squares_per_volcano):
+            card_squares = squares[i:i + num_squares_per_volcano]
+            volcano_card = VolcanoCard(card_squares)
+            volcano_cards.append(volcano_card)
+        self.volcano_cards = volcano_cards
     def _draw_volcano_cards(self) -> None:
         apothem = self.width * 0.50 - 2 * GameElementStyles.SQUARE_LENGTH.value - GameStyles.PADDING_MEDIUM.value
         central_angle = 360 / len(self.volcano_cards)
@@ -58,4 +67,4 @@ class Board(Drawable, IMovementEventListener):
                 int(self.board_surface.get_rect().centery - apothem * math.sin(math.radians(rotation_degrees)))
             )
             volcano.draw(self.board_surface, volcano_card_center)
-            rotation_degrees += central_angle
+            rotation_degrees -= central_angle

@@ -73,4 +73,5 @@ class DragonCardsGroup(Drawable, IMovementEventListener):
         return self._surface
 
     def on_movement_event(self, movement: Movement) -> None:
-        self.reset_cards()
+        # self.reset_cards()
+        pass

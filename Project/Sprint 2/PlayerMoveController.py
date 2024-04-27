@@ -11,7 +11,7 @@ from VolcanoCard import VolcanoCard
 
 class IPlayerMoveController(ABC):
     @abstractmethod
-    def process_movement(self, player: Player, movement: Movement) -> Movement:
+    def process_movement(self, player_location, player: Player, movement: Movement) -> Movement:
         pass
 
     @abstractmethod
@@ -28,37 +28,44 @@ class PlayerMoveController(IPlayerMoveController):
         self._movement_publisher = movement_publisher
         self._data_controller = data_controller
 
-    def process_movement(self, player: Player, movement: Movement) -> Movement:
-        current_player_loc = self.get_player_location(player)
-        if movement.destination.get_occupant() is not None: return Movement(0, current_player_loc)
-        if self._player_passing_cave(player, current_player_loc, movement): return Movement(0, current_player_loc)
-        self._movement_publisher.publish_event(movement)
-
+    def process_movement(self, player_location: Square, player: Player, movement: Movement) -> Movement:
+        movement = movement
+        if movement.destination.get_occupant() is not None:
+            movement = Movement(0, player_location)
+            self._movement_publisher.publish_event(movement)
+        if self._player_passing_cave(player, player_location, movement):
+            movement = Movement(0, player_location)
+            self._movement_publisher.publish_event(movement)
+        else:
+            self.update_player_location(player, movement.destination)
+            self._movement_publisher.publish_event(movement)
         return movement
 
     def _player_passing_cave(self, player: Player, starting_square: Square, movement: Movement) -> bool:
+        # player cannot go backwards from initial game starting position
+        if movement.value < 0 and starting_square.cave and starting_square.cave.get_owner() == player:
+            return True
         square = starting_square
-        for _ in range(abs(movement.value)):
+        for i in range(abs(movement.value)):
             if movement.value < 0:
                 square = square.prev
             else:
                 square = square.next
-            if square.cave.get_owner() == player:
+            if square.cave and square.cave.get_owner() == player and movement.value<0:
                 return True
         return False
 
     def update_player_location(self, player: Player, square: Square) -> None:
-        volcano_cards: List[VolcanoCard] = self._data_controller.get_volcano_cards()
         current_location = self.get_player_location(player)
-        for card in volcano_cards:
-            card.squares = [sq.remove_player() if sq == current_location else sq for sq in card.squares]
-        for card in volcano_cards:
-            card.squares = [sq.set_occupant(player) if sq == square else sq for sq in card.squares]
-        self._data_controller.set_volcano_cards(volcano_cards)
+        squares = self._data_controller.get_squares()
+        for i in range(len(squares)):
+            if squares[i] == current_location:
+                squares[i].remove_player()
+            if squares[i] == square:
+                squares[i].set_occupant(player)
+        self._data_controller.set_squares(squares)
 
     def get_player_location(self, player) -> Square:
-        volcano_cards = self._data_controller.get_volcano_cards()
-        for volcano in volcano_cards:
-            for square in volcano.squares:
+        for square in self._data_controller.get_squares():
                 if square.get_occupant() == player:
                     return square

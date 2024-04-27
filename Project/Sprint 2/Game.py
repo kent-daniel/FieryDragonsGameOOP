@@ -10,6 +10,7 @@ from DragonCardsGroup import DragonCardsGroup
 from DragonCard import DragonCard
 from PlayerMoveController import IPlayerMoveController , PlayerMoveController
 from MovementEventManager import IMovementEventManager , MovementEventManager
+from PlayerTurnController import IPlayerTurnController , PlayerTurnController
 
 class Game:
     def __init__(self, config_path: str,screen: pygame.surface.Surface):
@@ -17,9 +18,12 @@ class Game:
         self._board = Board(int(screen.get_width() * 0.7), screen.get_height(), self._data_controller)
         self._dragon_cards = DragonCardsGroup(self._data_controller.get_dragon_cards())
         self._movement_manager : IMovementEventManager= MovementEventManager()
+        self._player_turn_controller : IPlayerTurnController = PlayerTurnController(self._data_controller)
         self._player_move_controller: IPlayerMoveController= PlayerMoveController(self._movement_manager, self._data_controller)
+
         self._movement_manager.add_listener(self._board)
         self._movement_manager.add_listener(self._dragon_cards)
+        self._movement_manager.add_listener(self._player_turn_controller)
         self._screen = screen
         self.render_game()
 
@@ -41,7 +45,14 @@ class Game:
                 if card:
                     self._handle_chosen_card(card)
     def _handle_chosen_card(self, card: DragonCard):
-        print(card)
+        current_player = self._player_turn_controller.get_current_player()
+        current_player_location = self._player_move_controller.get_player_location(current_player)
+        movement = card.action(current_player_location)
+
+        # print(current_player.id)
+        # print(current_player_location.character)
+
+        self._player_move_controller.process_movement(current_player_location,current_player, movement)
     def run_main_loop(self):
         pass
 

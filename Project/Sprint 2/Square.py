@@ -1,4 +1,3 @@
-import logging
 from typing import Tuple, Optional
 import pygame
 from GameConstants import CharacterImage, GameElementStyles, GameStyles
@@ -24,9 +23,9 @@ class Square(Drawable):
         self._image = pygame.transform.smoothscale(self._image, (self._width * 0.8, self._height * 0.8))
         self._square_surface: pygame.Surface = pygame.Surface((self._width, self._height), pygame.SRCALPHA)
         self._combined_surface: pygame.Surface = self._square_surface
-        self.update_square_surface()
+        self.redraw_view()
 
-    def update_square_surface(self) -> None:
+    def redraw_view(self) -> None:
         self._rect: pygame.Rect = self._combined_surface.get_rect()
         self._draw_square()
         self._draw_cave()

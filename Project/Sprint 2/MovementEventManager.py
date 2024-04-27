@@ -32,5 +32,6 @@ class MovementEventManager(IMovementEventManager):
         self._listeners.remove(listener)
 
     def publish_event(self, movement: Movement) -> None:
+        print("publish movement", movement.value, movement.destination.character)
         for listener in self._listeners:
             listener.on_movement_event(movement)
