@@ -3,14 +3,14 @@ from typing import List, Tuple
 import pygame
 from VolcanoCard import VolcanoCard
 from GameConstants import GameStyles, GameElementStyles
-from GameDataController import GameDataController
+from GameDataController import IPlayerDataController
 from Drawable import Drawable
 from MovementEventManager import IMovementEventListener
 from Movement import Movement
 
 
 class Board(Drawable, IMovementEventListener):
-    def __init__(self, width: int, height: int, data_controller: GameDataController,
+    def __init__(self, width: int, height: int, data_controller: IPlayerDataController,
                  color: pygame.color = GameStyles.COLOR_TRANSPARENT.value):
         super().__init__()
         self.width = width

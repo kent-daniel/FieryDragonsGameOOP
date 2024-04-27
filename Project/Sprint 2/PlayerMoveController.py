@@ -1,13 +1,9 @@
-import time
 from abc import ABC, abstractmethod
-from typing import List
-
 from Player import Player
 from Movement import Movement
 from Square import Square
 from MovementEventManager import IMovementEventManager
-from GameDataController import GameDataController
-from VolcanoCard import VolcanoCard
+from GameDataController import IPlayerDataController
 
 
 class IPlayerMoveController(ABC):
@@ -25,7 +21,7 @@ class IPlayerMoveController(ABC):
 
 
 class PlayerMoveController(IPlayerMoveController):
-    def __init__(self, movement_publisher: IMovementEventManager, data_controller: GameDataController):
+    def __init__(self, movement_publisher: IMovementEventManager, data_controller: IPlayerDataController):
         self._movement_publisher = movement_publisher
         self._data_controller = data_controller
 
