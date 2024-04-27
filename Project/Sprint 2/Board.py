@@ -1,13 +1,13 @@
 import math
 from typing import List, Tuple
-
-import pygame.sprite
+import pygame
 from VolcanoCard import VolcanoCard
 from GameConstants import GameStyles, GameElementStyles
 from GameDataController import GameDataController
 from Drawable import Drawable
 from MovementEventManager import IMovementEventListener
 from Movement import Movement
+
 
 class Board(Drawable, IMovementEventListener):
     def __init__(self, width: int, height: int, data_controller: GameDataController,
@@ -53,6 +53,7 @@ class Board(Drawable, IMovementEventListener):
             volcano_card = VolcanoCard(card_squares)
             volcano_cards.append(volcano_card)
         self.volcano_cards = volcano_cards
+
     def _draw_volcano_cards(self) -> None:
         apothem = self.width * 0.50 - 2 * GameElementStyles.SQUARE_LENGTH.value - GameStyles.PADDING_MEDIUM.value
         central_angle = 360 / len(self.volcano_cards)
@@ -61,7 +62,7 @@ class Board(Drawable, IMovementEventListener):
         for volcano in self.volcano_cards:
             volcano.set_optimal_width(optimal_volcano_width)
             volcano.rotate(rotation_degrees)
-            # Calculate card center coordinate based on screen center and apothem
+            # Calculate card center coordinate based on screen center and apothem https://en.wikipedia.org/wiki/Apothem
             volcano_card_center = (
                 int(self.board_surface.get_rect().centerx + apothem * math.cos(math.radians(rotation_degrees))),
                 int(self.board_surface.get_rect().centery - apothem * math.sin(math.radians(rotation_degrees)))

@@ -4,9 +4,9 @@ import pygame.sprite
 
 from Square import Square
 from GameConstants import GameElementStyles, GameStyles
+from Drawable import Drawable
 
-
-class VolcanoCard(pygame.sprite.Sprite):
+class VolcanoCard(Drawable):
     def __init__(self, card_squares: List[Square], width: int = 0, height: int = GameElementStyles.SQUARE_LENGTH.value,
                  paddingx: int = GameStyles.PADDING_SMALL.value,
                  paddingy: int = GameStyles.PADDING_LARGE.value) -> None:
@@ -16,7 +16,7 @@ class VolcanoCard(pygame.sprite.Sprite):
         self.card_squares: List[Square] = card_squares
         self._square_gap: int = paddingx
         self.card_surface: pygame.Surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
-        self._draw_surface()
+        self.redraw_view()
 
     @property
     def squares(self) -> List[Square]:
@@ -25,7 +25,7 @@ class VolcanoCard(pygame.sprite.Sprite):
     def squares(self, squares: List[Square]) -> None:
         self.card_squares = squares
 
-    def _draw_surface(self):
+    def redraw_view(self):
         pygame.draw.rect(self.card_surface,
                          GameStyles.COLOR_BROWN_DARK.value,
                          self.card_surface.get_rect(),
@@ -35,7 +35,7 @@ class VolcanoCard(pygame.sprite.Sprite):
 
     def set_optimal_width(self, optimal_width: int):
         self.card_surface: pygame.Surface = pygame.Surface((optimal_width + self._square_gap*2, self.height), pygame.SRCALPHA)
-        self._draw_surface()
+        self.redraw_view()
 
     def _draw_squares_on_card(self) -> None:
         total_width = GameElementStyles.SQUARE_LENGTH.value * len(self.card_squares) + (
@@ -57,3 +57,6 @@ class VolcanoCard(pygame.sprite.Sprite):
     def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
         self.rect.center = location
         destination_surface.blit(self.card_surface, self.rect.topleft)
+
+    def get_surface(self) -> pygame.Surface:
+        return self.card_surface

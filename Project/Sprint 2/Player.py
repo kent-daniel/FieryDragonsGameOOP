@@ -29,7 +29,7 @@ class Player(Drawable):
         destination_surface.blit(self._player_surface, self._rect.bottomleft)
 
     def get_surface(self) -> pygame.Surface:
-        pass
-    
+        return self._player_surface
+
     def redraw_view(self) -> None:
         pass

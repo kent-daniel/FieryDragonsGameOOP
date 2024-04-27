@@ -52,7 +52,7 @@ class GameDataController:
     def _create_players(self) -> None:
         player_count: int = int(self.config['player_count'])
         for player_id in range(1, player_count + 1):
-            self._players.append(Player(player_id, pygame.Color((randint(0, 255), randint(0, 255), randint(0, 255)))))
+            self._players.append(Player(player_id, pygame.Color((randint(50, 255), randint(50, 255), randint(50, 255)))))
 
     def _create_dragon_cards(self) -> None:
         dragons = self.config['dragon_cards'].split(",")

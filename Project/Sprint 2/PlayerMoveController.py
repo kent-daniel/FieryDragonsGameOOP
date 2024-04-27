@@ -1,3 +1,4 @@
+import time
 from abc import ABC, abstractmethod
 from typing import List
 
@@ -29,16 +30,12 @@ class PlayerMoveController(IPlayerMoveController):
         self._data_controller = data_controller
 
     def process_movement(self, player_location: Square, player: Player, movement: Movement) -> Movement:
-        movement = movement
-        if movement.destination.get_occupant() is not None:
-            movement = Movement(0, player_location)
-            self._movement_publisher.publish_event(movement)
-        if self._player_passing_cave(player, player_location, movement):
-            movement = Movement(0, player_location)
-            self._movement_publisher.publish_event(movement)
+        final_movement = movement
+        if movement.destination.get_occupant() is not None or self._player_passing_cave(player, player_location,                                                                                  movement):
+            final_movement = Movement(0, player_location)
         else:
             self.update_player_location(player, movement.destination)
-            self._movement_publisher.publish_event(movement)
+        self._movement_publisher.publish_event(final_movement)
         return movement
 
     def _player_passing_cave(self, player: Player, starting_square: Square, movement: Movement) -> bool:

@@ -47,12 +47,9 @@ class Game:
     def _handle_chosen_card(self, card: DragonCard):
         current_player = self._player_turn_controller.get_current_player()
         current_player_location = self._player_move_controller.get_player_location(current_player)
-        movement = card.action(current_player_location)
-
-        # print(current_player.id)
-        # print(current_player_location.character)
-
-        self._player_move_controller.process_movement(current_player_location,current_player, movement)
+        movement = self._player_move_controller.process_movement(current_player_location,
+                                                      current_player,
+                                                      card.action(current_player_location))
     def run_main_loop(self):
         pass
 
