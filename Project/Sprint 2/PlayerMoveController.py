@@ -27,7 +27,7 @@ class PlayerMoveController(IPlayerMoveController):
 
     def process_movement(self, player_location: Square, player: Player, movement: Movement) -> Movement:
         final_movement = movement
-        if movement.destination.get_occupant() is not None or self._player_passing_cave(player, player_location,                                                                                  movement):
+        if movement.destination.get_occupant() is not None or self._player_passing_cave(player, player_location,                                                                            movement):
             final_movement = Movement(0, player_location)
         else:
             self.update_player_location(player, movement.destination)
@@ -44,7 +44,7 @@ class PlayerMoveController(IPlayerMoveController):
                 square = square.prev
             else:
                 square = square.next
-            if square.cave and square.cave.get_owner() == player and movement.value<0:
+            if square.cave and square.cave.get_owner() == player and movement.value < 0:
                 return True
         return False
 
@@ -60,5 +60,5 @@ class PlayerMoveController(IPlayerMoveController):
 
     def get_player_location(self, player) -> Square:
         for square in self._data_controller.get_squares():
-                if square.get_occupant() == player:
-                    return square
+            if square.get_occupant() and square.get_occupant().id == player.id:
+                return square

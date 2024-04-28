@@ -18,6 +18,7 @@ class IMovementEventManager(ABC):
     def remove_event_listener(self, listener: IMovementEventListener) -> None:
         pass
 
+    @abstractmethod
     def publish_event(self, movement: Movement) -> None:
         pass
 
