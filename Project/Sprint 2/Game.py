@@ -69,7 +69,7 @@ class Game:
     def _setup_views(self) -> None:
         self._board = Board(int(self._screen.get_width() * 0.7), self._screen.get_height(),
                             self._player_data_controller)
-        self._dragon_cards = DragonCardsGroup(self._dragon_cards_data_controller.get_dragon_cards())
+        self._dragon_cards = DragonCardsGroup(self._dragon_cards_data_controller)
 
     def _setup_data(self) -> None:
         self._player_data_controller: IPlayerDataController = self._data_controller.create_player_data_controller()

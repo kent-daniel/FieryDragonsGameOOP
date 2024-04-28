@@ -10,6 +10,10 @@ class IDragonCardDataController(ABC):
     def get_dragon_cards(self) -> List[DragonCard]:
         pass
 
+    @abstractmethod
+    def set_dragon_cards(self, dragon_cards: List[DragonCard]) ->None:
+        pass
+
 
 class DragonCardDataController(IDragonCardDataController):
     def __init__(self, dragon_card_config_data: str):
@@ -19,6 +23,9 @@ class DragonCardDataController(IDragonCardDataController):
 
     def get_dragon_cards(self) -> List[DragonCard]:
         return self._dragon_cards
+
+    def set_dragon_cards(self, dragon_cards: List[DragonCard]) ->None:
+        self._dragon_cards = dragon_cards
 
     def load_data(self) -> None:
         dragons = self._config_data.split(",")

@@ -2,11 +2,13 @@ from typing import Tuple
 
 import pygame.sprite
 from Player import Player
-from GameConstants import GameImage , GameStyles , GameElementStyles
+from GameConstants import GameImage, GameElementStyles
 from Drawable import Drawable
 
+
 class Cave(Drawable):
-    def __init__(self, cave_owner: Player, image: str = GameImage.CAVE.value, height: int = GameElementStyles.CAVE_SIZE.value, width: int = GameElementStyles.CAVE_SIZE.value):
+    def __init__(self, cave_owner: Player, image: str = GameImage.CAVE.value,
+                 height: int = GameElementStyles.CAVE_SIZE.value, width: int = GameElementStyles.CAVE_SIZE.value):
         self._cave_owner = cave_owner
         self._surface: pygame.Surface = pygame.Surface((height, width), pygame.SRCALPHA)
         self._image: pygame.Surface = pygame.image.load(image).convert_alpha()
@@ -21,7 +23,6 @@ class Cave(Drawable):
 
     def get_owner(self):
         return self._cave_owner
-
 
     def get_surface(self) -> pygame.Surface:
         return self._surface
