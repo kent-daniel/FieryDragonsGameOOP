@@ -34,7 +34,7 @@ class DragonCardsGroup(Drawable, IMovementEventListener):
         destination_surface.blit(self._surface, self._rect.topleft)
 
     def get_clicked_card(self, mouse_pos: (int, int)) -> Optional[DragonCard]:
-        relative_mouse_pos = (mouse_pos[0] - self._rect.x, mouse_pos[1] - self._rect.y)
+        relative_mouse_pos = (mouse_pos[0] - self._rect.x, mouse_pos[1] - self._rect.y) #BUG: click detection bug (only detects click on the top left of the card)
         for i in range(len(self._dragon_cards)):
             card = self._dragon_cards[i]
             if card.is_clicked(relative_mouse_pos):

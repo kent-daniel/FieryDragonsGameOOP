@@ -1,4 +1,3 @@
-import logging
 import unittest
 from collections import deque
 from typing import List
@@ -80,13 +79,13 @@ class PlayerMoveControllerTest(unittest.TestCase):
         self.player_move_controller: IPlayerMoveController = PlayerMoveController(self.mock_event_publisher,
                                                                                   self.mock_data_controller)
 
-    def test_get_player_location(self):
-        print("test_move_to_occupied_square")
+    def test_should_get_player_location(self):
+        print("test_should_get_player_location")
         square = self.player_move_controller.get_player_location(self.mock_players[0])
         self.assertEqual(square, self.mock_squares[1])
 
-    def test_move_to_occupied_square(self):
-        print("test_move_to_occupied_square")
+    def test_should_not_move_to_occupied_square(self):
+        print("test_should_not_move_to_occupied_square")
         # Given
         movement = Movement(2, self.mock_squares[3])
 
@@ -97,8 +96,8 @@ class PlayerMoveControllerTest(unittest.TestCase):
         self.assertEqual(self.mock_squares[3].get_occupant(), self.mock_players[1])
         self.assertEqual(self.mock_squares[1].get_occupant(), self.mock_players[0])
 
-    def test_move_pass_cave(self):
-        print("test_move_pass_cave")
+    def test_should_not_move_pass_cave(self):
+        print("test_should_not_move_pass_cave")
         # Given
         movement = Movement(-1, self.mock_squares[0])
 
@@ -109,8 +108,8 @@ class PlayerMoveControllerTest(unittest.TestCase):
         self.assertEqual(self.mock_squares[0].get_occupant(), None)
         self.assertEqual(self.mock_squares[1].get_occupant(), self.mock_players[0])
 
-    def test_valid_movement_forward(self):
-        print("test_valid_movement_forward")
+    def test_should_move_forward(self):
+        print("test_should_move_forward")
         # Given
         movement = Movement(1, self.mock_squares[2])
 
@@ -121,8 +120,8 @@ class PlayerMoveControllerTest(unittest.TestCase):
         self.assertEqual(self.mock_squares[1].get_occupant(), None)
         self.assertEqual(self.mock_squares[2].get_occupant(), self.mock_players[0])
 
-    def test_valid_movement_backward(self):
-        print("test_valid_movement_backward")
+    def test_should_move_backward(self):
+        print("test_should_move_backward")
         # Given
         movement = Movement(-1, self.mock_squares[2])
 

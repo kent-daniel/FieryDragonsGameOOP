@@ -10,6 +10,7 @@ config = {
 
 class GameDataController:
     def __init__(self, config_path: str):
+        # INFO: will implement reading config from file later
         self.config = config
 
     def _parse_config(self, config_path: str) -> None:
