@@ -1,1 +1,1 @@
-This is the folder that the implementation for fiery dragons game will reside
+<h2>This is the Sprint two this contains currently the UML Diagram, and will contain the implementation of the fiery dragons game and all the other requireed files for Sprint 2<h2>
