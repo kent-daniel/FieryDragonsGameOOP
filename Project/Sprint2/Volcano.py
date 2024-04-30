@@ -1,6 +1,8 @@
 
 import pygame
 from DragonCard import DragonCard
+from Project.Sprint2.Square import Square
+from VolcanoCard import VolcanoCard
 
 
 class Volcano:
@@ -12,6 +14,7 @@ class Volcano:
         self.timer = pygame.time.Clock()
         self.fps = fps
         self.dragon_card = DragonCard()
+        self.VolcanoCard = VolcanoCard()
 
     def set_volcano(self):
         # Calculate the center of the screen
@@ -29,6 +32,19 @@ class Volcano:
         self.screen.blit(scaled_volcano_image, (volcano_x, volcano_y))
         self.dragon_card.generate_random_cards(16)
         self.dragon_card.display_cards(center_x,center_y,radius, self.screen)
+
+
+        # Generate 3 squares
+        square_size = radius // 2
+        square_y = center_y - square_size // 2
+        square_x_offset = square_size // 2
+        squares = [Square(center_x - square_x_offset - square_size, square_y- 300, square_size),
+                   Square(center_x - square_x_offset - square_size + radius // 2, square_y- 300, square_size),
+                   Square(center_x - square_x_offset - square_size + radius, square_y - 300, square_size)]
+
+        # Draw squares
+        for square in squares:
+            square.draw(self.screen)
 
     def run(self):
         running = True

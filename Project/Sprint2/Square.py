@@ -10,7 +10,7 @@ class Square:
         self.x = x
         self.y = y
         self.size = size
-        self.image = self.generate_random_image()
+        self.image = self.generate_square()
         self.player_here = False
 
     def generate_square(self):
@@ -26,3 +26,5 @@ class Square:
 
     def is_player_here(self):
         return self.player_here
+
+
