@@ -1,6 +1,7 @@
-import math
 
 import pygame
+from DragonCard import DragonCard
+
 
 class Volcano:
     def __init__(self, width, height, fps):
@@ -12,3 +13,36 @@ class Volcano:
         self.fps = fps
         self.dragon_card = DragonCard()
 
+    def set_volcano(self):
+        # Calculate the center of the screen
+        center_x = self.WIDTH // 2
+        center_y = self.HEIGHT // 2
+        # Draw circular board
+        radius = min(self.WIDTH, self.HEIGHT) // 3
+        pygame.draw.circle(self.screen, 'brown', (center_x, center_y), radius)
+        volcano_image = pygame.image.load("Assets/VolcanoArena.png")  # Load volcano image
+        scaled_volcano_image = pygame.transform.scale(volcano_image, (radius * 2, radius * 2))
+        # Calculate the position to blit the volcano image
+        volcano_x = center_x - radius
+        volcano_y = center_y - radius
+        # Blit the volcano image onto the circular board
+        self.screen.blit(scaled_volcano_image, (volcano_x, volcano_y))
+        self.dragon_card.generate_random_cards(16)
+        self.dragon_card.display_cards(center_x,center_y,radius, self.screen)
+
+    def run(self):
+        running = True
+        self.set_volcano()  # Draw the volcano and cards once before the game loop starts
+        while running:
+            self.timer.tick(self.fps)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+            pygame.display.flip()
+
+        pygame.quit()
+
+    # Example usage:
+if __name__ == "__main__":
+    volcano_game = Volcano(1000, 800, 60)
+    volcano_game.run()
