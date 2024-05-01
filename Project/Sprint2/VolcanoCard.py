@@ -81,8 +81,6 @@ class VolcanoCard:
             square.draw(screen)
 
     def add_cave(self, screen, x, y):
-        if len(self.squares) >= 2:  # Check if there are at least two squares in the list
-            # Load the cave image
             cave_image = self.cave.image
             # Resize the cave image to fit the size of the square
             cave_image = pygame.transform.scale(cave_image, (self.squares[1].size, self.squares[1].size))

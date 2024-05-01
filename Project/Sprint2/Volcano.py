@@ -39,6 +39,7 @@ class Volcano:
         square_size = radius // 2
         square_y = center_y - square_size // 2
         self.arrange_volcano_cards(square_y,center_x)
+        self.addPlayers()
 
     def arrange_volcano_cards(self, square_y, center_x):
         #top
@@ -65,7 +66,14 @@ class Volcano:
         #bottom right
         self.VolcanoCard[7].arrange_squares_diagonally_left(60,square_y + 170,center_x +300 )
         self.VolcanoCard[7].draw(self.screen)
+
+
+
+    def addPlayers(self):
         self.VolcanoCard[0].add_cave(self.screen, 0, -60)
+        self.VolcanoCard[1].add_cave(self.screen,0,60)
+        self.VolcanoCard[3].add_cave(self.screen,-60,0)
+        self.VolcanoCard[4].add_cave(self.screen,60,0)
 
 
 
