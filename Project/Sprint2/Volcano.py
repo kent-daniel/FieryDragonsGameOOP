@@ -65,6 +65,9 @@ class Volcano:
         #bottom right
         self.VolcanoCard[7].arrange_squares_diagonally_left(60,square_y + 170,center_x +300 )
         self.VolcanoCard[7].draw(self.screen)
+        self.VolcanoCard[0].add_cave(self.screen, 0, -60)
+
+
 
 
 

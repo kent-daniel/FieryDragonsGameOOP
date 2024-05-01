@@ -1,9 +1,12 @@
+import pygame
+from Cave import Cave
 from Square import Square
 
 
 class VolcanoCard:
     def __init__(self):
         self.squares = None
+        self.cave = Cave()
 
     def arrange_squares(self, square_size, square_y, center_x):
         square_x_offset = square_size // 2
@@ -76,4 +79,18 @@ class VolcanoCard:
     def draw(self, screen):
         for square in self.squares:
             square.draw(screen)
+
+    def add_cave(self, screen, x, y):
+        if len(self.squares) >= 2:  # Check if there are at least two squares in the list
+            # Load the cave image
+            cave_image = self.cave.image
+            # Resize the cave image to fit the size of the square
+            cave_image = pygame.transform.scale(cave_image, (self.squares[1].size, self.squares[1].size))
+            # Set the image of the second square to the cave image
+            self.squares[1].image = cave_image
+            # Calculate the position to blit the cave image (same as the position of the second square)
+            cave_x = self.squares[1].x + x
+            cave_y = self.squares[1].y + y
+            # Blit the cave image onto the screen
+            screen.blit(cave_image, (cave_x, cave_y))
 
