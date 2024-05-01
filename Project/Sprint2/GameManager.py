@@ -26,10 +26,18 @@ class GameManager:
         self.screen.blit(text, text_rect)
 
 
+    def add_player(self, screen):
+        self.volcano.VolcanoCard[0].squares[1].add_cave(screen, 0, -60, "Player1")
+        self.volcano.VolcanoCard[1].squares[1].add_cave(screen,0,60, "Player3")
+        self.volcano.VolcanoCard[3].squares[1].add_cave(screen,-60,0, "Player4")
+        self.volcano.VolcanoCard[4].squares[1].add_cave(screen,60,0, "Player2")
+
+
     def start_game(self):
         pygame.init()
         running = True
         self.volcano.set_volcano(self.width, self.height, self.screen)
+        self.add_player(self.screen)
         while running:
             self.timer.tick(self.fps)
             for event in pygame.event.get():
@@ -44,6 +52,8 @@ class GameManager:
             pygame.display.flip()
 
         pygame.quit()
+
+
 
 if __name__ == "__main__":
     game_manager = GameManager(1000, 900, 60, 8)
