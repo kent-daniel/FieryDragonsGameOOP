@@ -6,7 +6,7 @@ from VolcanoCard import VolcanoCard
 
 
 class Volcano:
-    def __init__(self, width, height, fps):
+    def __init__(self, width, height, fps, num_volcano_card):
         self.WIDTH = width
         self.HEIGHT = height
         self.screen = pygame.display.set_mode([self.WIDTH, self.HEIGHT])
@@ -14,7 +14,11 @@ class Volcano:
         self.timer = pygame.time.Clock()
         self.fps = fps
         self.dragon_card = DragonCard()
-        self.VolcanoCard = VolcanoCard()
+        self.VolcanoCard = []
+        for _ in range(num_volcano_card):
+            self.VolcanoCard.append(VolcanoCard())
+
+
 
     def set_volcano(self):
         # Calculate the center of the screen
@@ -32,19 +36,26 @@ class Volcano:
         self.screen.blit(scaled_volcano_image, (volcano_x, volcano_y))
         self.dragon_card.generate_random_cards(16)
         self.dragon_card.display_cards(center_x,center_y,radius, self.screen)
-
-
-        # Generate 3 squares
         square_size = radius // 2
         square_y = center_y - square_size // 2
-        square_x_offset = square_size // 2
-        squares = [Square(center_x - square_x_offset - square_size, square_y- 300, square_size),
-                   Square(center_x - square_x_offset - square_size + radius // 2, square_y- 300, square_size),
-                   Square(center_x - square_x_offset - square_size + radius, square_y - 300, square_size)]
+        self.VolcanoCard[0].arrange_squares(70, square_y + 50,  center_x)
+        self.VolcanoCard[0].draw(self.screen)
+        self.VolcanoCard[1].arrange_squares(70,square_y + 600,  center_x)
+        self.VolcanoCard[1].draw(self.screen)
+        self.VolcanoCard[2].arrange_squares_diagonally(70,square_y-250,center_x+250)
+        self.VolcanoCard[2].draw(self.screen)
+        self.VolcanoCard[3].arrange_squares_vertically(70,square_y, center_x - 200)
+        self.VolcanoCard[3].draw(self.screen)
+        self.VolcanoCard[4].arrange_squares_vertically(70,square_y, center_x + 350)
+        self.VolcanoCard[4].draw(self.screen)
+        self.VolcanoCard[5].arrange_squares_diagonally(70,square_y+230,center_x -200)
+        self.VolcanoCard[5].draw(self.screen)
+        self.VolcanoCard[6].arrange_squares_diagonally_left(70,square_y - 250,center_x -150 )
+        self.VolcanoCard[6].draw(self.screen)
+        self.VolcanoCard[7].arrange_squares_diagonally_left(70,square_y + 250,center_x +350 )
+        self.VolcanoCard[7].draw(self.screen)
 
-        # Draw squares
-        for square in squares:
-            square.draw(self.screen)
+
 
     def run(self):
         running = True
@@ -60,5 +71,5 @@ class Volcano:
 
     # Example usage:
 if __name__ == "__main__":
-    volcano_game = Volcano(1000, 800, 60)
+    volcano_game = Volcano(1000, 800, 60,8)
     volcano_game.run()
