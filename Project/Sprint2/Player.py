@@ -1,9 +1,11 @@
+import random
+
 import pygame
 
 class Player:
-    def __init__(self, color, radius):
+    def __init__(self, radius):
 
-        self.color = color
+        self.color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
         self.radius = radius
 
     def draw(self, screen,x,y):

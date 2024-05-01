@@ -79,8 +79,5 @@ class VolcanoCard:
         for square in self.squares:
             square.draw(screen)
 
-    def add_cave(self, screen, x, y):
-            cave_x = self.squares[1].x + x
-            cave_y = self.squares[1].y + y
-            self.cave.display_cave(screen,cave_x,cave_y,self.squares[1].size)
+
 

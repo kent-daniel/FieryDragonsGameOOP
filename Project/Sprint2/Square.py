@@ -29,4 +29,9 @@ class Square:
     def is_player_here(self):
         return self.player_here
 
+    def add_cave(self, screen, x, y):
+        cave_x = self.x + x
+        cave_y = self.y + y
+        self.cave.display_cave(screen,cave_x,cave_y,self.size)
+
 

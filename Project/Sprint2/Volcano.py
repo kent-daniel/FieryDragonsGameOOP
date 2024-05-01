@@ -70,15 +70,10 @@ class Volcano:
 
 
     def addPlayers(self):
-        self.VolcanoCard[0].add_cave(self.screen, 0, -60)
-        self.VolcanoCard[1].add_cave(self.screen,0,60)
-        self.VolcanoCard[3].add_cave(self.screen,-60,0)
-        self.VolcanoCard[4].add_cave(self.screen,60,0)
-
-
-
-
-
+        self.VolcanoCard[0].squares[1].add_cave(self.screen, 0, -60)
+        self.VolcanoCard[1].squares[1].add_cave(self.screen,0,60)
+        self.VolcanoCard[3].squares[1].add_cave(self.screen,-60,0)
+        self.VolcanoCard[4].squares[1].add_cave(self.screen,60,0)
 
     def run(self):
             running = True
