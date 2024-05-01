@@ -6,7 +6,6 @@ class VolcanoCard:
     def __init__(self):
         self.squares = None
 
-
     def arrange_squares(self, square_size, square_y, center_x):
         square_x_offset = square_size // 2
         squares = [Square(center_x - square_x_offset - square_size, square_y- 300, square_size),
@@ -78,6 +77,4 @@ class VolcanoCard:
     def draw(self, screen):
         for square in self.squares:
             square.draw(screen)
-
-
 

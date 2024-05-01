@@ -3,8 +3,8 @@ import random
 import pygame
 
 class Player:
-    def __init__(self, radius):
-
+    def __init__(self, radius, name):
+        self.name = name
         self.color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
         self.radius = radius
 

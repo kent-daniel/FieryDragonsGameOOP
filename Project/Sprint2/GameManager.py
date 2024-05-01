@@ -16,6 +16,16 @@ class GameManager:
         self.screen = pygame.display.set_mode([self.width, self.height])
         self.click_handler = HandleClick(self.volcano)
 
+    def process_turn(self, clicked_card):
+        font = pygame.font.Font(None, 36)
+        text = font.render(f"{clicked_card}'s Turn", True, (0, 0, 0))  # Render text with black color
+        text_rect = text.get_rect(center=(self.width // 2, self.height // 2))
+        self.screen.fill((0, 0, 0), text_rect)  # Fill the text area with black
+        # Render and blit the new text
+        text = font.render(f"{clicked_card}'s Turn", True, (255, 255, 255))
+        self.screen.blit(text, text_rect)
+
+
     def start_game(self):
         pygame.init()
         running = True
@@ -30,7 +40,7 @@ class GameManager:
                         x, y = pygame.mouse.get_pos()
                         clicked_card = self.click_handler.handle_click(x, y)
                         if clicked_card:
-                            print("Dragon card clicked:", clicked_card)
+                            self.process_turn(clicked_card)
             pygame.display.flip()
 
         pygame.quit()
