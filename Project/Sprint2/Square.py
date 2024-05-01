@@ -2,6 +2,7 @@ import random
 
 import pygame
 
+from Project.Sprint2.Cave import Cave
 from Project.Sprint2.Character import CharacterImage
 
 
@@ -12,6 +13,7 @@ class Square:
         self.size = size
         self.image = self.generate_square()
         self.player_here = False
+        self.cave = Cave()
 
     def generate_square(self):
         random_image = random.choice(list(CharacterImage))
