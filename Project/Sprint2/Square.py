@@ -1,23 +1,29 @@
 import pygame
-import Character
+from Character import Character
 
 
 class Square:
     def __init__(self, img_link):
         self.img = pygame.image.load(img_link)
-        pygame.transform.rotozoom(self.img, 0, 2)
+        # Set the size for the image
+        DEFAULT_IMAGE_SIZE = (100, 100)
+
+    # Scale the image to your needed size
+        self.img = pygame.transform.scale(self.img, DEFAULT_IMAGE_SIZE)
         self.center = 0, 0
         self.rect = self.img.get_rect()
+
 
     def render(self, screen, position):
         self.rect.center = position
         screen.blit(self.img, self.rect)
 
 
+
 if __name__ == "__main__":
     pygame.init()
     screen = pygame.display.set_mode((800, 600))
-    bat = Character.Character('bat')
+    bat = Character('bat')
     bat = bat.get_character()
     square = Square(bat)
     running = True
