@@ -4,6 +4,9 @@
 
 once clicked win logic will run for winning the game
 
+### The folder Sprint 2
+this is the game folder and please run terminal from this folder
+
 ### Prerequisites
 
 Ensure you have Python installed on your system.
