@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+import math
 
 pygame.init()
 
@@ -50,6 +51,36 @@ def point_in_rect(point, rect):
     rx, ry, rw, rh = rect
     return rx <= x <= rx + rw and ry <= y <= ry + rh
 
+def point_on_circle(center, radius, angle_deg):
+    angle_rad = math.radians(angle_deg)
+    x = center[0] + radius * math.cos(angle_rad)
+    y = center[1] + radius * math.sin(angle_rad)
+    return int(x), int(y)
+
+# Function to rotate an image or surface
+def rotate_surface(surface, angle):
+    return pygame.transform.rotate(surface, angle)
+
+# Calculate the positions and surfaces of the volcano cards
+volcano_cards = []
+num_cards = 8
+angle_step = 360 / num_cards
+card_width = 60
+card_height = 60 * 3  # Increase the height by 3 times
+offset = 35
+for i in range(num_cards):
+    angle = i * angle_step
+    card_center = point_on_circle((width // 2, height // 2), circle_radius + offset, angle)
+    card_surface = pygame.Surface((card_width, card_height), pygame.SRCALPHA)
+    card_surface.fill((255, 255, 255, 0))  # Fill with transparent color
+    # Draw something on the surface if needed
+    pygame.draw.rect(card_surface, (255, 255, 255), card_surface.get_rect(), 2)  # Example drawing
+    # Rotate the surface
+    card_surface = pygame.transform.rotate(card_surface, -angle)
+    # Calculate the position to blit the surface
+    card_position = card_surface.get_rect(center=card_center)
+    volcano_cards.append((card_surface, card_position))
+
 # Main loop
 running = True
 flipped_card = None  # Track the currently flipped card
@@ -87,6 +118,10 @@ while running:
             else:
                 rect = (start_x + j * image_size, start_y + i * image_size, image_size, image_size)
                 pygame.draw.rect(circle_surface, (255, 255, 255, 100), rect, 0)  # Draw a white rectangle for the cell
+
+        # Draw the rotated volcano cards
+        for card_surface, card_position in volcano_cards:
+            screen.blit(card_surface, card_position)
 
     pygame.display.flip()
 
