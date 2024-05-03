@@ -5,137 +5,218 @@ import math
 
 pygame.init()
 
-# Set up the display
-width, height = 800, 600
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Fiery Dragons")
-
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
-# Create a circular surface
-circle_radius = 200
-circle_surface = pygame.Surface((circle_radius * 2, circle_radius * 2), pygame.SRCALPHA)
-pygame.draw.circle(circle_surface, WHITE, (circle_radius, circle_radius), circle_radius)
+class Cave:
+    def __init__(self, color):
+        self.color = color
 
-# Load an image
-image = pygame.image.load("assets/VolcanoArena.png").convert_alpha()
-image = pygame.transform.scale(image, (circle_radius * 2, circle_radius * 2))
+class Dragon:
+    def __init__(self, color):
+        self.color = color
+        self.position = None
 
-# Blit the image onto the circular surface
-circle_surface.blit(image, (0, 0))
+class DragonCard:
+    def __init__(self, animals):
+        self.animals = animals
+        self.is_pirate = any(animal == "Pirate" for animal in animals)
 
-# Load the images
-images = [
-    pygame.image.load("assets/BabySpider.png").convert_alpha(),
-    pygame.image.load("assets/BabyDragon.png").convert_alpha(),
-    pygame.image.load("assets/BabyBat.png").convert_alpha(),
-    pygame.image.load("assets/Salamander.png").convert_alpha()
-]
-image_size = circle_radius // 4  # Size of each image in the grid
+class GameBoard:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        pygame.display.set_caption("Fiery Dragons")
 
-# Create a grid of random images
-grid_images = [[random.choice(images) for _ in range(4)] for _ in range(4)]
-# Create a grid to track whether each image is flipped or not
-revealed_grid = [[False for _ in range(4)] for _ in range(4)]
+        # Create a circular surface
+        self.circle_radius = 200
+        self.circle_surface = pygame.Surface((self.circle_radius * 2, self.circle_radius * 2), pygame.SRCALPHA)
+        pygame.draw.circle(self.circle_surface, WHITE, (self.circle_radius, self.circle_radius), self.circle_radius)
 
-# Calculate the starting position of the grid to center it in the circle
-start_x = circle_radius - (image_size * 2)
-start_y = circle_radius - (image_size * 2)
+        # Load the arena image
+        self.arena_image = pygame.image.load("assets/VolcanoArena.png").convert_alpha()
+        self.arena_image = pygame.transform.scale(self.arena_image, (self.circle_radius * 2, self.circle_radius * 2))
+        self.circle_surface.blit(self.arena_image, (0, 0))
 
+        # Load the animal images
+        self.images = [
+            pygame.image.load("assets/BabySpider.png").convert_alpha(),
+            pygame.image.load("assets/BabyDragon.png").convert_alpha(),
+            pygame.image.load("assets/BabyBat.png").convert_alpha(),
+            pygame.image.load("assets/Salamander.png").convert_alpha()
+        ]
+        self.image_size = self.circle_radius // 4  # Size of each image in the grid
 
-# Function to check if a point is inside a rectangle
-def point_in_rect(point, rect):
-    x, y = point
-    rx, ry, rw, rh = rect
-    return rx <= x <= rx + rw and ry <= y <= ry + rh
+        # Create a grid of random images
+        self.grid_images = [[random.choice(self.images) for _ in range(4)] for _ in range(4)]
+        self.revealed_grid = [[False for _ in range(4)] for _ in range(4)]
 
-def point_on_circle(center, radius, angle_deg):
-    angle_rad = math.radians(angle_deg)
-    x = center[0] + radius * math.cos(angle_rad)
-    y = center[1] + radius * math.sin(angle_rad)
-    return int(x), int(y)
+        # Calculate the starting position of the grid to center it in the circle
+        self.start_x = self.circle_radius - (self.image_size * 2)
+        self.start_y = self.circle_radius - (self.image_size * 2)
 
-# Function to rotate an image or surface
-def rotate_surface(surface, angle):
-    return pygame.transform.rotate(surface, angle)
+        # Create the volcano cards
+        self.volcano_cards = []
+        self.create_volcano_cards()
 
-# Calculate the positions and surfaces of the volcano cards with squares
-volcano_cards = []
-num_cards = 8
-angle_step = 360 / num_cards
-card_width = 60
-card_height = 60 * 3  # Increase the height by 3 times
-offset = 35
-for i in range(num_cards):
-    angle = i * angle_step
-    card_center = point_on_circle((width // 2, height // 2), circle_radius + offset, angle)
-    card_surface = pygame.Surface((card_width, card_height), pygame.SRCALPHA)
-    card_surface.fill((255, 255, 255, 0))  # Fill with transparent color
-    # Draw something on the surface if needed
-    pygame.draw.rect(card_surface, (255, 255, 255), card_surface.get_rect(), 2)  # Example drawing
+        # Create the dragons and caves
+        self.cave_colors = ["Red", "Blue", "Green", "Yellow"]
+        self.caves = [Cave(color) for color in self.cave_colors]
+        self.dragon_colors = self.cave_colors
+        self.dragons = [Dragon(color) for color in self.dragon_colors]
+        self.place_dragons_and_caves()
 
-    # Create three square surfaces in each card with scaled random animal images
-    padding = 5
-    square_size = card_height // 3
-    for j in range(3):
-        square_image = random.choice(images)
-        scaled_image = pygame.transform.scale(square_image, (square_size, square_size))
-        square_surface = pygame.Surface((square_size, square_size), pygame.SRCALPHA)
-        square_surface.blit(scaled_image, (0, 0))
-        card_surface.blit(square_surface, (0, j * square_size))
+        self.dragon_cards = self.create_dragon_cards()
+        random.shuffle(self.dragon_cards)
 
-    # Rotate the surface
-    card_surface = pygame.transform.rotate(card_surface, -angle)
-    # Calculate the position to blit the surface
-    card_position = card_surface.get_rect(center=card_center)
-    volcano_cards.append((card_surface, card_position))
+        self.flipped_card = None
+        self.current_player = 0
+        self.game_over = False
 
+    def place_dragons_and_caves(self):
+        for volcano_card, card_position in self.volcano_cards:
+            if card_position.collidepoint(self.width // 2, self.height // 2):
+                cave = self.caves.pop(0)
+                dragon = self.dragons.pop(0)
+                dragon.position = cave
 
-# Main loop
-running = True
-flipped_card = None  # Track the currently flipped card
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Left mouse button
-            # Check if a grid box was clicked
+    def create_volcano_cards(self):
+        num_cards = 8
+        angle_step = 360 / num_cards
+        card_width = 60
+        card_height = 60 * 3
+        offset = 35
+
+        for i in range(num_cards):
+            angle = i * angle_step
+            card_center = self.point_on_circle((self.width // 2, self.height // 2), self.circle_radius + offset, angle)
+            card_surface = pygame.Surface((card_width, card_height), pygame.SRCALPHA)
+            card_surface.fill((255, 255, 255, 0))
+
+            padding = 5
+            square_size = card_height // 3
+            for j in range(3):
+                square_image = random.choice(self.images)
+                scaled_image = pygame.transform.scale(square_image, (square_size, square_size))
+                square_surface = pygame.Surface((square_size, square_size), pygame.SRCALPHA)
+                square_surface.blit(scaled_image, (0, 0))
+                card_surface.blit(square_surface, (0, j * square_size))
+
+            card_surface = pygame.transform.rotate(card_surface, -angle)
+            card_position = card_surface.get_rect(center=card_center)
+            self.volcano_cards.append((card_surface, card_position))
+
+    def create_dragon_cards(self):
+        return [
+            DragonCard(animals=["Salamander", "Salamander", "Salamander"]),
+            DragonCard(animals=["Spider", "Spider"]),
+            DragonCard(animals=["Baby Dragon"]),
+            DragonCard(animals=["Bat"]),
+            DragonCard(animals=["Salamander", "Bat"]),
+            DragonCard(animals=["Spider", "Pirate"]),
+            DragonCard(animals=["Baby Dragon", "Pirate"]),
+            DragonCard(animals=["Salamander", "Salamander", "Bat"]),
+            DragonCard(animals=["Spider", "Spider", "Pirate"]),
+            DragonCard(animals=["Baby Dragon", "Baby Dragon", "Pirate"]),
+            DragonCard(animals=["Salamander", "Bat", "Bat"]),
+            DragonCard(animals=["Spider", "Spider", "Spider"]),
+            DragonCard(animals=["Baby Dragon", "Baby Dragon", "Baby Dragon"]),
+            DragonCard(animals=["Bat", "Bat", "Bat"]),
+            DragonCard(animals=["Salamander", "Salamander", "Spider"]),
+            DragonCard(animals=["Pirate", "Pirate"])
+        ]
+
+    def point_on_circle(self, center, radius, angle_deg):
+        angle_rad = math.radians(angle_deg)
+        x = center[0] + radius * math.cos(angle_rad)
+        y = center[1] + radius * math.sin(angle_rad)
+        return int(x), int(y)
+
+    def handle_input(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Left mouse button
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            grid_x = (mouse_x - (width // 2 - circle_radius) - start_x) // image_size
-            grid_y = (mouse_y - (height // 2 - circle_radius) - start_y) // image_size
+            grid_x = (mouse_x - (self.width // 2 - self.circle_radius) - self.start_x) // self.image_size
+            grid_y = (mouse_y - (self.height // 2 - self.circle_radius) - self.start_y) // self.image_size
             if 0 <= grid_x < 4 and 0 <= grid_y < 4:
-                if flipped_card is None:
-                    flipped_card = (grid_x, grid_y)
-                elif flipped_card == (grid_x, grid_y):
-                    flipped_card = None
+                if self.flipped_card is None:
+                    self.flipped_card = (grid_x, grid_y)
+                elif self.flipped_card == (grid_x, grid_y):
+                    self.flipped_card = None
                 else:
-                    flipped_card = (grid_x, grid_y)
+                    self.flipped_card = (grid_x, grid_y)
 
-    # Clear the screen
-    screen.fill(BLACK)
+    def update(self):
+        self.screen.fill(BLACK)
+        self.screen.blit(self.circle_surface, (self.width // 2 - self.circle_radius, self.height // 2 - self.circle_radius))
 
-    # Blit the circular surface onto the screen
-    screen.blit(circle_surface, (width // 2 - circle_radius, height // 2 - circle_radius))
+        for i in range(4):
+            for j in range(4):
+                image_x = self.start_x + j * self.image_size
+                image_y = self.start_y + i * self.image_size
+                if (j, i) == self.flipped_card:
+                    image = pygame.transform.scale(self.grid_images[i][j], (self.image_size, self.image_size))
+                    self.circle_surface.blit(image, (image_x, image_y))
+                else:
+                    rect = (image_x, image_y, self.image_size, self.image_size)
+                    pygame.draw.rect(self.circle_surface, (255, 255, 255, 100), rect, 0)
 
-    # Blit the images onto the circular surface based on the revealed state
-    for i in range(4):
-        for j in range(4):
-            image_x = start_x + j * image_size
-            image_y = start_y + i * image_size
-            if (j, i) == flipped_card:
-                image = pygame.transform.scale(grid_images[i][j], (image_size, image_size))
-                circle_surface.blit(image, (image_x, image_y))
+        for card_surface, card_position in self.volcano_cards:
+            self.screen.blit(card_surface, card_position)
+
+        pygame.display.flip()
+
+    def play_turn(self):
+        dragon = self.dragons[self.current_player]
+        print(f"Player {self.current_player + 1}'s turn. {dragon.color} dragon is at position {dragon.position.color if dragon.position else 'None'}")
+
+        # Draw a dragon card
+        if not self.dragon_cards:
+            self.dragon_cards = self.create_dragon_cards()
+            random.shuffle(self.dragon_cards)
+        dragon_card = self.dragon_cards.pop(0)
+        print(f"Drawn card: {', '.join(dragon_card.animals)}")
+
+        # Move the dragon
+        if dragon.position is None:
+            print("Dragon is still in its cave, no movement.")
+        else:
+            if any(animal == dragon.position.color for animal in dragon_card.animals):
+                # Move the dragon forward
+                num_moves = len([animal for animal in dragon_card.animals if animal != "Pirate"])
+                print(f"Moving {dragon.color} dragon forward {num_moves} spaces.")
+            elif dragon_card.is_pirate:
+                # Move the dragon backward
+                num_moves = len([animal for animal in dragon_card.animals if animal == "Pirate"])
+                print(f"Moving {dragon.color} dragon backward {num_moves} spaces.")
             else:
-                rect = (start_x + j * image_size, start_y + i * image_size, image_size, image_size)
-                pygame.draw.rect(circle_surface, (255, 255, 255, 100), rect, 0)  # Draw a white rectangle for the cell
+                print(f"No match found, {dragon.color} dragon stays put.")
 
-        # Draw the rotated volcano cards
-        for card_surface, card_position in volcano_cards:
-            screen.blit(card_surface, card_position)
+        self.current_player = (self.current_player + 1) % len(self.dragons)
 
-    pygame.display.flip()
+        # Check if the game is over
+        if any(dragon.position == cave for dragon in self.dragons for cave in self.caves):
+            self.game_over = True
+            print("Game over! A player has won.")
 
-pygame.quit()
-sys.exit()
+def main():
+    game_board = GameBoard(800, 600)
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            game_board.handle_input(event)
+
+        game_board.update()
+        game_board.play_turn()
+        if game_board.game_over:
+            running = False
+
+    pygame.quit()
+    sys.exit()
+
+if __name__ == "__main__":
+    main()
