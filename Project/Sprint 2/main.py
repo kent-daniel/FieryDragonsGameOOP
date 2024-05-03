@@ -76,12 +76,14 @@ for i in range(num_cards):
     # Draw something on the surface if needed
     pygame.draw.rect(card_surface, (255, 255, 255), card_surface.get_rect(), 2)  # Example drawing
 
-    # Create three square surfaces in each card with random animal images
+    # Create three square surfaces in each card with scaled random animal images
+    padding = 5
     square_size = card_height // 3
     for j in range(3):
         square_image = random.choice(images)
+        scaled_image = pygame.transform.scale(square_image, (square_size, square_size))
         square_surface = pygame.Surface((square_size, square_size), pygame.SRCALPHA)
-        square_surface.blit(square_image, (0, 0))
+        square_surface.blit(scaled_image, (0, 0))
         card_surface.blit(square_surface, (0, j * square_size))
 
     # Rotate the surface
