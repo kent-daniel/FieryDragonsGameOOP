@@ -61,7 +61,7 @@ def point_on_circle(center, radius, angle_deg):
 def rotate_surface(surface, angle):
     return pygame.transform.rotate(surface, angle)
 
-# Calculate the positions and surfaces of the volcano cards
+# Calculate the positions and surfaces of the volcano cards with squares
 volcano_cards = []
 num_cards = 8
 angle_step = 360 / num_cards
@@ -72,7 +72,18 @@ for i in range(num_cards):
     angle = i * angle_step
     card_center = point_on_circle((width // 2, height // 2), circle_radius + offset, angle)
     card_surface = pygame.Surface((card_width, card_height), pygame.SRCALPHA)
-    card_surface.fill((255, 0, 0, 255))  # Fill with red color
+    card_surface.fill((255, 255, 255, 0))  # Fill with transparent color
+    # Draw something on the surface if needed
+    pygame.draw.rect(card_surface, (255, 255, 255), card_surface.get_rect(), 2)  # Example drawing
+
+    # Create three square surfaces in each card with random animal images
+    square_size = card_height // 3
+    for j in range(3):
+        square_image = random.choice(images)
+        square_surface = pygame.Surface((square_size, square_size), pygame.SRCALPHA)
+        square_surface.blit(square_image, (0, 0))
+        card_surface.blit(square_surface, (0, j * square_size))
+
     # Rotate the surface
     card_surface = pygame.transform.rotate(card_surface, -angle)
     # Calculate the position to blit the surface
