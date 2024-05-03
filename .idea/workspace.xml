@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17b0248d-54e0-4192-8391-ed3c5bb7a63c" name="Changes" comment="" />
+    <list default="true" id="17b0248d-54e0-4192-8391-ed3c5bb7a63c" name="Changes" comment="Initial Board Setup - Added VolcanoArena.png">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -74,7 +76,16 @@
       <option name="presentableId" value="Default" />
       <updated>1714387813283</updated>
       <workItem from="1714387815350" duration="723000" />
+      <workItem from="1714470916968" duration="932000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial Board Setup - Added VolcanoArena.png">
+      <created>1714471165553</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1714471165553</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -93,5 +104,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Initial Board Setup - Added VolcanoArena.png" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial Board Setup - Added VolcanoArena.png" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/CL_Monday06pm_Team911$main.coverage" NAME="main Coverage Results" MODIFIED="1714507405994" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project/Sprint 2" />
   </component>
 </project>
