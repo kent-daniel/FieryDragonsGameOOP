@@ -52,6 +52,7 @@ def point_in_rect(point, rect):
 
 # Main loop
 running = True
+flipped_card = None  # Track the currently flipped card
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -62,8 +63,12 @@ while running:
             grid_x = (mouse_x - (width // 2 - circle_radius) - start_x) // image_size
             grid_y = (mouse_y - (height // 2 - circle_radius) - start_y) // image_size
             if 0 <= grid_x < 4 and 0 <= grid_y < 4:
-                # Toggle the revealed state of the image at (grid_y, grid_x)
-                revealed_grid[grid_y][grid_x] = not revealed_grid[grid_y][grid_x]
+                if flipped_card is None:
+                    flipped_card = (grid_x, grid_y)
+                elif flipped_card == (grid_x, grid_y):
+                    flipped_card = None
+                else:
+                    flipped_card = (grid_x, grid_y)
 
     # Clear the screen
     screen.fill(BLACK)
@@ -76,17 +81,12 @@ while running:
         for j in range(4):
             image_x = start_x + j * image_size
             image_y = start_y + i * image_size
-            if revealed_grid[i][j]:
+            if (j, i) == flipped_card:
                 image = pygame.transform.scale(grid_images[i][j], (image_size, image_size))
                 circle_surface.blit(image, (image_x, image_y))
-
-    # Draw the grid lines for the unrevealed cells
-    grid_color = (255, 255, 255, 100)  # Semi-transparent white
-    for i in range(4):
-        for j in range(4):
-            if not revealed_grid[i][j]:
+            else:
                 rect = (start_x + j * image_size, start_y + i * image_size, image_size, image_size)
-                pygame.draw.rect(circle_surface, grid_color, rect, 1)  # Draw a rectangle for the cell
+                pygame.draw.rect(circle_surface, (255, 255, 255, 100), rect, 0)  # Draw a white rectangle for the cell
 
     pygame.display.flip()
 
