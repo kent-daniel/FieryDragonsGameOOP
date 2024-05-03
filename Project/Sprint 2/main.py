@@ -72,14 +72,13 @@ for i in range(num_cards):
     angle = i * angle_step
     card_center = point_on_circle((width // 2, height // 2), circle_radius + offset, angle)
     card_surface = pygame.Surface((card_width, card_height), pygame.SRCALPHA)
-    card_surface.fill((255, 255, 255, 0))  # Fill with transparent color
-    # Draw something on the surface if needed
-    pygame.draw.rect(card_surface, (255, 255, 255), card_surface.get_rect(), 2)  # Example drawing
+    card_surface.fill((255, 0, 0, 255))  # Fill with red color
     # Rotate the surface
     card_surface = pygame.transform.rotate(card_surface, -angle)
     # Calculate the position to blit the surface
     card_position = card_surface.get_rect(center=card_center)
     volcano_cards.append((card_surface, card_position))
+
 
 # Main loop
 running = True
