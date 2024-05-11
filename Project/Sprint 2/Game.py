@@ -19,7 +19,7 @@ class Game:
         self.initialise_game()
         self.render_game()
 
-    def render_game(self):
+    def render_game(self): # update all game UI
         self._draw_dragon_cards()
         self._draw_board()
 
@@ -27,7 +27,7 @@ class Game:
         self._board.draw(self._screen, self._screen.get_rect().center)
 
     def _draw_dragon_cards(self):
-        self._dragon_cards.draw(self._screen, self._screen.get_rect().center)
+        self._dragon_cards.draw_on_screen(self._screen, self._screen.get_rect().center)
 
     @property
     def is_running(self):
@@ -51,6 +51,7 @@ class Game:
         final_movement = self._player_move_controller.process_movement(current_player_location,
                                                                        current_player,
                                                                        card.action(current_player_location))
+        self._dragon_cards.reset_cards()
 
     def _check_winner(self, current_player: Player, movement: Movement):
         pass
@@ -69,7 +70,7 @@ class Game:
     def _setup_views(self) -> None:
         self._board = Board(int(self._screen.get_width() * 0.7), self._screen.get_height(),
                             self._player_data_controller)
-        self._dragon_cards = DragonCardsGroup(self._dragon_cards_data_controller)
+        self._dragon_cards = DragonCardsGroup(self._dragon_cards_data_controller, screen=self._screen)
 
     def _setup_data(self) -> None:
         self._player_data_controller: IPlayerDataController = self._data_controller.create_player_data_controller()

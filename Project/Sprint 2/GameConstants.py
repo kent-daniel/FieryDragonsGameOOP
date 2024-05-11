@@ -14,12 +14,14 @@ class GameImage(Enum):
     CAVE = 'Assets/Cave.png'
     VOLCANO_ARENA = 'Assets/VolcanoArena.png'
 
+
 class GameElementStyles(Enum):
     SQUARE_LENGTH = 75
     CAVE_SIZE = 70
     CAVE_OFFSET = 4
     PLAYER_HEIGHT = 35
     DRAGON_CARD_AREA_HEIGHT = 540
+
 
 class GameStyles(Enum):
     COLOR_BROWN_DARK = pygame.Color(70, 30, 10)

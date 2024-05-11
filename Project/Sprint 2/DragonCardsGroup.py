@@ -9,9 +9,10 @@ from Drawable import Drawable
 from MovementEventManager import IMovementEventListener
 from Movement import Movement
 
-class DragonCardsGroup(Drawable, IMovementEventListener):
+class DragonCardsGroup(IMovementEventListener):
 
     def __init__(self, data_controller: IDragonCardDataController,
+                 screen: pygame.Surface,
                  width: int = GameElementStyles.DRAGON_CARD_AREA_HEIGHT.value,
                  height: int = GameElementStyles.DRAGON_CARD_AREA_HEIGHT.value,
                  arena_image: str = GameImage.VOLCANO_ARENA.value):
@@ -21,25 +22,33 @@ class DragonCardsGroup(Drawable, IMovementEventListener):
         self._height = height
         self._image: pygame.Surface = pygame.image.load(arena_image).convert_alpha()
         self._image = pygame.transform.smoothscale(self._image, (self._width, self._height))
-        self._surface: pygame.Surface = pygame.Surface((self._width, self._height), pygame.SRCALPHA)
-        pygame.draw.rect(self._surface,
-                         GameStyles.COLOR_TRANSPARENT.value,
-                         self._surface.get_rect(),
-                         )
-        self._surface.blit(self._image, self._image.get_rect(
-            center=self._surface.get_rect().center))
-        self._rect = self._surface.get_rect()
-        self.redraw_view()
+        # self._surface: pygame.Surface = pygame.Surface((self._width, self._height), pygame.SRCALPHA) # TODO : try passing screen in the constructor so we dont need to create another surface on top of the screem
+        self._surface = screen
+        # pygame.draw.rect(self._surface,
+        #                  GameStyles.COLOR_TRANSPARENT.value,
+        #                  self._surface.get_rect(),
+        #                  )
 
-    def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
-        self._rect.center = location
-        destination_surface.blit(self._surface, self._rect.topleft)
+        # self._surface.blit(self._image, self._image.get_rect(
+        #     center=self._surface.get_rect().center))
+        # self._rect = self._surface.get_rect()
+        # self.redraw_view()
+
+    def draw_on_screen(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
+        # self._rect.center = location
+        # destination_surface.blit(self._surface, self._rect.topleft)
+
+        destination_surface.blit(self._image, self._image.get_rect(
+             center=location))
+        self._draw_dragon_cards(destination_surface)
+
+
 
     def get_clicked_card(self, mouse_pos: (int, int)) -> Optional[DragonCard]:
-        relative_mouse_pos = (mouse_pos[0] - self._rect.x, mouse_pos[1] - self._rect.y) #BUG: click detection bug (only detects click on the top left of the card)
+        # relative_mouse_pos = (mouse_pos[0] - self._rect.x, mouse_pos[1] - self._rect.y) #BUG: click detection bug (only detects click on the top left of the card)
         for i in range(len(self._dragon_cards)):
             card = self._dragon_cards[i]
-            if card.is_clicked(relative_mouse_pos):
+            if card.is_clicked(mouse_pos):
                 self._dragon_cards[i] = card
                 return self._dragon_cards[i]
         return None
@@ -47,15 +56,14 @@ class DragonCardsGroup(Drawable, IMovementEventListener):
     def reset_cards(self) -> None:
         for i in range(len(self._dragon_cards)):
             self._dragon_cards[i] = self._dragon_cards[i].unflip()
-        self.redraw_view()
+        # self.redraw_view()
 
-    def redraw_view(self) -> None:
-        self._draw_dragon_cards()
+    # def redraw_view(self) -> None:
+    #     self._draw_dragon_cards()
 
-    def _draw_dragon_cards(self) -> None:
+    def _draw_dragon_cards(self , destination_surface) -> None:
         if not self._dragon_cards:
             return
-
         gap = 5
         startx = self._width * 0.15
         starty = 0
@@ -67,7 +75,7 @@ class DragonCardsGroup(Drawable, IMovementEventListener):
                 startx = self._width * 0.15  # Reset x-coordinate for new row
                 starty += card.get_surface().get_height() + gap  # Move to next row
 
-            card.draw(self._surface, (startx, starty))
+            card.draw(destination_surface, (startx, starty))
 
             startx += card_width + gap
 
