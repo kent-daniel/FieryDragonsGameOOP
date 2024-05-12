@@ -9,6 +9,7 @@ from MovementEventManager import IMovementEventManager, MovementEventManager
 from PlayerTurnController import IPlayerTurnController, PlayerTurnController
 from GameDataController import IPlayerDataController, IDragonCardDataController
 from Movement import Movement
+from NotificationTabUI import NotificationTabUI
 
 
 class Game:
@@ -22,12 +23,16 @@ class Game:
     def render_game(self):
         self._draw_dragon_cards()
         self._draw_board()
+        self._draw_notification_tab()
 
     def _draw_board(self):
         self._board.draw(self._screen, self._screen.get_rect().center)
 
     def _draw_dragon_cards(self):
         self._dragon_cards.draw(self._screen, self._screen.get_rect().center)
+
+    def _draw_notification_tab(self):
+        self._notification_tab.draw(self._screen , self._screen.get_rect().topleft)
 
     @property
     def is_running(self):
@@ -70,6 +75,7 @@ class Game:
         self._board = Board(int(self._screen.get_width() * 0.7), self._screen.get_height(),
                             self._player_data_controller)
         self._dragon_cards = DragonCardsGroup(self._dragon_cards_data_controller)
+        self._notification_tab = NotificationTabUI()
 
     def _setup_data(self) -> None:
         self._player_data_controller: IPlayerDataController = self._data_controller.create_player_data_controller()
