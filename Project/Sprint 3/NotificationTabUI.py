@@ -7,7 +7,7 @@ from Drawable import Drawable
 
 
 class NotificationTabUI(Drawable):
-    def __init__(self, height: int = 400, width: int = 300, notification_manager=NotificationManager(),
+    def __init__(self, height: int = 350, width: int = 300, notification_manager=NotificationManager(),
                  colour=GameStyles.COLOR_GRAY_500.value):
         self.notification_manager = notification_manager
         self.notification_surface: pygame.Surface = pygame.Surface((width, height), pygame.SRCALPHA)

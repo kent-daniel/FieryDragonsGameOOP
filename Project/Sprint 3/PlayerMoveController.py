@@ -32,14 +32,13 @@ class PlayerMoveController(IPlayerMoveController):
             self._notification_manager.add_notification(f"player {player.id} didn't get a matching card")
         elif self._check_destination_is_occupied(movement) or self._player_passing_cave(player, player_location,                                                                            movement):
             final_movement = Movement(0, player_location)
-        else:
+        elif final_movement.value != 0:
             self.update_player_location(player, movement.destination)
-        self._movement_publisher.publish_event(final_movement)
-
-        if final_movement.value != 0:
             self._notification_manager.add_notification(f"player {player.id} is moving to Square {final_movement.destination.id}")
         else:
             self._notification_manager.add_notification(f"player {player.id} didn't move")
+
+        self._movement_publisher.publish_event(final_movement)
         return movement
 
     def _check_destination_is_occupied(self, movement: Movement) -> bool:
