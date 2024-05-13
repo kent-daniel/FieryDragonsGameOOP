@@ -4,7 +4,7 @@ from Movement import Movement
 from Square import Square
 from MovementEventManager import IMovementEventManager
 from GameDataController import IPlayerDataController
-
+from NotificationManager import NotificationManager
 
 class IPlayerMoveController(ABC):
     @abstractmethod
@@ -21,22 +21,35 @@ class IPlayerMoveController(ABC):
 
 
 class PlayerMoveController(IPlayerMoveController):
-    def __init__(self, movement_publisher: IMovementEventManager, data_controller: IPlayerDataController):
+    def __init__(self, movement_publisher: IMovementEventManager, data_controller: IPlayerDataController , notification_manager = NotificationManager()):
         self._movement_publisher = movement_publisher
         self._data_controller = data_controller
+        self._notification_manager = notification_manager
 
     def process_movement(self, player_location: Square, player: Player, movement: Movement) -> Movement:
         final_movement = movement
-        if movement.destination.get_occupant() is not None or self._player_passing_cave(player, player_location,                                                                            movement):
+        if movement.value == 0:
+            self._notification_manager.add_notification(f"player {player.id} didn't get a matching card")
+        elif self._check_destination_is_occupied(movement) or self._player_passing_cave(player, player_location,                                                                            movement):
             final_movement = Movement(0, player_location)
-        else:
+        elif final_movement.value != 0:
             self.update_player_location(player, movement.destination)
+            self._notification_manager.add_notification(f"player {player.id} is moving to Square {final_movement.destination.id}")
+        else:
+            self._notification_manager.add_notification(f"player {player.id} didn't move")
+
         self._movement_publisher.publish_event(final_movement)
         return movement
 
+    def _check_destination_is_occupied(self, movement: Movement) -> bool:
+        if movement.destination.get_occupant() is None:
+            return False
+        self._notification_manager.add_notification(f"destination is occupied")
+        return True
     def _player_passing_cave(self, player: Player, starting_square: Square, movement: Movement) -> bool:
         # player cannot go backwards from initial game starting position
         if movement.value < 0 and starting_square.cave and starting_square.cave.get_owner() == player:
+            self._notification_manager.add_notification(f"player {player.id} cannot go behind cave")
             return True
         square = starting_square
         for i in range(abs(movement.value)):
@@ -45,6 +58,7 @@ class PlayerMoveController(IPlayerMoveController):
             else:
                 square = square.next
             if square.cave and square.cave.get_owner() == player and movement.value < 0:
+                self._notification_manager.add_notification(f"player {player.id} cannot pass cave")
                 return True
         return False
 

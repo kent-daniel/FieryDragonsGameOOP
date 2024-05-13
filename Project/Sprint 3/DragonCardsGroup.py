@@ -1,5 +1,5 @@
-from typing import List, Tuple, Optional
-
+from typing import Tuple, Optional
+from NotificationManager import NotificationManager
 import pygame
 
 from GameConstants import GameImage, GameStyles, GameElementStyles
@@ -9,13 +9,16 @@ from Drawable import Drawable
 from MovementEventManager import IMovementEventListener
 from Movement import Movement
 
+
 class DragonCardsGroup(Drawable, IMovementEventListener):
 
     def __init__(self, data_controller: IDragonCardDataController,
                  width: int = GameElementStyles.DRAGON_CARD_AREA_HEIGHT.value,
                  height: int = GameElementStyles.DRAGON_CARD_AREA_HEIGHT.value,
-                 arena_image: str = GameImage.VOLCANO_ARENA.value):
+                 arena_image: str = GameImage.VOLCANO_ARENA.value,
+                 notification_manager=NotificationManager()):
         self._data_controller = data_controller
+        self._notification_manager = notification_manager
         self._dragon_cards = self._data_controller.get_dragon_cards()
         self._width = width
         self._height = height
@@ -36,11 +39,13 @@ class DragonCardsGroup(Drawable, IMovementEventListener):
         destination_surface.blit(self._surface, self._rect.topleft)
 
     def get_clicked_card(self, mouse_pos: (int, int)) -> Optional[DragonCard]:
-        relative_mouse_pos = (mouse_pos[0] - self._rect.x, mouse_pos[1] - self._rect.y) #BUG: click detection bug (only detects click on the top left of the card)
+        relative_mouse_pos = (mouse_pos[0] - self._rect.x, mouse_pos[
+            1] - self._rect.y)  #BUG: click detection bug (only detects click on the top left of the card)
         for i in range(len(self._dragon_cards)):
             card = self._dragon_cards[i]
             if card.is_clicked(relative_mouse_pos):
                 self._dragon_cards[i] = card
+                self._notification_manager.add_notification(f"card flipped: {card.value} x {card.character.name}")
                 return self._dragon_cards[i]
         return None
 
