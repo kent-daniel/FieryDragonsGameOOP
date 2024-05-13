@@ -34,7 +34,7 @@ class PlayerTurnController(IPlayerTurnController):
             self.switch_player()
 
     def switch_player(self):
-        i = (0 % len(self._players)) + 1
-        self.current_player = self._players[i]
+        player_index = (self.current_player.id + 1) % self._players.__len__()
+        self.current_player = self._players[player_index-1]
         self._notification_manager.add_notification(f"switching to player {self.get_current_player().id}'s turn")
 
