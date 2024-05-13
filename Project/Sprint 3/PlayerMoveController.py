@@ -6,6 +6,7 @@ from MovementEventManager import IMovementEventManager
 from GameDataController import IPlayerDataController
 from NotificationManager import NotificationManager
 
+
 class IPlayerMoveController(ABC):
     @abstractmethod
     def process_movement(self, player_location, player: Player, movement: Movement) -> Movement:
@@ -21,7 +22,8 @@ class IPlayerMoveController(ABC):
 
 
 class PlayerMoveController(IPlayerMoveController):
-    def __init__(self, movement_publisher: IMovementEventManager, data_controller: IPlayerDataController , notification_manager = NotificationManager()):
+    def __init__(self, movement_publisher: IMovementEventManager, data_controller: IPlayerDataController,
+                 notification_manager=NotificationManager()):
         self._movement_publisher = movement_publisher
         self._data_controller = data_controller
         self._notification_manager = notification_manager
@@ -30,11 +32,13 @@ class PlayerMoveController(IPlayerMoveController):
         final_movement = movement
         if movement.value == 0:
             self._notification_manager.add_notification(f"player {player.id} didn't get a matching card")
-        elif self._check_destination_is_occupied(movement) or self._player_passing_cave(player, player_location,                                                                            movement):
+        elif self._check_destination_is_occupied(movement) or self._player_passing_cave(player, player_location,
+                                                                                        movement):
             final_movement = Movement(0, player_location)
         elif final_movement.value != 0:
             self.update_player_location(player, movement.destination)
-            self._notification_manager.add_notification(f"player {player.id} is moving to Square {final_movement.destination.id}")
+            self._notification_manager.add_notification(
+                f"player {player.id} is moving to Square {final_movement.destination.id}")
         else:
             self._notification_manager.add_notification(f"player {player.id} didn't move")
 
@@ -46,18 +50,20 @@ class PlayerMoveController(IPlayerMoveController):
             return False
         self._notification_manager.add_notification(f"destination is occupied")
         return True
+
     def _player_passing_cave(self, player: Player, starting_square: Square, movement: Movement) -> bool:
         # player cannot go backwards from initial game starting position
         if movement.value < 0 and starting_square.cave and starting_square.cave.get_owner() == player:
             self._notification_manager.add_notification(f"player {player.id} cannot go behind cave")
             return True
         square = starting_square
-        for i in range(abs(movement.value)):
+        steps = abs(movement.value)
+        for step in range(steps):
             if movement.value < 0:
                 square = square.prev
             else:
                 square = square.next
-            if square.cave and square.cave.get_owner() == player and movement.value < 0:
+            if square.cave and square.cave.get_owner() == player and step+1 < steps: # check if player got into a cave before finishing movement
                 self._notification_manager.add_notification(f"player {player.id} cannot pass cave")
                 return True
         return False

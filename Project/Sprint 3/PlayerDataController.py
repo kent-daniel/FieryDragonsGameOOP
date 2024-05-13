@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from typing import List
-
 from Square import Square
 from Cave import Cave
 import pygame
