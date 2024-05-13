@@ -6,7 +6,8 @@ from GameDataController import GameDataController
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode(pygame.display.get_desktop_sizes()[0], pygame.RESIZABLE)
+    screen_width , screen_height = pygame.display.get_desktop_sizes()[0]
+    screen = pygame.display.set_mode((screen_width*0.95, screen_height*0.95), pygame.RESIZABLE)
     clock = pygame.time.Clock()
     pygame.display.set_caption("Fiery Dragons")
     game_data_controller = GameDataController("config.ini")
