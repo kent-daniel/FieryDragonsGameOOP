@@ -23,16 +23,18 @@ class PlayerTurnController(IPlayerTurnController):
         self._data_controller = data_controller
         self._players = self._data_controller.get_players()
         self._notification_manager = notification_manager
+        self.current_player = self._players[0]
 
     def get_current_player(self) -> Player:
         # INFO: Will only use the first player for testing movement
-        return self._players[0]
+        return self.current_player
 
     def on_movement_event(self, movement: Movement) -> None:
         if movement.value == 0:
             self.switch_player()
 
     def switch_player(self):
-        # to be implemented
+        i = (0 % len(self._players)) + 1
+        self.current_player = self._players[i]
         self._notification_manager.add_notification(f"switching to player {self.get_current_player().id}'s turn")
-        pass
+
