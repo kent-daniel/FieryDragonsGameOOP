@@ -53,7 +53,7 @@ class PlayerMoveController(IPlayerMoveController):
 
     def _player_passing_cave(self, player: Player, starting_square: Square, movement: Movement) -> bool:
         # player cannot go backwards from initial game starting position
-        if movement.value < 0 and starting_square.cave and starting_square.cave.get_owner() == player:
+        if movement.value < 0 and starting_square.cave and starting_square.cave.get_owner().id == player.id:
             self._notification_manager.add_notification(f"player {player.id} cannot go behind cave")
             return True
         square = starting_square
@@ -63,7 +63,7 @@ class PlayerMoveController(IPlayerMoveController):
                 square = square.prev
             else:
                 square = square.next
-            if square.cave and square.cave.get_owner() == player and step+1 < steps: # check if player got into a cave before finishing movement
+            if square.cave and square.cave.get_owner().id == player.id and step+1 < steps: # check if player got into a cave before finishing movement
                 self._notification_manager.add_notification(f"player {player.id} cannot pass cave")
                 return True
         return False
