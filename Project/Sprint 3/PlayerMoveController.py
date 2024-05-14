@@ -9,7 +9,8 @@ from NotificationManager import NotificationManager
 
 class IPlayerMoveController(ABC):
     @abstractmethod
-    def process_movement(self, player_location, player: Player, movement: Movement) -> Movement:
+    def process_movement(self, player_location, player: Player,
+                         movement: Movement) -> Movement:
         pass
 
     @abstractmethod
@@ -37,8 +38,7 @@ class PlayerMoveController(IPlayerMoveController):
             final_movement = Movement(0, player_location)
         elif final_movement.value != 0:
             self.update_player_location(player, movement.destination)
-            self._notification_manager.add_notification(
-                f"player {player.id} is moving to Square {final_movement.destination.id}")
+            self._notification_manager.add_notification(f"player {player.id} is moving to Square {final_movement.destination.id}")
         else:
             self._notification_manager.add_notification(f"player {player.id} didn't move")
 
