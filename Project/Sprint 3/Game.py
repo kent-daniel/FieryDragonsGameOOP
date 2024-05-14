@@ -17,7 +17,7 @@ class Game:
     def __init__(self, data_controller: GameDataController,
                  screen: pygame.surface.Surface):
         self.winner = None
-
+        self.screen_width, self.screen_height = pygame.display.get_desktop_sizes()[0]
         self._data_controller = data_controller
         self._screen = screen
         self._is_running: bool = True
