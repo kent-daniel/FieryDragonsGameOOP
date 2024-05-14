@@ -24,14 +24,13 @@ class Game:
         self.initialise_game()
         self.render_game()
 
-
     def render_game(self):
         self._draw_dragon_cards()
         self._draw_board()
         self._draw_notification_tab()
         if self.winner is not None:
             self.win = Win(self.winner)
-            self.win.render_win(self._screen,self._screen.get_rect().topleft)
+            self.win.render_win(self._screen, self._screen.get_rect().topleft)
 
     def _draw_board(self):
         self._board.draw(self._screen, self._screen.get_rect().center)
@@ -62,19 +61,9 @@ class Game:
             if self._check_winner():
                 self.winner = self._player_turn_controller.get_current_player()
 
-
-
     def _handle_chosen_card(self, card: DragonCard):
         current_player = self._player_turn_controller.get_current_player()
-        current_player_location = self._player_move_controller.get_player_location(
-            current_player)
-        final_movement = self._player_move_controller.process_movement(
-            current_player_location,
-            current_player,
-            card.action(current_player_location))
-        current_player.steps_to_win -= final_movement.value
-
-
+        self._player_move_controller.process_movement(current_player,card)
 
     def _check_winner(self):
         current_player = self._player_turn_controller.get_current_player()
