@@ -73,7 +73,7 @@ class PlayerDataController(IPlayerDataController):
         player_count: int = int(self._players_count)
         for player_id in range(1, player_count + 1):
             self._players.append(
-                Player(player_id, pygame.Color((randint(50, 255), randint(50, 255), randint(50, 255)))))
+                Player(player_id, pygame.Color((randint(50, 255), randint(50, 255), randint(50, 255))))) #todo add another field in the player constructor to provide number of squares
 
     def _parse_squares(self) -> List[Square]:
         square_animals: List[str] = [animal.strip(" ") for animal in
