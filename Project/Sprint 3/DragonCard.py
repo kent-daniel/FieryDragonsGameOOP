@@ -7,6 +7,9 @@ from Drawable import Drawable
 from GameConstants import GameStyles
 from Movement import Movement
 
+UNFLIP_EVENT = pygame.USEREVENT + 1
+FLIP_TIME = 1000
+
 
 class DragonCard(Drawable, ABC):
     def __init__(self, character: CharacterImage, value: int, is_flipped: bool = False, radius: int = 45):
@@ -15,18 +18,20 @@ class DragonCard(Drawable, ABC):
         self._character = character
         self._radius = radius
         self._is_flipped = is_flipped
+        self._flip_time = None  # To store the time when the card was flipped
         self._image: pygame.Surface = pygame.image.load(self._character.value).convert_alpha()
         self._image = pygame.transform.smoothscale(self._image, (self._radius * 0.8, self._radius * 0.8))
         self._surface: pygame.Surface = pygame.Surface((self._radius * 2, self._radius * 2), pygame.SRCALPHA)
         self._rect: pygame.Rect = self._surface.get_rect()
-        self.flip()
         self.redraw_view()
+
     def unflip(self):
         self._is_flipped = False
         self.redraw_view()
 
     def flip(self):
         self._is_flipped = True
+        self._flip_time = pygame.time.get_ticks()
         self.redraw_view()
 
     def is_clicked(self, mouse_pos: Tuple[int, int]) -> bool:
@@ -41,15 +46,18 @@ class DragonCard(Drawable, ABC):
             pygame.draw.circle(self._surface, GameStyles.COLOR_PINK.value, (self._radius, self._radius), self._radius)
             font = pygame.font.SysFont(None, GameStyles.FONT_SIZE_LARGE.value)
             text = font.render(str(self._value), True, GameStyles.COLOR_GRAY_700.value)
-            text_rect = text.get_rect(center=(self._rect.centerx,self._rect.top+15))
+            text_rect = text.get_rect(center=(self._surface.get_rect().centerx, self._surface.get_rect().top + 15))
             self._surface.blit(text, text_rect)
             self._surface.blit(self._image, self._image.get_rect(center=self._surface.get_rect().center))
         else:
-            pygame.draw.circle(self._surface, GameStyles.COLOR_BROWN_LIGHT.value, (self._radius, self._radius), self._radius)
+            pygame.draw.circle(self._surface, GameStyles.COLOR_BROWN_LIGHT.value, (self._radius, self._radius),
+                               self._radius)
 
     def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
+        if self._flip_time and pygame.time.get_ticks() - self._flip_time >= FLIP_TIME:  # Check if 1 second has passed since the card was flipped
+            self.unflip()
         self._rect.center = location
-        destination_surface.blit(self._surface,self._rect.center)
+        destination_surface.blit(self._surface, self._rect.center)
 
     def get_surface(self) -> pygame.Surface:
         return self._surface
