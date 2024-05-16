@@ -20,6 +20,7 @@ class GameElementStyles(Enum):
     CAVE_OFFSET = 4
     PLAYER_HEIGHT = 35
     DRAGON_CARD_AREA_HEIGHT = 540
+    PLAYER_STEPS_TO_WIN = 24
 
 class GameStyles(Enum):
     COLOR_BROWN_DARK = pygame.Color(70, 30, 10)
@@ -33,6 +34,7 @@ class GameStyles(Enum):
     COLOR_GRAY_500 = pygame.Color(128, 128, 128)
     COLOR_GRAY_300 = pygame.Color(192, 192, 192)
     COLOR_GRAY_700 = pygame.Color(77, 77, 77)
+    COLOR_GRAY_700_T = pygame.Color(50, 50, 50, 190)
     COLOR_BLACK = pygame.Color(0, 0, 0)
 
     BORDER_RADIUS_SMALL = 5
@@ -46,3 +48,5 @@ class GameStyles(Enum):
     FONT_SIZE_SMALL = 16
     FONT_SIZE_MEDIUM = 24
     FONT_SIZE_LARGE = 32
+    FONT_SIZE_WIN = 64
+    FONT_WIN = 'freesansbold.ttf'

@@ -4,13 +4,13 @@ from Player import Player
 
 
 class Win:
-    def __init__(self, player: Player, colour=(50, 50, 50, 190)): #todo add color to gamestyles
-        self.font = pygame.font.Font('freesansbold.ttf', 62) #todo correct the font
+    def __init__(self, player: Player, colour=GameStyles.COLOR_GRAY_700_T.value):
+        self.font = pygame.font.Font(GameStyles.FONT_WIN.value, GameStyles.FONT_SIZE_WIN.value)
         self.screen_width, self.screen_height = \
             pygame.display.get_desktop_sizes()[0]
         self.text = self.font.render(
             f'Congratulations Player {player.id}, YOU HAVE WON', True,
-            (0, 0, 255), (255, 0, 0)) #todo fix color and font
+            GameStyles.COLOR_ORANGE.value, GameStyles.COLOR_BROWN_LIGHT.value)
         self.textRect = self.text.get_rect()
         self.textRect.center = (self.screen_width / 2, self.screen_height / 2)
         # self.textrect.center =
