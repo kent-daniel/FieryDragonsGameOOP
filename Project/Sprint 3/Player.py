@@ -7,11 +7,12 @@ from GameConstants import GameStyles, GameElementStyles
 
 class Player(Drawable):
 
-    def __init__(self, id: int, colour: pygame.Color = GameStyles.COLOR_GRAY_700.value, width: int = GameElementStyles.PLAYER_HEIGHT.value,
-                 height: int = GameElementStyles.PLAYER_HEIGHT.value):
+    def __init__(self, id: int, steps_to_win: int, colour: pygame.Color = GameStyles.COLOR_GRAY_700.value,
+                 width: int = GameElementStyles.PLAYER_HEIGHT.value,
+                 height: int = GameElementStyles.PLAYER_HEIGHT.value ):
         self.colour = colour
         self.id = id
-        self.steps_to_win = 24
+        self.steps_to_win = steps_to_win
         self._player_surface: pygame.Surface = pygame.Surface((width, height), pygame.SRCALPHA)
         self._rect = self._player_surface.get_rect()
         radius_outer = height // 2

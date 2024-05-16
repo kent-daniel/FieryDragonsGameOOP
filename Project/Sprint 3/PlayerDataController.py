@@ -70,10 +70,28 @@ class PlayerDataController(IPlayerDataController):
             self._squares += card_squares
 
     def _create_players(self) -> None:
+        """
+        Create and initialize the players based on the provided player count and square list.
+
+        Args:
+            self (PlayerDataController): An instance of the PlayerDataController class.
+
+        Returns:
+            None: This method does not return any value.
+
+        Raises:
+            None: This method does not raise any exceptions.
+
+        Notes:
+            This method creates a specified number of players and initializes them with unique IDs,
+            the total number of squares, and a random color.
+        """
         player_count: int = int(self._players_count)
         for player_id in range(1, player_count + 1):
-            self._players.append(
-                Player(player_id, pygame.Color((randint(50, 255), randint(50, 255), randint(50, 255)))))
+            self._players.append(Player(player_id, len(self._parse_squares()), pygame.Color(randint(50, 255),
+                                                                                                randint(50, 255),
+                                                                                                randint(50, 255))))
+
 
     def _parse_squares(self) -> List[Square]:
         square_animals: List[str] = [animal.strip(" ") for animal in
