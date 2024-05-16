@@ -1,3 +1,4 @@
+import time
 from typing import Tuple, Optional
 from NotificationManager import NotificationManager
 import pygame
@@ -35,6 +36,7 @@ class DragonCardsGroup(Drawable, IMovementEventListener):
         self.redraw_view()
 
     def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
+        self.redraw_view()
         self._rect.center = location
         destination_surface.blit(self._surface, self._rect.topleft)
 
@@ -49,18 +51,11 @@ class DragonCardsGroup(Drawable, IMovementEventListener):
                 return self._dragon_cards[i]
         return None
 
-    def reset_cards(self) -> None:
-        for i in range(len(self._dragon_cards)):
-            self._dragon_cards[i] = self._dragon_cards[i].unflip()
-        self.redraw_view()
 
     def redraw_view(self) -> None:
         self._draw_dragon_cards()
 
     def _draw_dragon_cards(self) -> None:
-        if not self._dragon_cards:
-            return
-
         gap = 5
         startx = self._width * 0.15
         starty = 0
