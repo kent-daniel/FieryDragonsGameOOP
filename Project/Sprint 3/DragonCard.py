@@ -19,8 +19,9 @@ class DragonCard(Drawable, ABC):
         self._image = pygame.transform.smoothscale(self._image, (self._radius * 0.8, self._radius * 0.8))
         self._surface: pygame.Surface = pygame.Surface((self._radius * 2, self._radius * 2), pygame.SRCALPHA)
         self._rect: pygame.Rect = self._surface.get_rect()
-        self.flip()
+        # self.flip()
         self.redraw_view()
+
     def unflip(self):
         self._is_flipped = False
         self.redraw_view()
