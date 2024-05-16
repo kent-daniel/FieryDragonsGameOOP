@@ -7,8 +7,9 @@ from GameConstants import GameStyles, GameElementStyles
 
 class Player(Drawable):
 
-    def __init__(self, id: int, colour: pygame.Color = GameStyles.COLOR_GRAY_700.value, width: int = GameElementStyles.PLAYER_HEIGHT.value,
-                 height: int = GameElementStyles.PLAYER_HEIGHT.value,steps_to_win = GameElementStyles.PLAYER_STEPS_TO_WIN.value):
+    def __init__(self, id: int, steps_to_win: int, colour: pygame.Color = GameStyles.COLOR_GRAY_700.value,
+                 width: int = GameElementStyles.PLAYER_HEIGHT.value,
+                 height: int = GameElementStyles.PLAYER_HEIGHT.value ):
         self.colour = colour
         self.id = id
         self.steps_to_win = steps_to_win

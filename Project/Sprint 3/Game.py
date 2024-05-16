@@ -95,7 +95,6 @@ class Game:
                     self._handle_chosen_card(card)
             if self._check_winner():
                 self.winner = self._player_turn_controller.get_current_player()
-                self.end_game() #todo check if this is right
 
     def _handle_chosen_card(self, card: DragonCard):
         """
