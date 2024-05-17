@@ -1,3 +1,4 @@
+import time
 from typing import Tuple, Optional
 from NotificationManager import NotificationManager
 import pygame
@@ -35,32 +36,28 @@ class DragonCardsGroup(Drawable, IMovementEventListener):
         self.redraw_view()
 
     def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
+        self.redraw_view()
         self._rect.center = location
         destination_surface.blit(self._surface, self._rect.topleft)
 
     def get_clicked_card(self, mouse_pos: (int, int)) -> Optional[DragonCard]:
-        relative_mouse_pos = (mouse_pos[0] - self._rect.x, mouse_pos[
-            1] - self._rect.y)  #BUG: click detection bug (only detects click on the top left of the card)
         for i in range(len(self._dragon_cards)):
             card = self._dragon_cards[i]
+            relative_mouse_pos = (mouse_pos[0] - self._rect.x - card.get_surface().get_width() // 2,
+                                  mouse_pos[
+                                      1] - self._rect.y - card.get_surface().get_height() // 2)  # BUG: click detection bug (only detects click on the top left of the card)
             if card.is_clicked(relative_mouse_pos):
                 self._dragon_cards[i] = card
                 self._notification_manager.add_notification(f"card flipped: {card.value} x {card.character.name}")
+                self.redraw_view()
                 return self._dragon_cards[i]
         return None
 
-    def reset_cards(self) -> None:
-        for i in range(len(self._dragon_cards)):
-            self._dragon_cards[i] = self._dragon_cards[i].unflip()
-        self.redraw_view()
 
     def redraw_view(self) -> None:
         self._draw_dragon_cards()
 
     def _draw_dragon_cards(self) -> None:
-        if not self._dragon_cards:
-            return
-
         gap = 5
         startx = self._width * 0.15
         starty = 0
