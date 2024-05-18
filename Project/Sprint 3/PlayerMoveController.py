@@ -37,20 +37,20 @@ class PlayerMoveController(IPlayerMoveController):
 
     def _validate_and_return_movement(self, movement: Movement, player: Player, player_location: Square) -> Movement:
         final_movement = movement
-        if movement.value == 0:
+        if final_movement.value == 0:
             self._notification_manager.add_notification(f"player {player.id} didn't get a matching card")
-        elif self._check_destination_is_occupied(movement) or self._player_passing_cave(player, player_location,
-                                                                                        movement):
+        elif self._check_destination_is_occupied(final_movement) or self._player_passing_cave(player, player_location,
+                                                                                        final_movement):
             final_movement = Movement(0, player_location)
         elif final_movement.value != 0:
-            self.update_player_location(player, movement.destination)
+            self.update_player_location(player, final_movement.destination)
             self._notification_manager.add_notification(
                 f"player {player.id} is moving to Square {final_movement.destination.id}")
         else:
             self._notification_manager.add_notification(f"player {player.id} didn't move")
 
         self._movement_publisher.publish_event(final_movement)
-        return movement
+        return final_movement
 
     def _check_destination_is_occupied(self, movement: Movement) -> bool:
         if movement.destination.get_occupant() is None:

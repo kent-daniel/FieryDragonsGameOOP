@@ -1,6 +1,7 @@
+from typing import Optional
+
 import pygame
 from Board import Board
-from Player import Player
 from GameDataController import GameDataController
 from DragonCardsGroup import DragonCardsGroup
 from DragonCard import DragonCard
@@ -8,9 +9,9 @@ from PlayerMoveController import IPlayerMoveController, PlayerMoveController
 from MovementEventManager import IMovementEventManager, MovementEventManager
 from PlayerTurnController import IPlayerTurnController, PlayerTurnController
 from GameDataController import IPlayerDataController, IDragonCardDataController
-from Movement import Movement
 from NotificationTabUI import NotificationTabUI
 from Win import Win
+from Player import Player
 
 
 class Game:
@@ -20,7 +21,7 @@ class Game:
         :param data_controller:
         :param screen:
 
-        initilising object fields
+        initialising object fields
         """
         self.winner = None
         self.screen_width, self.screen_height = pygame.display.get_desktop_sizes()[0]
@@ -32,15 +33,18 @@ class Game:
 
     def render_game(self):
         """
-        rendering the components of the game
-        :return: the components on a GUI
+        rendering the UI components updates of the game for every tick of the game
+        :return: None
         """
         self._draw_dragon_cards()
         self._draw_board()
         self._draw_notification_tab()
+        self._draw_win_notification()
+
+    def _draw_win_notification(self):
         if self.winner is not None:
-            self.win = Win(self.winner)
-            self.win.render_win(self._screen, self._screen.get_rect().topleft)
+            win = Win(self.winner)
+            win.draw(self._screen, self._screen.get_rect().topleft)
 
     def _draw_board(self):
         """
@@ -59,7 +63,7 @@ class Game:
 
     def _draw_notification_tab(self):
         """
-        Draws notificatin Tab onto the screen
+        Draws notification Tab onto the screen
         :return: None
         """
         self._notification_tab.draw(self._screen,
@@ -93,8 +97,7 @@ class Game:
                     pygame.mouse.get_pos())
                 if card:
                     self._handle_chosen_card(card)
-            if self._check_winner():
-                self.winner = self._player_turn_controller.get_current_player()
+            self.winner = self.check_winner(self._player_turn_controller.get_current_player())
 
     def _handle_chosen_card(self, card: DragonCard):
         """
@@ -103,20 +106,20 @@ class Game:
         processes the movements of the player based on the dragon card they pick
         """
         current_player = self._player_turn_controller.get_current_player()
-        self._player_move_controller.process_movement(current_player,card)
+        self._player_move_controller.process_movement(current_player, card)
 
-    def _check_winner(self):
+    def check_winner(self, player: Player) -> Optional[Player]:
         """
         check if the player has reached their initial cave
-        :return: True if the player has reached their cave otherwise False
+        :return: Player if the player has reached their cave otherwise None
         """
-        current_player = self._player_turn_controller.get_current_player()
-        if current_player.steps_to_win == 0:
-            return True
+        if player.steps_to_win == 0:
+            return player
+        return None
 
     def initialise_game(self):
         """
-        initilises the different graphical components, managers and controllers of the game
+        initialises the different graphical components, managers and controllers of the game
         :return: None
         """
         self._setup_data()
@@ -133,8 +136,8 @@ class Game:
 
     def _setup_views(self) -> None:
         """
-            seting up the graphical components of the game
-        :return:
+        setting up the graphical components of the game
+        :return: None
         """
         self._board = Board(int(self._screen.get_width() * 0.7),
                             self._screen.get_height(),

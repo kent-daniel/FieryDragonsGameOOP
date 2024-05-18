@@ -1,7 +1,7 @@
 import unittest
 from collections import deque
 from typing import List
-from unittest.mock import  Mock
+from unittest.mock import Mock
 import pygame
 from MovementEventManager import IMovementEventManager, IMovementEventListener
 from GameDataController import IPlayerDataController
@@ -11,14 +11,15 @@ from GameConstants import CharacterImage
 from Cave import Cave
 from Movement import Movement
 from PlayerMoveController import IPlayerMoveController, PlayerMoveController
+from DragonCard import AnimalDragonCard, PirateDragonCard
 
 pygame.init()
 pygame.display.set_mode(pygame.display.get_desktop_sizes()[0], pygame.RESIZABLE)
 
 
 def generate_mock_data() -> (List[Square], List[Player]):
-    player1 = Player(1)
-    player2 = Player(2)
+    player1 = Player(1, 10)
+    player2 = Player(2, 10)
     square0 = Square(0, CharacterImage.SALAMANDER)
     square1 = Square(1, CharacterImage.BABY_DRAGON, Cave(player1))
     square1.set_occupant(player1)
@@ -87,10 +88,11 @@ class PlayerMoveControllerTest(unittest.TestCase):
     def test_should_not_move_to_occupied_square(self):
         print("test_should_not_move_to_occupied_square")
         # Given
-        movement = Movement(2, self.mock_squares[3])
+        card = AnimalDragonCard(CharacterImage.BABY_DRAGON, 2)
+        player = self.mock_players[0]
 
         # Action
-        self.player_move_controller.process_movement(self.mock_squares[1], self.mock_players[0], movement)
+        self.player_move_controller.process_movement(player, card)
 
         # Assert
         self.assertEqual(self.mock_squares[3].get_occupant(), self.mock_players[1])
@@ -99,10 +101,10 @@ class PlayerMoveControllerTest(unittest.TestCase):
     def test_should_not_move_pass_cave(self):
         print("test_should_not_move_pass_cave")
         # Given
-        movement = Movement(-1, self.mock_squares[0])
+        card = PirateDragonCard(CharacterImage.PIRATE, 1)
 
         # Action
-        self.player_move_controller.process_movement(self.mock_squares[1], self.mock_players[0], movement)
+        self.player_move_controller.process_movement(self.mock_players[0], card)
 
         # Assert
         self.assertEqual(self.mock_squares[0].get_occupant(), None)
@@ -111,10 +113,10 @@ class PlayerMoveControllerTest(unittest.TestCase):
     def test_should_move_forward(self):
         print("test_should_move_forward")
         # Given
-        movement = Movement(1, self.mock_squares[2])
+        card = AnimalDragonCard(CharacterImage.BABY_DRAGON, 1)
 
         # Action
-        self.player_move_controller.process_movement(self.mock_squares[1], self.mock_players[0], movement)
+        self.player_move_controller.process_movement(self.mock_players[0], card)
 
         # Assert
         self.assertEqual(self.mock_squares[1].get_occupant(), None)
@@ -123,10 +125,10 @@ class PlayerMoveControllerTest(unittest.TestCase):
     def test_should_move_backward(self):
         print("test_should_move_backward")
         # Given
-        movement = Movement(-1, self.mock_squares[2])
+        card = PirateDragonCard(CharacterImage.PIRATE, 1)
 
         # Action
-        self.player_move_controller.process_movement(self.mock_squares[3], self.mock_players[1], movement)
+        self.player_move_controller.process_movement(self.mock_players[1], card)
 
         # Assert
         self.assertEqual(self.mock_squares[3].get_occupant(), None)
