@@ -10,6 +10,7 @@
 ## Preview
 ![img.png](preview1.png)
 ![img.png](preview2.png)
+![Alt text](<Screen Recording 2024-05-18 at 1.57.26 pm.gif>)
 
 ## Key Files
 - **config.ini**: Configuration file for game settings. (However currently configuration is hardcoded in `GameDataController.py`)
@@ -24,7 +25,11 @@
 ### Steps
 1. Unzip FieryDragonExe.zip
 2. Look for main unix executable file
+
 ![img.png](stepstorun.png)
+
 3. Click on the file and let it run (it might take a while to load the game)
+
 ![img_1.png](stepstorun2.png)
+
 4. It should create a pygame window and display the game ( Game UI might be cropped if the screen dimensions are too small)
