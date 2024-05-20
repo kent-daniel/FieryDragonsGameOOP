@@ -5,7 +5,7 @@ from Movement import Movement
 from GameDataController import IPlayerDataController
 from NotificationManager import NotificationManager
 
-
+# Garv Vohra
 class IPlayerTurnController(IMovementEventListener):
 
     @abstractmethod
@@ -16,7 +16,7 @@ class IPlayerTurnController(IMovementEventListener):
     def switch_player(self) -> None:
         pass
 
-
+#Garv Vohra
 class PlayerTurnController(IPlayerTurnController):
 
     def __init__(self, data_controller: IPlayerDataController, notification_manager=NotificationManager()):
