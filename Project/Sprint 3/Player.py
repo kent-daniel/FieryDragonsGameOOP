@@ -36,5 +36,5 @@ class Player(Drawable):
     def get_surface(self) -> pygame.Surface:
         return self._player_surface
 
-    # def redraw_view(self) -> None:
-    #     pass
+    def redraw_view(self) -> None:
+        pass
