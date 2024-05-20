@@ -26,7 +26,6 @@ class PlayerTurnController(IPlayerTurnController):
         self.current_player = self._players[0]
 
     def get_current_player(self) -> Player:
-        # INFO: Will only use the first player for testing movement
         return self.current_player
 
     def on_movement_event(self, movement: Movement) -> None:

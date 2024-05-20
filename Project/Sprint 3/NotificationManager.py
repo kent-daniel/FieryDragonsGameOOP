@@ -2,6 +2,22 @@ from collections import deque
 
 
 class NotificationManager:
+    """
+    Notification Manager
+
+    Authored by: Kent Daniel
+
+    This class defines a singleton NotificationManager that manages a list
+    of notifications. It ensures only the most recent notifications are kept,
+    up to a maximum limit.
+
+    Methods:
+        add_notification(message: str) -> None:
+            Adds a new notification to the list.
+        notifications() -> list:
+            Returns the current list of notifications.
+    """
+
     _instance = None
 
     def __new__(cls):

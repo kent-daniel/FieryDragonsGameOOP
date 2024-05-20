@@ -44,15 +44,13 @@ class DragonCardsGroup(Drawable, IMovementEventListener):
         for i in range(len(self._dragon_cards)):
             card = self._dragon_cards[i]
             relative_mouse_pos = (mouse_pos[0] - self._rect.x - card.get_surface().get_width() // 2,
-                                  mouse_pos[
-                                      1] - self._rect.y - card.get_surface().get_height() // 2)  # BUG: click detection bug (only detects click on the top left of the card)
+                                  mouse_pos[1] - self._rect.y - card.get_surface().get_height() // 2)
             if card.is_clicked(relative_mouse_pos):
                 self._dragon_cards[i] = card
                 self._notification_manager.add_notification(f"card flipped: {card.value} x {card.character.name}")
                 self.redraw_view()
                 return self._dragon_cards[i]
         return None
-
 
     def redraw_view(self) -> None:
         self._draw_dragon_cards()

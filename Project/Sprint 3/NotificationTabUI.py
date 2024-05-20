@@ -2,11 +2,30 @@ from typing import Tuple
 from NotificationManager import NotificationManager
 import pygame
 from GameConstants import GameStyles
-
 from Drawable import Drawable
 
 
 class NotificationTabUI(Drawable):
+    """
+    Notification Tab UI
+
+    Authored by: Kent Daniel
+
+    This class provides a UI component for displaying a list of notifications in a game.
+
+    Attributes:
+        notification_manager (NotificationManager): Manages the notifications.
+        notification_surface (pygame.Surface): The surface on which the notifications are drawn.
+        rect (pygame.Rect): The rectangle representing the notification surface's dimensions.
+
+    Methods:
+        draw(destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
+            Draws the notification tab on a destination surface at the specified location.
+        get_surface() -> pygame.Surface:
+            Returns the surface of the notification tab.
+        redraw_view() -> None:
+            Redraws the view with the latest notifications.
+    """
     def __init__(self, height: int = 350, width: int = 300, notification_manager=NotificationManager(),
                  colour=GameStyles.COLOR_GRAY_500.value):
         self.notification_manager = notification_manager
@@ -41,6 +60,23 @@ class NotificationTabUI(Drawable):
 
 
 class NotificationItem(Drawable):
+    """
+        Notification Item
+        Authored by: Kent Daniel
+        This class represents an individual notification within the notification tab.
+
+        Attributes:
+            surface (pygame.Surface): The surface of the notification item.
+            rect (pygame.Rect): The rectangle representing the notification item's dimensions.
+
+        Methods:
+            draw(destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
+                Draws the notification item on a destination surface at the specified location.
+            get_surface() -> pygame.Surface:
+                Returns the surface of the notification item.
+            redraw_view() -> None:
+                Redraws the notification item view (currently does nothing).
+        """
 
     def __init__(self, message: str, surface_width: int, y_offset: int,
                  font_size: int = GameStyles.FONT_SIZE_MEDIUM.value, colour=GameStyles.COLOR_GRAY_300.value):

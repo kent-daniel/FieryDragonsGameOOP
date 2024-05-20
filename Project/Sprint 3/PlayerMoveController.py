@@ -23,6 +23,25 @@ class IPlayerMoveController(ABC):
 
 
 class PlayerMoveController(IPlayerMoveController):
+    """
+        PlayerMoveController
+
+        This class implements the IPlayerMoveController interface and manages player movements,
+        updates player locations, and handles notifications and event publishing.
+
+        Attributes:
+            movement_publisher (IMovementEventManager): used to publish movement events.
+            data_controller (IPlayerDataController): Manages player data.
+            notification_manager (NotificationManager): used to add notifications.
+
+        Methods:
+            process_movement(player: Player, card: DragonCard):
+                Process the player's movement based on the DragonCard drawn.
+            update_player_location(player: Player, square: Square) -> None:
+                Updates the player's location to the specified square.
+            get_player_location(player: Player) -> Square:
+                Returns the current location of the player.
+        """
     def __init__(self, movement_publisher: IMovementEventManager, data_controller: IPlayerDataController,
                  notification_manager=NotificationManager()):
         self._movement_publisher = movement_publisher
