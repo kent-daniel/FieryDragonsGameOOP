@@ -9,6 +9,10 @@ from collections import deque
 from random import randint
 
 class IPlayerDataController(ABC):
+    """
+    Author: Garv Vohra
+    Interface for managing player data in the game.
+    """
     @abstractmethod
     def get_players(self) -> deque[Player]:
         pass
@@ -32,7 +36,14 @@ class IPlayerDataController(ABC):
 
 class PlayerDataController(IPlayerDataController):
     """
-    Author: Kent Daniel and Garv Vohra and Guntaj Singh
+    Author: Garv Vohra
+    Concrete implementation of IPlayerDataController to manage player and square data in the game.
+
+    Attributes:
+        _squares_config_data (str): Configuration data for squares.
+        _players_count (str): Configuration data for the number of players.
+        _players (deque[Player]): A deque of Player objects.
+        _squares (List[Square]): A list of Square objects.
     """
     def __init__(self, squares_config_data: str, players_config_data: str):
         self._squares_config_data = squares_config_data
