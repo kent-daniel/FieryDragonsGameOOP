@@ -6,6 +6,9 @@ from Player import Player
 
 
 class Win(Drawable):
+    """
+    Author: Guntaj Singh
+    """
     def __init__(self, player: Player, colour=GameStyles.COLOR_GRAY_700_T.value):
         """
 
