@@ -103,6 +103,7 @@ class DragonCardsGroup(Drawable, IMovementEventListener):
         """
         for i in range(len(self._dragon_cards)):
             card = self._dragon_cards[i]
+            # Calculate the mouse position for proper click detection.
             relative_mouse_pos = (mouse_pos[0] - self._rect.x - card.get_surface().get_width() // 2,
                                   mouse_pos[1] - self._rect.y - card.get_surface().get_height() // 2)
             if card.is_clicked(relative_mouse_pos):

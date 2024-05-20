@@ -108,7 +108,7 @@ class DragonCard(Drawable, ABC):
 
     def redraw_view(self):
         """
-        The redraw_view function is called when the view needs to be redrawn.
+        The redraw_view function is called when the view needs to be redrawn and it is also responsible for the flipping logic of the dragon cards.
         This function will draw a circle with a radius of self._radius and fill it with GameStyles.COLOR_BROWN_LIGHT.value,
         which is defined in the GameStyles class as (255, 255, 0). The circle will be drawn at coordinates (self._radius, self._radius)
         on the surface object that was passed into this class's constructor.
@@ -117,6 +117,7 @@ class DragonCard(Drawable, ABC):
         :return: A surface with a circle, text and an imag
         """
         self._surface.fill(GameStyles.COLOR_TRANSPARENT.value)
+        # Draw dragon card if it is flipped.
         if self._is_flipped:
             pygame.draw.circle(self._surface, GameStyles.COLOR_PINK.value, (self._radius, self._radius), self._radius)
             font = pygame.font.SysFont(None, GameStyles.FONT_SIZE_LARGE.value)
@@ -124,6 +125,7 @@ class DragonCard(Drawable, ABC):
             text_rect = text.get_rect(center=(self._surface.get_rect().centerx, self._surface.get_rect().top + 15))
             self._surface.blit(text, text_rect)
             self._surface.blit(self._image, self._image.get_rect(center=self._surface.get_rect().center))
+        # Draw the unflipped dragon card surface.
         else:
             pygame.draw.circle(self._surface, GameStyles.COLOR_BROWN_LIGHT.value, (self._radius, self._radius),
                                self._radius)
