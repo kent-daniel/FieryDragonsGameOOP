@@ -15,6 +15,9 @@ class GameImage(Enum):
     VOLCANO_ARENA = 'Assets/VolcanoArena.png'
 
 class GameElementStyles(Enum):
+    """
+    Author: Kent Daniel and Guntaj Singh
+    """
     SQUARE_LENGTH = 75
     CAVE_SIZE = 70
     CAVE_OFFSET = 4

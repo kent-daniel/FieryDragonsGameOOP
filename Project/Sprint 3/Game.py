@@ -1,3 +1,4 @@
+from math import inf
 from typing import Optional
 
 import pygame
@@ -12,9 +13,17 @@ from GameDataController import IPlayerDataController, IDragonCardDataController
 from NotificationTabUI import NotificationTabUI
 from Win import Win
 from Player import Player
+import time
+
+WIN_EVENT = pygame.USEREVENT + 1
+QUIT_TIME = 5000
 
 
 class Game:
+    """
+    Author: Kent Daniel and Guntaj Singh
+    """
+
     def __init__(self, data_controller: GameDataController,
                  screen: pygame.surface.Surface):
         """
@@ -30,6 +39,8 @@ class Game:
         self._is_running: bool = True
         self.initialise_game()
         self.render_game()
+        self._win_time = float(inf)
+        self.win_no = 0  #used to check if a player has been defined
 
     def render_game(self):
         """
@@ -45,6 +56,9 @@ class Game:
         if self.winner is not None:
             win = Win(self.winner)
             win.draw(self._screen, self._screen.get_rect().topleft)
+            if pygame.time.get_ticks() - self._win_time >= QUIT_TIME:  # used to check if the notification has been
+                # displayed long enough after 5 seconds, it should quit the game
+                self.quit()
 
     def _draw_board(self):
         """
@@ -55,7 +69,7 @@ class Game:
 
     def _draw_dragon_cards(self):
         """
-        places the dragon cards on the the screen (GUI)
+        places the dragon cards on the screen (GUI)
         :return: None
 
         """
@@ -98,6 +112,8 @@ class Game:
                 if card:
                     self._handle_chosen_card(card)
             self.winner = self.check_winner(self._player_turn_controller.get_current_player())
+            if self.winner is not None:
+                self._win_time = pygame.time.get_ticks()
 
     def _handle_chosen_card(self, card: DragonCard):
         """

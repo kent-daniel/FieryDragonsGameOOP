@@ -6,10 +6,13 @@ from GameConstants import GameStyles, GameElementStyles
 
 
 class Player(Drawable):
+    """
+    Author: Kent Daniel and Guntaj Singh
+    """
 
     def __init__(self, id: int, steps_to_win: int, colour: pygame.Color = GameStyles.COLOR_GRAY_700.value,
                  width: int = GameElementStyles.PLAYER_HEIGHT.value,
-                 height: int = GameElementStyles.PLAYER_HEIGHT.value ):
+                 height: int = GameElementStyles.PLAYER_HEIGHT.value):
         self.colour = colour
         self.id = id
         self.steps_to_win = steps_to_win
@@ -33,5 +36,5 @@ class Player(Drawable):
     def get_surface(self) -> pygame.Surface:
         return self._player_surface
 
-    def redraw_view(self) -> None:
-        pass
+    # def redraw_view(self) -> None:
+    #     pass
