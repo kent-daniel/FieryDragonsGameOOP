@@ -243,7 +243,7 @@ class PirateDragonCard(DragonCard):
     """
     PirateDragonCard
 
-    Authored by: [Your Name]
+    Authored by: Vansh Batas
 
     This class represents a pirate-themed card in the game. It inherits from the DragonCard class
     and implements the action method to move a character backward on the game board.
