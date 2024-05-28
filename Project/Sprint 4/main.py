@@ -10,7 +10,7 @@ def main():
     screen = pygame.display.set_mode((screen_width * 0.95, screen_height * 0.95), pygame.RESIZABLE)
     clock = pygame.time.Clock()
     pygame.display.set_caption("Fiery Dragons")
-    game_data_controller = GameDataController("config.ini")
+    game_data_controller = GameDataController()
     game = Game(game_data_controller, screen)
     FPS = 60
     while game.is_running:
