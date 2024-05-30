@@ -6,6 +6,7 @@ from MovementEventManager import IMovementEventManager
 from GameDataController import IPlayerDataController
 from NotificationManager import NotificationManager
 from DragonCard import DragonCard
+import CardEffectsController
 
 
 class IPlayerMoveController(ABC):
@@ -42,15 +43,18 @@ class PlayerMoveController(IPlayerMoveController):
             get_player_location(player: Player) -> Square:
                 Returns the current location of the player.
         """
-    def __init__(self, movement_publisher: IMovementEventManager, data_controller: IPlayerDataController,
+    def __init__(self, movement_publisher: IMovementEventManager, data_controller: IPlayerDataController, card_effects_controller: CardEffectsController,
                  notification_manager=NotificationManager()):
         self._movement_publisher = movement_publisher
         self._data_controller = data_controller
         self._notification_manager = notification_manager
+        self.card_effects_controller = card_effects_controller
 
     def process_movement(self, player: Player, card: DragonCard):
         player_location = self.get_player_location(
             player)
+        visitor = self.card_effects_controller.get_visitor(card)
+        movement = player_location.accept_visitor(visitor)
         final_movement = self._validate_and_return_movement(card.action(player_location), player, player_location)
         player.steps_to_win -= final_movement.value
 

@@ -4,10 +4,13 @@ from GameConstants import CharacterImage, GameElementStyles, GameStyles
 from Drawable import Drawable
 from Player import Player
 from Cave import Cave
+from Movement import Movement
+import CardEffectVisitor
 
 
 class Square(Drawable):
-    def __init__(self, id: int, character: CharacterImage, cave: Optional[Cave] = None, width: int = GameElementStyles.SQUARE_LENGTH.value,
+    def __init__(self, id: int, character: CharacterImage, cave: Optional[Cave] = None,
+                 width: int = GameElementStyles.SQUARE_LENGTH.value,
                  height: int = GameElementStyles.SQUARE_LENGTH.value) -> None:
         self._id = id
         self._character: CharacterImage = character
@@ -40,13 +43,14 @@ class Square(Drawable):
                          border_radius=GameStyles.BORDER_RADIUS_MEDIUM.value
                          )
 
-        self._square_surface.blit(self._image, self._image.get_rect(center=(self._square_surface.get_width() // 2, self._square_surface.get_height() // 2)))
+        self._square_surface.blit(self._image, self._image.get_rect(
+            center=(self._square_surface.get_width() // 2, self._square_surface.get_height() // 2)))
         self._combined_surface.blit(self._square_surface, self._rect.topleft)
-
 
     def _draw_cave(self) -> None:
         if self._cave is None: return
-        self._cave.draw(self._combined_surface, (self._rect.centerx,self._rect.centery+GameElementStyles.CAVE_OFFSET.value))
+        self._cave.draw(self._combined_surface,
+                        (self._rect.centerx, self._rect.centery + GameElementStyles.CAVE_OFFSET.value))
 
     def _draw_player(self) -> None:
         if self._occupant is None: return
@@ -64,8 +68,10 @@ class Square(Drawable):
 
     def set_occupant(self, player: Player) -> None:
         self._occupant = player
+
     def remove_player(self) -> None:
         self._occupant = None
+
     @property
     def id(self) -> int:
         return self._id
@@ -98,3 +104,6 @@ class Square(Drawable):
         self._combined_surface = pygame.Surface(
             (self._width, self._height + cave.get_surface().get_rect().height), pygame.SRCALPHA)
         self._cave = cave
+
+    def accept_visitor(self, visitor: CardEffectVisitor) -> Movement:
+        return visitor.visit(self)
