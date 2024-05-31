@@ -36,7 +36,7 @@ class IPlayerDataController(ABC):
 
 class PlayerDataController(IPlayerDataController):
     """
-    Author: Garv Vohra
+    Author: Garv Vohra with some help from Guntaj
     Concrete implementation of IPlayerDataController to manage player and square data in the game.
 
     Attributes:

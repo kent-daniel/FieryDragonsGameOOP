@@ -24,6 +24,7 @@ class GameElementStyles(Enum):
     PLAYER_HEIGHT = 35
     DRAGON_CARD_AREA_HEIGHT = 540
     PLAYER_STEPS_TO_WIN = 24
+    SCREEN_WIDTH, SCREEN_HEIGHT = pygame.display.get_desktop_sizes()[0]
 
 class GameStyles(Enum):
     COLOR_BROWN_DARK = pygame.Color(70, 30, 10)
@@ -53,3 +54,4 @@ class GameStyles(Enum):
     FONT_SIZE_LARGE = 32
     FONT_SIZE_WIN = 64
     FONT_WIN = 'freesansbold.ttf'
+    screen_width, screen_height = pygame.display.get_desktop_sizes()[0]
