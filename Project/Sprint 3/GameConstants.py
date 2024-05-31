@@ -14,6 +14,7 @@ class GameImage(Enum):
     CAVE = 'Assets/Cave.png'
     VOLCANO_ARENA = 'Assets/VolcanoArena.png'
 
+
 class GameElementStyles(Enum):
     """
     Author: Kent Daniel and Guntaj Singh
@@ -25,6 +26,10 @@ class GameElementStyles(Enum):
     DRAGON_CARD_AREA_HEIGHT = 540
     PLAYER_STEPS_TO_WIN = 24
     SCREEN_WIDTH, SCREEN_HEIGHT = pygame.display.get_desktop_sizes()[0]
+    BUTTON_WIDTH, BUTTON_HEIGHT = SCREEN_WIDTH / 6, SCREEN_HEIGHT / 6
+    SPACING = BUTTON_HEIGHT + BUTTON_HEIGHT / 5
+    TOP_LEFT = (0, 0)
+
 
 class GameStyles(Enum):
     COLOR_BROWN_DARK = pygame.Color(70, 30, 10)
