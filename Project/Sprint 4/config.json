@@ -1,6 +1,81 @@
 {
-    "players_info": "[1,0,28] | [2,7,28] | [3,14,28] | [4,21,28]",
-    "caves": "[0,BABY_DRAGON] | [7,BAT] | [14,SPIDER] | [21,SALAMANDER]",
-    "square_animals": "BABY_DRAGON ,BAT ,SPIDER ,SALAMANDER ,SPIDER ,BAT ,SPIDER ,SALAMANDER ,BABY_DRAGON ,BAT ,BAT ,BABY_DRAGON ,SALAMANDER ,BABY_DRAGON ,SPIDER ,BABY_DRAGON ,SALAMANDER ,BAT ,SALAMANDER ,BABY_DRAGON ,BAT ,BAT ,BABY_DRAGON ,SALAMANDER",
-    "dragon_cards": "1xSALAMANDER,2xSALAMANDER,3xSALAMANDER,1xBAT,2xBAT,3xBAT,1xSPIDER,2xSPIDER,3xSPIDER,1xBABY_DRAGON,2xBABY_DRAGON,3xBABY_DRAGON,1xPIRATE,1xPIRATE,2xPIRATE,2xPIRATE"
+        "2024-06-01 12:00:00": {
+            "players_info": [
+                {"id": 1, "position": 0, "steps_to_win": 28},
+                {"id": 2, "position": 7, "steps_to_win": 28},
+                {"id": 3, "position": 14, "steps_to_win": 28},
+                {"id": 4, "position": 21, "steps_to_win": 28}
+            ],
+            "caves": [
+                {"position": 0, "animal": "BABY_DRAGON"},
+                {"position": 7, "animal": "BAT"},
+                {"position": 14, "animal": "SPIDER"},
+                {"position": 21, "animal": "SALAMANDER"}
+            ],
+            "square_animals": [
+                "BABY_DRAGON", "BAT", "SPIDER", "SALAMANDER", "SPIDER", "BAT",
+                "SPIDER", "SALAMANDER", "BABY_DRAGON", "BAT", "BAT", "BABY_DRAGON",
+                "SALAMANDER", "BABY_DRAGON", "SPIDER", "BABY_DRAGON", "SALAMANDER",
+                "BAT", "SALAMANDER", "BABY_DRAGON", "BAT", "BAT", "BABY_DRAGON",
+                "SALAMANDER"
+            ],
+            "dragon_cards": [
+                {"value": 1, "animal": "SALAMANDER"},
+                {"value": 2, "animal": "SALAMANDER"},
+                {"value": 3, "animal": "SALAMANDER"},
+                {"value": 1, "animal": "BAT"},
+                {"value": 2, "animal": "BAT"},
+                {"value": 3, "animal": "BAT"},
+                {"value": 1, "animal": "SPIDER"},
+                {"value": 2, "animal": "SPIDER"},
+                {"value": 3, "animal": "SPIDER"},
+                {"value": 1, "animal": "BABY_DRAGON"},
+                {"value": 2, "animal": "BABY_DRAGON"},
+                {"value": 3, "animal": "BABY_DRAGON"},
+                {"value": 1, "animal": "PIRATE"},
+                {"value": 1, "animal": "PIRATE"},
+                {"value": 2, "animal": "PIRATE"},
+                {"value": 2, "animal": "PIRATE"}
+            ]
+        },
+        "2024-06-02 15:30:00": {
+            "players_info": [
+                {"id": 1, "position": 3, "steps_to_win": 30},
+                {"id": 2, "position": 6, "steps_to_win": 27},
+                {"id": 3, "position": 12, "steps_to_win": 25},
+                {"id": 4, "position": 18, "steps_to_win": 22}
+            ],
+            "caves": [
+                {"position": 2, "animal": "BABY_DRAGON"},
+                {"position": 6, "animal": "BAT"},
+                {"position": 12, "animal": "SPIDER"},
+                {"position": 18, "animal": "SALAMANDER"}
+            ],
+            "square_animals": [
+                "SPIDER", "BAT", "SALAMANDER", "BABY_DRAGON", "BAT", "SPIDER",
+                "SALAMANDER", "BABY_DRAGON", "BAT", "SPIDER", "BAT", "SPIDER",
+                "SALAMANDER", "BABY_DRAGON", "BAT", "BAT", "BABY_DRAGON",
+                "SALAMANDER", "SPIDER", "BABY_DRAGON", "SALAMANDER", "BAT",
+                "SPIDER", "BAT"
+            ],
+            "dragon_cards": [
+                {"value": 1, "animal": "SPIDER"},
+                {"value": 2, "animal": "SPIDER"},
+                {"value": 3, "animal": "SPIDER"},
+                {"value": 1, "animal": "BAT"},
+                {"value": 2, "animal": "BAT"},
+                {"value": 3, "animal": "BAT"},
+                {"value": 1, "animal": "BABY_DRAGON"},
+                {"value": 2, "animal": "BABY_DRAGON"},
+                {"value": 3, "animal": "BABY_DRAGON"},
+                {"value": 1, "animal": "SALAMANDER"},
+                {"value": 2, "animal": "SALAMANDER"},
+                {"value": 3, "animal": "SALAMANDER"},
+                {"value": 1, "animal": "PIRATE"},
+                {"value": 1, "animal": "PIRATE"},
+                {"value": 2, "animal": "PIRATE"},
+                {"value": 2, "animal": "PIRATE"}
+            ]
+        }
+
 }
