@@ -10,7 +10,7 @@ class StartGameUI(Drawable):
     def __init__(self, height=GameElementStyles.SCREEN_HEIGHT.value, width=GameElementStyles.SCREEN_WIDTH.value,
                  button_height=GameElementStyles.BUTTON_HEIGHT.value, button_width=GameElementStyles.BUTTON_WIDTH.value,
                  spacing=GameElementStyles.SPACING.value, surface_colour=GameStyles.COLOR_BROWN_LIGHT.value,
-                 button_colour=GameElementStyles.COLOR_BROWN_DARK.value):
+                 button_colour=GameStyles.COLOR_BROWN_DARK.value):
         self.start_game_surface = pygame.Surface((width, height), pygame.SRCALPHA)
         self.new_game_rect = pygame.Rect(width // 2 - button_width // 2, height // 2 - button_height - spacing // 2,
                                          button_width, button_height)
@@ -26,9 +26,9 @@ class StartGameUI(Drawable):
 
         self.redraw_view()
 
-    def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
+    def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int] = GameElementStyles.TOP_LEFT.value) -> None:
         self.redraw_view()
-        self.rect.topleft = GameElementStyles.TOP_LEFT.value
+        self.rect.topleft = location
         destination_surface.blit(self.start_game_surface, self.rect.topleft)
 
     def get_surface(self) -> pygame.Surface:

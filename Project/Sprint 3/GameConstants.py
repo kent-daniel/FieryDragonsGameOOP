@@ -19,6 +19,7 @@ class GameElementStyles(Enum):
     """
     Author: Kent Daniel and Guntaj Singh
     """
+    pygame.init()
     SQUARE_LENGTH = 75
     CAVE_SIZE = 70
     CAVE_OFFSET = 4
