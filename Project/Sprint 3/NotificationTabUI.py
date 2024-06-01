@@ -25,6 +25,7 @@ class NotificationTabUI(Drawable):
             Returns the surface of the notification tab.
         redraw_view() -> None:
             Redraws the view with the latest notifications.
+
     """
     def __init__(self, height: int = 350, width: int = 300, notification_manager=NotificationManager(),
                  colour=GameStyles.COLOR_GRAY_500.value):

@@ -54,8 +54,6 @@ class Game:
         self._draw_win_notification()
 
     def _draw_win_notification(self):
-        sg = StartGameUI()
-        sg.draw(self._screen)
         if self.winner is not None:
             win = Win(self.winner)
             win.draw(self._screen, self._screen.get_rect().topleft)
