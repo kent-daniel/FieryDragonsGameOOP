@@ -1,5 +1,6 @@
 import pygame
 from enum import Enum
+pygame.init()
 
 
 class CharacterImage(Enum):
@@ -19,7 +20,6 @@ class GameElementStyles(Enum):
     """
     Author: Kent Daniel and Guntaj Singh
     """
-    pygame.init()
     SQUARE_LENGTH = 75
     CAVE_SIZE = 70
     CAVE_OFFSET = 4
@@ -27,8 +27,9 @@ class GameElementStyles(Enum):
     DRAGON_CARD_AREA_HEIGHT = 540
     PLAYER_STEPS_TO_WIN = 24
     SCREEN_WIDTH, SCREEN_HEIGHT = pygame.display.get_desktop_sizes()[0]
-    BUTTON_WIDTH, BUTTON_HEIGHT = SCREEN_WIDTH / 6, SCREEN_HEIGHT / 6
-    SPACING = BUTTON_HEIGHT + BUTTON_HEIGHT / 5
+    RECT_WIDTH_SMALL, RECT_HEIGHT_SMALL = SCREEN_WIDTH / 8, SCREEN_HEIGHT / 8
+    RECT_WIDTH_MEDIUM, RECT_HEIGHT_MEDIUM = SCREEN_WIDTH / 6, SCREEN_HEIGHT / 6
+    RECT_WIDTH_LARGE, RECT_HEIGHT_LARGE = SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4
     TOP_LEFT = (0, 0)
 
 

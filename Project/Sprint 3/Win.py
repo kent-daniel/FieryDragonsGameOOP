@@ -30,7 +30,6 @@ class Win(Drawable):
 
     def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
         """
-
         :param destination_surface:
         :param location:
         :return: The win notification on the GUI

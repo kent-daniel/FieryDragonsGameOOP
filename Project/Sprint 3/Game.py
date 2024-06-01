@@ -13,6 +13,7 @@ from GameDataController import IPlayerDataController, IDragonCardDataController
 from NotificationTabUI import NotificationTabUI
 from Win import Win
 from Player import Player
+from StartGameUI import StartGameUI
 import time
 
 WIN_EVENT = pygame.USEREVENT + 1
@@ -53,11 +54,13 @@ class Game:
         self._draw_win_notification()
 
     def _draw_win_notification(self):
+        sg = StartGameUI()
+        sg.draw(self._screen)
         if self.winner is not None:
             win = Win(self.winner)
             win.draw(self._screen, self._screen.get_rect().topleft)
             if pygame.time.get_ticks() - self._win_time >= QUIT_TIME:  # used to check if the notification has been
-                # displayed long enough after 5 seconds, it should quit the game
+                # displayed long enough, after 5 seconds it should quit the game
                 self.quit()
 
     def _draw_board(self):
