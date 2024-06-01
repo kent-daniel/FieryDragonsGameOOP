@@ -26,7 +26,7 @@ class StartGameUI(Drawable):
         self.rect: pygame.Rect = self.start_game_surface.get_rect()
         self.redraw_view()
 
-    def draw(self, destination_surface: pygame.Surface, location=GameElementStyles.TOP_LEFT.value) \
+    def draw(self, destination_surface: pygame.Surface, location:Tuple[int, int] =GameElementStyles.TOP_LEFT.value) \
             -> None:
         self.redraw_view()
         self.rect.topleft = location
