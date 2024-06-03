@@ -23,3 +23,10 @@ class PreviousGameUI(Drawable):
         pass
 
     def redraw_view(self) -> None:
+        pass
+
+class PreviousGameItem(Drawable):
+    def __init__(self, height=GameElementStyles.SCREEN_HEIGHT.value, width=GameElementStyles.SCREEN_WIDTH.value,
+                 previous_game_manager=PreviousGameManager(),
+                 colour=GameStyles.COLOR_BROWN_LIGHT.value):
+

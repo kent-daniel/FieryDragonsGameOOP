@@ -13,7 +13,6 @@ from GameDataController import IPlayerDataController, IDragonCardDataController
 from NotificationTabUI import NotificationTabUI
 from Win import Win
 from Player import Player
-from StartGameUI import StartGameUI
 import time
 
 WIN_EVENT = pygame.USEREVENT + 1

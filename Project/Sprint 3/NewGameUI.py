@@ -1,7 +1,6 @@
 from typing import Tuple
 import pygame
 from GameConstants import GameStyles, GameElementStyles
-
 from Drawable import Drawable
 
 
@@ -64,13 +63,16 @@ class NewGameUI(Drawable):
                          self.input_box_8,
                          border_radius=GameStyles.BORDER_RADIUS_SMALL.value)
 
-        self.rect: pygame.Rect = self.start_game_surface.get_rect()
+        self.rect: pygame.Rect = self.new_game_surface.get_rect()
         self.redraw_view()
 
     def draw(self, destination_surface: pygame.Surface, location=GameElementStyles.TOP_LEFT.value):
         self.redraw_view()
         self.rect.topleft = location
-        destination_surface.blit(self.start_game_surface, self.rect.topleft)
+        destination_surface.blit(self.new_game_surface, self.rect.topleft)
+
+    def get_surface(self):
+        pass
 
     def redraw_view(self) -> None:
         font = pygame.font.SysFont(None, GameStyles.FONT_SIZE_LARGE.value)
@@ -79,7 +81,7 @@ class NewGameUI(Drawable):
         self.new_game_surface.blit(text1, (self.input_box_1.x + 5, self.input_box_1.y + 5))
         text2 = font.render(self.text_2, True, GameStyles.COLOR_BLACK.value)
         self.new_game_surface.blit(text2, (self.input_box_2.x + 5, self.input_box_2.y + 5))
-        text3 = font.render(self.text_3, True, GameStyles.COLOR_BLACK.value)
+        text3 = font.render(self.text_3, True, GameStyles.COLOR_BLACK .value)
         self.new_game_surface.blit(text3, (self.input_box_3.x + 5, self.input_box_3.y + 5))
         text4 = font.render(self.text_4, True, GameStyles.COLOR_BLACK.value)
         self.new_game_surface.blit(text4, (self.input_box_4.x + 5, self.input_box_4.y + 5))
