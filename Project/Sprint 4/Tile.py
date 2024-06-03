@@ -19,7 +19,7 @@ class Tile(Drawable, ABC):
         self.height = height
 
     def get_occupant(self) -> Player or None:
-        return self.occupant
+        return self._occupant
 
     def set_occupant(self, player: Player) -> None:
         self._occupant = player

@@ -18,10 +18,6 @@ class ILocationDataController(ABC):
         pass
 
     @abstractmethod
-    def set_squares(self, squares: List[Square]) -> None:
-        pass
-
-    @abstractmethod
     def get_num_volcanoes(self) -> int:
         pass
     @abstractmethod
@@ -29,7 +25,10 @@ class ILocationDataController(ABC):
         pass
 
     @abstractmethod
-    def set_caves(self, caves: List[Cave]) -> None:
+    def get_tiles(self) -> List[Tile]:
+        pass
+    @abstractmethod
+    def set_tiles(self, tiles: List[Tile]) -> None:
         pass
 
 
@@ -39,15 +38,19 @@ class LocationDataController(ILocationDataController):
         self._tiles_data = tiles_data
         self._caves_config_data = caves_config_data
         self.players = players
-        self.squares = []
-        self.caves = []
         self.tiles = self._create_tiles()
 
     def get_squares(self) -> List[Square]:
-        return self.squares
+        return [tile for tile in self.tiles if isinstance(tile, Square)]
 
-    def set_squares(self, squares: List[Square]) -> None:
-        pass
+    def get_caves(self) -> List[Cave]:
+        return [tile for tile in self.tiles if isinstance(tile, Cave)]
+
+    def get_tiles(self) -> List[Tile]:
+        return self.tiles
+
+    def set_tiles(self, tiles: List[Tile]) -> None:
+        self.tiles = tiles
 
     def _create_tiles(self) -> List[Tile]:
         tiles = []
@@ -63,14 +66,13 @@ class LocationDataController(ILocationDataController):
                 cave_tile.set_occupant(occupant)
 
                 # attach cave to previous tile
-                self.squares[-1].attach_cave(cave_tile)
+                tiles[-1].attach_cave(cave_tile)
                 tiles.append(cave_tile)
-                self.caves.append(cave_tile)
+
             else:
                 square_tile = Square(index, animal)
                 square_tile.set_occupant(occupant)
                 tiles.append(square_tile)
-                self.squares.append(square_tile)
 
         return self._link_tiles(tiles)
 
@@ -80,28 +82,5 @@ class LocationDataController(ILocationDataController):
             tiles[i].prev = tiles[(i - 1) % len(tiles)]
         return tiles
 
-    def get_caves(self) -> List[Cave]:
-        pass
-
-    def set_caves(self, caves: List[Cave]) -> None:
-        pass
-
     def get_num_volcanoes(self) -> int:
-        print(len(self.players) , len(self.squares) , len(self.tiles))
         return len(self.players) * 2
-
-    # def _create_tiles(self) -> None:
-    #     squares_list = self._parse_squares()
-    #     player_index = 0
-    #     num_volcanoes = len(self._players) * 2
-    #     volcano_size = len(squares_list) // num_volcanoes
-    #     for i in range(num_volcanoes):
-    #         start_index = i * volcano_size
-    #         end_index = start_index + volcano_size
-    #         card_squares = squares_list[start_index:end_index]
-    #         if i % 2 == 0:
-    #             central_square_index = len(card_squares) // 2
-    #             card_squares[central_square_index].attach_cave(Cave(self._players[player_index]))
-    #             card_squares[central_square_index].set_occupant(self._players[player_index])
-    #             player_index += 1
-    #         self._squares += card_squares

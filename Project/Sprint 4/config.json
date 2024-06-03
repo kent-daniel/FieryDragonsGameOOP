@@ -7,15 +7,15 @@
                 {"id": 4, "steps_to_win": 28}
             ],
             "caves": [
-                {"position": 0, "owner": 1},
-                {"position": 7, "owner": 2},
-                {"position": 14, "owner": 3},
-                {"position": 21, "owner": 4}
+                {"position": 1, "owner": 1},
+                {"position": 8, "owner": 2},
+                {"position": 15, "owner": 3},
+                {"position": 22, "owner": 4}
             ],
             "tiles": [
-                {"animal": "BABY_DRAGON", "occupant": 1},
+                {"animal": "BABY_DRAGON", "occupant": null},
                 {"animal": "BAT", "occupant": null},
-                {"animal": "SPIDER", "occupant": null},
+                {"animal": "SPIDER", "occupant": 1},
                 {"animal": "SALAMANDER", "occupant": null},
                 {"animal": "SPIDER", "occupant": null},
                 {"animal": "BAT", "occupant": null},
@@ -36,7 +36,11 @@
                 {"animal": "BAT", "occupant": null},
                 {"animal": "BAT", "occupant": 4},
                 {"animal": "BABY_DRAGON", "occupant": null},
-                {"animal": "SALAMANDER", "occupant": null}
+                {"animal": "SALAMANDER", "occupant": null},
+                {"animal": "BAT", "occupant": null},
+                {"animal": "BABY_DRAGON", "occupant": null},
+                {"animal": "SALAMANDER", "occupant": null},
+                {"animal": "SPIDER", "occupant": null}
             ],
             "dragon_cards": [
                 {"value": 1, "animal": "SALAMANDER"},
