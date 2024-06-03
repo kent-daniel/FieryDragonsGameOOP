@@ -62,16 +62,7 @@ class DragonCardDataController(IDragonCardDataController):
            Loads the DragonCard objects from the configuration string and
            creates a shuffled list of AnimalDragonCard and PirateDragonCard objects.
     """
-    def __init__(self, dragon_card_config_data: str):
-        """
-        The __init__ function is the constructor for a class. It is called when an object of that class
-        is instantiated, and it sets up the attributes of that object. In this case, we are setting up
-        the DragonCardManager with a string containing all of our dragon card data.
-
-        :param self: Represent the instance of the class
-        :param dragon_card_config_data: str: Pass in the data to be used by the class
-        :return: None
-        """
+    def __init__(self, dragon_card_config_data: List[dict]):
         self._config_data = dragon_card_config_data
         self._dragon_cards: List[DragonCard] = []
         self.load_data()
@@ -106,10 +97,9 @@ class DragonCardDataController(IDragonCardDataController):
         :param self: Refer to the current instance of a class
         :return: A list of dragoncard objects
         """
-        dragons = self._config_data.split(",")
         dragon_cards: List[DragonCard] = []
-        for dragon in dragons:
-            value, character = dragon.split("x")
+        for dragon in self._config_data:
+            value, character = dragon["value"] , dragon["animal"]
             if character == CharacterImage.PIRATE.name:
                 dragon_cards.append(PirateDragonCard(CharacterImage[character], int(value)))
             else:

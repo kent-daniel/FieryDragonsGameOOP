@@ -1,23 +1,42 @@
 {
         "2024-06-01 12:00:00": {
             "players_info": [
-                {"id": 1, "position": 0, "steps_to_win": 28},
-                {"id": 2, "position": 7, "steps_to_win": 28},
-                {"id": 3, "position": 14, "steps_to_win": 28},
-                {"id": 4, "position": 21, "steps_to_win": 28}
+                {"id": 1, "steps_to_win": 28},
+                {"id": 2, "steps_to_win": 28},
+                {"id": 3, "steps_to_win": 28},
+                {"id": 4, "steps_to_win": 28}
             ],
             "caves": [
-                {"position": 0, "animal": "BABY_DRAGON"},
-                {"position": 7, "animal": "BAT"},
-                {"position": 14, "animal": "SPIDER"},
-                {"position": 21, "animal": "SALAMANDER"}
+                {"position": 0, "owner": 1},
+                {"position": 7, "owner": 2},
+                {"position": 14, "owner": 3},
+                {"position": 21, "owner": 4}
             ],
-            "square_animals": [
-                "BABY_DRAGON", "BAT", "SPIDER", "SALAMANDER", "SPIDER", "BAT",
-                "SPIDER", "SALAMANDER", "BABY_DRAGON", "BAT", "BAT", "BABY_DRAGON",
-                "SALAMANDER", "BABY_DRAGON", "SPIDER", "BABY_DRAGON", "SALAMANDER",
-                "BAT", "SALAMANDER", "BABY_DRAGON", "BAT", "BAT", "BABY_DRAGON",
-                "SALAMANDER"
+            "tiles": [
+                {"animal": "BABY_DRAGON", "occupant": 1},
+                {"animal": "BAT", "occupant": null},
+                {"animal": "SPIDER", "occupant": null},
+                {"animal": "SALAMANDER", "occupant": null},
+                {"animal": "SPIDER", "occupant": null},
+                {"animal": "BAT", "occupant": null},
+                {"animal": "SPIDER", "occupant": null},
+                {"animal": "SALAMANDER", "occupant": 2},
+                {"animal": "BABY_DRAGON", "occupant": null},
+                {"animal": "BAT", "occupant": null},
+                {"animal": "BAT", "occupant": null},
+                {"animal": "BABY_DRAGON", "occupant": null},
+                {"animal": "SALAMANDER", "occupant": null},
+                {"animal": "BABY_DRAGON", "occupant": null},
+                {"animal": "SPIDER", "occupant": 3},
+                {"animal": "BABY_DRAGON", "occupant": null},
+                {"animal": "SALAMANDER", "occupant": null},
+                {"animal": "BAT", "occupant": null},
+                {"animal": "SALAMANDER", "occupant": null},
+                {"animal": "BABY_DRAGON", "occupant": null},
+                {"animal": "BAT", "occupant": null},
+                {"animal": "BAT", "occupant": 4},
+                {"animal": "BABY_DRAGON", "occupant": null},
+                {"animal": "SALAMANDER", "occupant": null}
             ],
             "dragon_cards": [
                 {"value": 1, "animal": "SALAMANDER"},
@@ -32,45 +51,6 @@
                 {"value": 1, "animal": "BABY_DRAGON"},
                 {"value": 2, "animal": "BABY_DRAGON"},
                 {"value": 3, "animal": "BABY_DRAGON"},
-                {"value": 1, "animal": "PIRATE"},
-                {"value": 1, "animal": "PIRATE"},
-                {"value": 2, "animal": "PIRATE"},
-                {"value": 2, "animal": "PIRATE"}
-            ]
-        },
-        "2024-06-02 15:30:00": {
-            "players_info": [
-                {"id": 1, "position": 3, "steps_to_win": 30},
-                {"id": 2, "position": 6, "steps_to_win": 27},
-                {"id": 3, "position": 12, "steps_to_win": 25},
-                {"id": 4, "position": 18, "steps_to_win": 22}
-            ],
-            "caves": [
-                {"position": 2, "animal": "BABY_DRAGON"},
-                {"position": 6, "animal": "BAT"},
-                {"position": 12, "animal": "SPIDER"},
-                {"position": 18, "animal": "SALAMANDER"}
-            ],
-            "square_animals": [
-                "SPIDER", "BAT", "SALAMANDER", "BABY_DRAGON", "BAT", "SPIDER",
-                "SALAMANDER", "BABY_DRAGON", "BAT", "SPIDER", "BAT", "SPIDER",
-                "SALAMANDER", "BABY_DRAGON", "BAT", "BAT", "BABY_DRAGON",
-                "SALAMANDER", "SPIDER", "BABY_DRAGON", "SALAMANDER", "BAT",
-                "SPIDER", "BAT"
-            ],
-            "dragon_cards": [
-                {"value": 1, "animal": "SPIDER"},
-                {"value": 2, "animal": "SPIDER"},
-                {"value": 3, "animal": "SPIDER"},
-                {"value": 1, "animal": "BAT"},
-                {"value": 2, "animal": "BAT"},
-                {"value": 3, "animal": "BAT"},
-                {"value": 1, "animal": "BABY_DRAGON"},
-                {"value": 2, "animal": "BABY_DRAGON"},
-                {"value": 3, "animal": "BABY_DRAGON"},
-                {"value": 1, "animal": "SALAMANDER"},
-                {"value": 2, "animal": "SALAMANDER"},
-                {"value": 3, "animal": "SALAMANDER"},
                 {"value": 1, "animal": "PIRATE"},
                 {"value": 1, "animal": "PIRATE"},
                 {"value": 2, "animal": "PIRATE"},
