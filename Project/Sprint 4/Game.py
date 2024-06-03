@@ -142,10 +142,11 @@ class Game:
         self._setup_views()
         self._movement_manager: IMovementEventManager = MovementEventManager()
         self._player_turn_controller: IPlayerTurnController = PlayerTurnController(
-            self._player_data_controller)
+            self._data_controller.player_data_controller)
         self._player_move_controller: IPlayerMoveController = PlayerMoveController(
             self._movement_manager,
-            self._player_data_controller)
+            self._data_controller.player_data_controller,
+            self._data_controller.location_data_controller)
         self._movement_manager.add_listener(self._board)
         self._movement_manager.add_listener(self._dragon_cards)
         self._movement_manager.add_listener(self._player_turn_controller)
@@ -157,9 +158,9 @@ class Game:
         """
         self._board = Board(int(self._screen.get_width() * 0.7),
                             self._screen.get_height(),
-                            self._player_data_controller)
+                            self._data_controller.location_data_controller)
         self._dragon_cards = DragonCardsGroup(
-            self._dragon_cards_data_controller)
+            self._data_controller.dragon_card_data_controller)
         self._notification_tab = NotificationTabUI()
 
     def _setup_data(self) -> None:

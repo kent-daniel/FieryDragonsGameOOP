@@ -96,7 +96,9 @@ class GameDataController:
                 self.player_data_controller = PlayerDataController(game.player_info)
                 self.dragon_card_data_controller = DragonCardDataController(game.dragon_cards)
                 # print(self.player_data_controller.get_players() , self.dragon_card_data_controller.get_dragon_cards())
-                self.location_data_controller = LocationDataController(game.tiles, game.caves , self.player_data_controller.get_players())
+                self.location_data_controller = LocationDataController(game.tiles,
+                                                                       game.caves,
+                                                                       self.player_data_controller.get_players())
 
     def load_from_default_config(self):
         pass

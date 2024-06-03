@@ -2,13 +2,20 @@ from typing import Tuple
 
 import pygame.sprite
 from Player import Player
-from GameConstants import GameImage, GameElementStyles
+from GameConstants import GameImage, GameElementStyles, CharacterImage
 from Drawable import Drawable
+from Tile import Tile
 
 
-class Cave(Drawable):
-    def __init__(self, cave_owner: Player, image: str = GameImage.CAVE.value,
+class Cave(Tile):
+    def __init__(self,
+                 id: int,
+                 cave_owner: Player,
+                 character: CharacterImage,
+                 image: str = GameImage.CAVE.value,
                  height: int = GameElementStyles.CAVE_SIZE.value, width: int = GameElementStyles.CAVE_SIZE.value):
+        Tile.__init__(self, id, character, width, height)
+
         self._cave_owner = cave_owner
         self._surface: pygame.Surface = pygame.Surface((height, width), pygame.SRCALPHA)
         self._image: pygame.Surface = pygame.image.load(image).convert_alpha()
@@ -32,4 +39,9 @@ class Cave(Drawable):
         destination_surface.blit(self._surface, self._rect.topleft)
 
     def redraw_view(self) -> None:
+        if self.occupant:
+            self._draw_player()
+
+
+    def _draw_player(self) -> None:
         pass

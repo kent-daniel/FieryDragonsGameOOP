@@ -4,24 +4,19 @@ from GameConstants import CharacterImage, GameElementStyles, GameStyles
 from Drawable import Drawable
 from Player import Player
 from Cave import Cave
+from Tile import Tile
 
 
-class Square(Drawable):
-    def __init__(self, id: int, character: CharacterImage, cave: Optional[Cave] = None, width: int = GameElementStyles.SQUARE_LENGTH.value,
+class Square(Tile):
+    def __init__(self, id: int, character: CharacterImage,
+                 width: int = GameElementStyles.SQUARE_LENGTH.value,
                  height: int = GameElementStyles.SQUARE_LENGTH.value) -> None:
-        self._id = id
-        self._character: CharacterImage = character
-        self._next: Optional[Square] = None
-        self._prev: Optional[Square] = None
-        self._occupant: Optional[Player] = None
-        self._cave: Optional[Cave] = cave
-
+        super().__init__(id, character, width, height)
+        self._cave: Optional[Cave] = None
         self._rect = None
-        self._width = width
-        self._height = height
         self._image: pygame.Surface = pygame.image.load(self._character.value).convert_alpha()
-        self._image = pygame.transform.smoothscale(self._image, (self._width * 0.8, self._height * 0.8))
-        self._square_surface: pygame.Surface = pygame.Surface((self._width, self._height), pygame.SRCALPHA)
+        self._image = pygame.transform.smoothscale(self._image, (self.width * 0.8, self.height * 0.8))
+        self._square_surface: pygame.Surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         self._combined_surface: pygame.Surface = self._square_surface
         self.redraw_view()
 
@@ -32,6 +27,10 @@ class Square(Drawable):
         if self._occupant:
             self._draw_player()
 
+    @property
+    def cave(self) -> Optional[Cave]:
+        return self._cave
+
     def _draw_square(self) -> None:
         square_colour = self._occupant.colour if self._occupant is not None else GameStyles.COLOR_BROWN_LIGHT.value
         pygame.draw.rect(self._square_surface,
@@ -40,13 +39,14 @@ class Square(Drawable):
                          border_radius=GameStyles.BORDER_RADIUS_MEDIUM.value
                          )
 
-        self._square_surface.blit(self._image, self._image.get_rect(center=(self._square_surface.get_width() // 2, self._square_surface.get_height() // 2)))
+        self._square_surface.blit(self._image, self._image.get_rect(
+            center=(self._square_surface.get_width() // 2, self._square_surface.get_height() // 2)))
         self._combined_surface.blit(self._square_surface, self._rect.topleft)
-
 
     def _draw_cave(self) -> None:
         if self._cave is None: return
-        self._cave.draw(self._combined_surface, (self._rect.centerx,self._rect.centery+GameElementStyles.CAVE_OFFSET.value))
+        self._cave.draw(self._combined_surface,
+                        (self._rect.centerx, self._rect.centery + GameElementStyles.CAVE_OFFSET.value))
 
     def _draw_player(self) -> None:
         if self._occupant is None: return
@@ -59,42 +59,7 @@ class Square(Drawable):
     def get_surface(self) -> pygame.Surface:
         return self._combined_surface
 
-    def get_occupant(self) -> Player or None:
-        return self._occupant
-
-    def set_occupant(self, player: Player) -> None:
-        self._occupant = player
-    def remove_player(self) -> None:
-        self._occupant = None
-    @property
-    def id(self) -> int:
-        return self._id
-
-    @property
-    def character(self) -> CharacterImage:
-        return self._character
-
-    @property
-    def next(self) -> 'Square':
-        return self._next
-
-    @property
-    def cave(self) -> Cave:
-        return self._cave
-
-    @next.setter
-    def next(self, square: 'Square') -> None:
-        self._next = square
-
-    @property
-    def prev(self) -> 'Square':
-        return self._prev
-
-    @prev.setter
-    def prev(self, square: 'Square') -> None:
-        self._prev = square
-
     def attach_cave(self, cave: Cave) -> None:
         self._combined_surface = pygame.Surface(
-            (self._width, self._height + cave.get_surface().get_rect().height), pygame.SRCALPHA)
+            (self.width, self.height + cave.get_surface().get_rect().height), pygame.SRCALPHA)
         self._cave = cave
