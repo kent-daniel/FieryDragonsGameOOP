@@ -2,6 +2,7 @@ import GameConstants
 from Game import Game
 import pygame
 from GameDataController import GameDataController
+from StartGameMenu import StartGameMenu
 
 
 def main():
@@ -13,6 +14,8 @@ def main():
     game_data_controller = GameDataController()
     game = Game(game_data_controller, screen)
     FPS = 60
+    start_game_menu = StartGameMenu(game_data_controller)
+    start_game_menu.run_menu(screen)
     while game.is_running:
         game.handle_events()
         screen.fill(GameConstants.GameStyles.COLOR_GRAY_700.value)
@@ -22,4 +25,5 @@ def main():
 
 
 if __name__ == '__main__':
+
     main()
