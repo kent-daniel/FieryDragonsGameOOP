@@ -2,7 +2,8 @@ from typing import List
 from Player import Player
 from Square import Square
 from PlayerMoveController import PlayerMoveController
-from GameDataController import IPlayerDataController
+from PlayerDataController import IPlayerDataController
+
 
 class SpecialEffectController:
     def __init__(self, player_move_controller: PlayerMoveController, player_data_controller: IPlayerDataController):

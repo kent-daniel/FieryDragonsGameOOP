@@ -3,15 +3,13 @@ from Player import Player
 from Movement import Movement
 from Square import Square
 from MovementEventManager import IMovementEventManager
-from GameDataController import IPlayerDataController
+from PlayerDataController import IPlayerDataController
 from NotificationManager import NotificationManager
-from DragonCard import DragonCard
-import CardEffectsController
 
 
 class IPlayerMoveController(ABC):
     @abstractmethod
-    def process_movement(self, player: Player, card: DragonCard):
+    def process_movement(self, player: Player):
         pass
 
     @abstractmethod
@@ -43,12 +41,13 @@ class PlayerMoveController(IPlayerMoveController):
             get_player_location(player: Player) -> Square:
                 Returns the current location of the player.
         """
+
     def __init__(self, movement_publisher: IMovementEventManager, data_controller: IPlayerDataController,
-                 card_effects_controller: CardEffectsController, notification_manager=NotificationManager()):
+                 notification_manager=NotificationManager()):
         self._movement_publisher = movement_publisher
         self._data_controller = data_controller
         self._notification_manager = notification_manager
-        self.card_effects_controller = card_effects_controller
+        # self.card_effects_controller = card_effects_controller
 
     def process_movement(self, player: Player, movement: Movement):
         player_location = self.get_player_location(player)
@@ -60,7 +59,7 @@ class PlayerMoveController(IPlayerMoveController):
         if final_movement.value == 0:
             self._notification_manager.add_notification(f"player {player.id} didn't get a matching card")
         elif self._check_destination_is_occupied(final_movement) or self._player_passing_cave(player, player_location,
-                                                                                        final_movement):
+                                                                                              final_movement):
             final_movement = Movement(0, player_location)
         elif final_movement.value != 0:
             self.update_player_location(player, final_movement.destination)

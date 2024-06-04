@@ -3,7 +3,7 @@ from typing import List, Tuple
 import pygame
 from VolcanoCard import VolcanoCard
 from GameConstants import GameStyles, GameElementStyles
-from GameDataController import IPlayerDataController
+from PlayerDataController import IPlayerDataController
 from Drawable import Drawable
 from MovementEventManager import IMovementEventListener
 from Movement import Movement

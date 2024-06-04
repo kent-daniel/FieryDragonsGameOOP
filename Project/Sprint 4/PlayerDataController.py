@@ -8,11 +8,13 @@ from GameConstants import CharacterImage
 from collections import deque
 from random import randint
 
+
 class IPlayerDataController(ABC):
     """
     Author: Garv Vohra
     Interface for managing player data in the game.
     """
+
     @abstractmethod
     def get_players(self) -> deque[Player]:
         pass
@@ -45,6 +47,7 @@ class PlayerDataController(IPlayerDataController):
         _players (deque[Player]): A deque of Player objects.
         _squares (List[Square]): A list of Square objects.
     """
+
     def __init__(self, squares_config_data: str, players_config_data: str):
         self._squares_config_data = squares_config_data
         self._players_count = players_config_data
@@ -103,9 +106,8 @@ class PlayerDataController(IPlayerDataController):
         player_count: int = int(self._players_count)
         for player_id in range(1, player_count + 1):
             self._players.append(Player(player_id, len(self._parse_squares()), pygame.Color(randint(50, 255),
-                                                                                                randint(50, 255),
-                                                                                                randint(50, 255))))
-
+                                                                                            randint(50, 255),
+                                                                                            randint(50, 255))))
 
     def _parse_squares(self) -> List[Square]:
         square_animals: List[str] = [animal.strip(" ") for animal in
@@ -120,4 +122,3 @@ class PlayerDataController(IPlayerDataController):
         self._create_players()
         self._parse_squares()
         self._create_squares()
-

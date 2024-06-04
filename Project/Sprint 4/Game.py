@@ -9,10 +9,12 @@ from DragonCard import DragonCard
 from PlayerMoveController import IPlayerMoveController, PlayerMoveController
 from MovementEventManager import IMovementEventManager, MovementEventManager
 from PlayerTurnController import IPlayerTurnController, PlayerTurnController
-from GameDataController import IPlayerDataController, IDragonCardDataController
+from PlayerDataController import IPlayerDataController
+from DragonCardDataController import IDragonCardDataController
 from NotificationTabUI import NotificationTabUI
 from Win import Win
 from Player import Player
+from SpecialEffectController import SpecialEffectController
 from CardEffectsController import CardEffectsController
 import time
 
@@ -25,7 +27,7 @@ class Game:
     Author: Kent Daniel and Guntaj Singh
     """
 
-    def __init__(self, data_controller: GameDataController, effect_controller: CardEffectsController,
+    def __init__(self, data_controller: GameDataController,
                  screen: pygame.surface.Surface):
         """
         :param data_controller:
@@ -36,7 +38,6 @@ class Game:
         self.winner = None
         self.screen_width, self.screen_height = pygame.display.get_desktop_sizes()[0]
         self._data_controller = data_controller
-        self.card_effects_controller = effect_controller
         self._screen = screen
         self._is_running: bool = True
         self.initialise_game()
@@ -124,7 +125,7 @@ class Game:
         processes the movements of the player based on the dragon card they pick
         """
         current_player = self._player_turn_controller.get_current_player()
-        card.action(current_player)
+        card.action(self.card_effects_controller, current_player)
 
 
     def check_winner(self, player: Player) -> Optional[Player]:
@@ -149,6 +150,8 @@ class Game:
         self._player_move_controller: IPlayerMoveController = PlayerMoveController(
             self._movement_manager,
             self._player_data_controller)
+        self.special_effect_controller: SpecialEffectController = SpecialEffectController(self._player_move_controller, self._player_data_controller)
+        self.card_effects_controller: CardEffectsController = CardEffectsController(self._player_move_controller, self.special_effect_controller)
         self._movement_manager.add_listener(self._board)
         self._movement_manager.add_listener(self._dragon_cards)
         self._movement_manager.add_listener(self._player_turn_controller)

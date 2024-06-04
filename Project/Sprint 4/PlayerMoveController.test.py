@@ -4,7 +4,7 @@ from typing import List
 from unittest.mock import Mock
 import pygame
 from MovementEventManager import IMovementEventManager, IMovementEventListener
-from GameDataController import IPlayerDataController
+from PlayerDataController import IPlayerDataController
 from Player import Player
 from Square import Square
 from GameConstants import CharacterImage

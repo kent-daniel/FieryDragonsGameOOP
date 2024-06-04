@@ -1,14 +1,11 @@
-from Square import Square
-from DragonCard import AnimalDragonCard
-from DragonCard import PirateDragonCard
-from DragonCard import SpecialDragonCard
-from PlayerMoveController import PlayerMoveController
+from ICardEffectsController import ICardEffectsController
 from SpecialEffectController import SpecialEffectController
+from PlayerMoveController import PlayerMoveController
 from Movement import Movement
 from Player import Player
 
 
-class CardEffectsController:
+class CardEffectsController(ICardEffectsController):
     def __init__(self, player_move_controller: PlayerMoveController,
                  special_effect_controller: SpecialEffectController):
         self.player_move_controller = player_move_controller
@@ -21,7 +18,7 @@ class CardEffectsController:
     #     else:
     #         raise ValueError(f"Unsupported card type: {type(card)}")
 
-    def animal_effect(self, animal_card: AnimalDragonCard, player: Player):
+    def animal_effect(self, animal_card, player: Player):
         square = self.player_move_controller.get_player_location(player)
         if square.character != animal_card.character:
             self.player_move_controller.process_movement(player, Movement(0, square))
@@ -32,12 +29,12 @@ class CardEffectsController:
 
         self.player_move_controller.process_movement(player, Movement(animal_card.value, destination))
 
-    def pirate_effect(self, pirate_card: PirateDragonCard, player: Player):
+    def pirate_effect(self, pirate_card, player: Player):
         square = self.player_move_controller.get_player_location(player)
         destination = square
         for i in range(pirate_card.value):
             destination = destination.prev
         self.player_move_controller.process_movement(player, Movement(-pirate_card.value, destination))
 
-    def special_effect(self, special_card: SpecialDragonCard, player: Player):
+    def special_effect(self, special_card, player: Player):
         self.special_effect_controller.apply_special_effect(player)

@@ -1,8 +1,8 @@
 import random
 from abc import ABC, abstractmethod
 from typing import List
-from DragonCard import DragonCard, PirateDragonCard, AnimalDragonCard, SpecialDragonCard
 from GameConstants import CharacterImage
+from DragonCard import DragonCard, AnimalDragonCard, PirateDragonCard, SpecialDragonCard
 
 
 class IDragonCardDataController(ABC):

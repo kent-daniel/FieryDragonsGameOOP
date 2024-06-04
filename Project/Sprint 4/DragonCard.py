@@ -1,12 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import Tuple
-from Square import Square
 from Player import Player
 import pygame
 from GameConstants import CharacterImage
 from Drawable import Drawable
 from GameConstants import GameStyles
-from Movement import Movement
 from CardEffectsController import CardEffectsController
 
 UNFLIP_EVENT = pygame.USEREVENT + 1
@@ -46,7 +44,7 @@ class DragonCard(Drawable, ABC):
            An abstract method that subclasses must implement to define the card's action when played.
     """
 
-    def __init__(self, character: CharacterImage, effect_controller: CardEffectsController, value: int,
+    def __init__(self, character: CharacterImage, value: int,
                  is_flipped: bool = False, radius: int = 45):
         """
         The __init__ function is called when the class is instantiated.
@@ -61,7 +59,6 @@ class DragonCard(Drawable, ABC):
         :return: The self
         """
         self._character = character
-        self._effect_controller = effect_controller
         self._value = value
         self._character = character
         self._radius = radius
@@ -183,7 +180,7 @@ class DragonCard(Drawable, ABC):
         return self._value
 
     @abstractmethod
-    def action(self, player):
+    def action(self, card_effect_controller: CardEffectsController, player):
         """
         The action function is the main function of your agent. It takes a single argument, square, which is a Square
         object representing the state of the board at that moment in time. The action function must return an instance
@@ -227,7 +224,7 @@ class AnimalDragonCard(DragonCard):
         """
         super().__init__(character, value, is_flipped)
 
-    def action(self, player: Player):
+    def action(self, card_effect_controller: CardEffectsController, player: Player):
         """
         The action function takes a square as an argument and returns a movement.
         The movement is the number of squares to move, and the destination square.
@@ -238,7 +235,7 @@ class AnimalDragonCard(DragonCard):
         :param square: Square: Get the square that is being moved to
         :return: A movement object, which is a namedtuple that contains the value of the card and the destination square
         """
-        super()._effect_controller.animal_effect(self, player)
+        card_effect_controller.animal_effect(self, player)
 
 
 class PirateDragonCard(DragonCard):
@@ -271,7 +268,7 @@ class PirateDragonCard(DragonCard):
         """
         super().__init__(character, value, is_flipped)
 
-    def action(self, player: Player):
+    def action(self, card_effect_controller: CardEffectsController, player: Player):
         """
         The action function takes a square as an argument and returns a movement.
         The movement is the number of squares to move backwards, and the destination
@@ -281,12 +278,12 @@ class PirateDragonCard(DragonCard):
         :param square: Square: Get the square that is being moved from
         :return: A movement object
         """
-        super()._effect_controller.pirate_effect(self, player)
+        card_effect_controller.pirate_effect(self, player)
 
 
 class SpecialDragonCard(DragonCard):
     def __init__(self, character: CharacterImage, value: int, is_flipped: bool = False):
         super().__init__(character, value, is_flipped)
 
-    def action(self, player: Player):
-        self._effect_controller.special_effect(self, player)
+    def action(self, card_effect_controller: CardEffectsController, player: Player):
+        card_effect_controller.special_effect(self, player)
