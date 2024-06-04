@@ -14,7 +14,7 @@ def main():
     game_data_controller = GameDataController("config.ini")
     game = Game(game_data_controller, screen)
     FPS = 60
-    start_game_menu = StartGameMenu()
+    start_game_menu = StartGameMenu(game_data_controller)
     start_game_menu.run_menu(screen)
     while game.is_running:
         game.handle_events()
