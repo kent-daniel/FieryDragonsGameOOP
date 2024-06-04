@@ -15,14 +15,6 @@ class IPlayerMoveController(ABC):
     def process_movement(self, player: Player, card: DragonCard):
         pass
 
-    @abstractmethod
-    def update_player_location(self, player: Player, square: Square) -> None:
-        pass
-
-    @abstractmethod
-    def get_player_location(self, player) -> Square:
-        pass
-
 
 class PlayerMoveController(IPlayerMoveController):
     """
