@@ -6,6 +6,7 @@ from GameConstants import CharacterImage
 from Drawable import Drawable
 from GameConstants import GameStyles
 from Movement import Movement
+from Tile import Tile
 
 UNFLIP_EVENT = pygame.USEREVENT + 1
 FLIP_TIME = 1000
@@ -178,16 +179,7 @@ class DragonCard(Drawable, ABC):
         return self._value
 
     @abstractmethod
-    def action(self, square: Square) -> Movement:
-        """
-        The action function is the main function of your agent. It takes a single argument, square, which is a Square
-        object representing the state of the board at that moment in time. The action function must return an instance
-        of Movement.
-
-        :param self: Refer to the current instance of a class
-        :param square: Square: Get information about the current square
-        :return: A movement object
-        """
+    def action(self, tile: Tile) -> Movement:
         pass
 
 
@@ -221,20 +213,10 @@ class AnimalDragonCard(DragonCard):
         """
         super().__init__(character, value, is_flipped)
 
-    def action(self, square: Square) -> Movement:
-        """
-        The action function takes a square as an argument and returns a movement.
-        The movement is the number of squares to move, and the destination square.
-        If there is no character on the given square, then return 0 for both values.
-        Otherwise, if there is a character on that square:
-
-        :param self: Refer to the object itself
-        :param square: Square: Get the square that is being moved to
-        :return: A movement object, which is a namedtuple that contains the value of the card and the destination square
-        """
-        if square.character != self.character:
-            return Movement(0, square)
-        destination = square
+    def action(self, tile: Tile) -> Movement:
+        if tile.character != self.character:
+            return Movement(0, tile)
+        destination = tile
         for i in range(self.value):
             destination = destination.next
 

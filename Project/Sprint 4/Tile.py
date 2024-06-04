@@ -27,6 +27,10 @@ class Tile(Drawable, ABC):
     def remove_occupant(self) -> None:
         self._occupant = None
 
+    @abstractmethod
+    def is_cave(self) -> bool:
+        pass
+
     @property
     def id(self) -> int:
         return self._id
@@ -58,12 +62,3 @@ class Tile(Drawable, ABC):
     @character.setter
     def character(self, value):
         self._character = value
-
-    # def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
-    #     pass
-    #
-    # def get_surface(self) -> pygame.Surface:
-    #     pass
-    #
-    # def redraw_view(self) -> None:
-    #     pass

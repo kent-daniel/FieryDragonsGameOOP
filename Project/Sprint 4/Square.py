@@ -27,6 +27,9 @@ class Square(Tile):
         if self._occupant:
             self._draw_player()
 
+    def is_cave(self) -> bool:
+        return False
+
     @property
     def cave(self) -> Optional[Cave]:
         return self._cave
