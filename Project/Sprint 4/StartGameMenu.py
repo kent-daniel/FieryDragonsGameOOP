@@ -3,7 +3,7 @@ import pygame
 from GameConstants import GameStyles
 import pygame_menu
 from GameDataController import GameDataController
-from GameProgressData import GameProgressData
+from GameDataController import GameProgressData
 
 
 class StartGameMenu:
@@ -48,7 +48,7 @@ class StartGameMenu:
             width=self.screen_width * 0.7
         )
         for pg in self.games:
-            self.previous_game_menu.add.button(pg.time_saved(), self.load_game(pg))
+            self.previous_game_menu.add.button(pg.time_saved, self.load_game, pg)
 
         # -------------------------------------------------------------------------
         # Create main menu
@@ -79,7 +79,8 @@ class StartGameMenu:
         self.main_start_game_menu.disable()
 
     def load_game(self, game_progress_data: GameProgressData):
-        self.game_data_controller.load_from_saved_config(game_progress_data)
+        self.game_data_controller.load_from_game(game_progress_data)
+        self.main_start_game_menu.disable()
 
     def bg_set(self):
         self.start_game_surface.fill(self.colour)
