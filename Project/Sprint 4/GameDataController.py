@@ -96,6 +96,7 @@ class GameDataController:
         # modify / delete / create new file
 
     def load_from_game(self, game_data: GameProgressData):
+        print(game_data.caves)
         self.player_data_controller = PlayerDataController(game_data.player_info)
         self.dragon_card_data_controller = DragonCardDataController(game_data.dragon_cards)
         self.location_data_controller = LocationDataController(game_data.squares,

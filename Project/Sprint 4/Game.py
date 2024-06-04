@@ -167,8 +167,9 @@ class Game:
         Setting up the data controllers for player and dragon card
         :return: None
         """
+        pass
         # self._data_controller.load_from_game("2024-06-01 12:00:00")
-        self._data_controller.load_from_new_game(4)
+        # self._data_controller.load_from_new_game(4)
         # self._player_data_controller: IPlayerDataController = self._data_controller.create_player_data_controller()
         # self._dragon_cards_data_controller: IDragonCardDataController = self._data_controller.create_dragon_card_data_controller()
 

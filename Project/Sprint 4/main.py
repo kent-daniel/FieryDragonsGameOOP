@@ -12,10 +12,10 @@ def main():
     clock = pygame.time.Clock()
     pygame.display.set_caption("Fiery Dragons")
     game_data_controller = GameDataController()
-    game = Game(game_data_controller, screen)
-    FPS = 60
     start_game_menu = StartGameMenu(game_data_controller)
     start_game_menu.run_menu(screen)
+    game = Game(game_data_controller, screen)
+    FPS = 60
     while game.is_running:
         game.handle_events()
         screen.fill(GameConstants.GameStyles.COLOR_GRAY_700.value)
