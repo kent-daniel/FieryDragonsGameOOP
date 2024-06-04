@@ -18,7 +18,7 @@ class ILocationDataController(ABC):
         pass
 
     @abstractmethod
-    def set_squares(self , squares) -> None:
+    def set_squares(self, squares) -> None:
         pass
 
     @abstractmethod
@@ -37,12 +37,20 @@ class LocationDataController(ILocationDataController):
         self._caves_config_data = caves_config_data
         self.players = players
         self.squares = self._create_tiles()
+        self.caves = self.get_caves()
+
+    def get_caves(self) -> List[Cave]:
+        return [square.cave for square in self.squares if square.cave]
 
     def get_squares(self) -> List[Square]:
         return self.squares
 
     def set_squares(self, squares: List[Square]) -> None:
         self.squares = squares
+
+    def to_json_format_square(self) -> List[dict]:
+        return [{"animal": square.character, "occupant": square.get_occupant().id if square.get_occupant() else None}
+                for square in self.squares]
 
     def _create_tiles(self) -> List[Square]:
         squares: List[Square] = []

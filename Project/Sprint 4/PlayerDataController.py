@@ -54,7 +54,7 @@ class PlayerDataController(IPlayerDataController):
                                                                                            randint(50, 255),
                                                                                            randint(50, 255))))
 
-    def to_config_format(self) -> List[dict]:
+    def to_json_format(self) -> List[dict]:
         return [{"id": player.id , "steps_to_win": player.steps_to_win} for player in self._players]
 
     def load_data(self):

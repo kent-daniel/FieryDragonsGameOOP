@@ -63,8 +63,7 @@ class PlayerMoveController(IPlayerMoveController):
 
     def _validate_and_return_movement(self, movement: Movement, player: Player, player_location: Tile) -> Movement:
         final_movement = movement
-        print(self.get_tiles_between(player_location, movement.destination))
-        print(final_movement.value, final_movement.destination.character , final_movement.destination.id)
+        #print(self.get_tiles_between(player_location, movement.destination))
         # player can only move to their own cave
         if movement.destination.is_cave() and movement.destination.get_owner() != player:
             final_movement = Movement(movement.value, movement.destination.next)

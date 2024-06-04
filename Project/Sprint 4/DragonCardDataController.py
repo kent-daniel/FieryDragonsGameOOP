@@ -20,6 +20,7 @@ class IDragonCardDataController(ABC):
        @abstractmethod set_dragon_cards(dragon_cards: List[DragonCard]) -> None:
            Sets the list of DragonCard objects.
     """
+
     @abstractmethod
     def get_dragon_cards(self) -> List[DragonCard]:
         """
@@ -31,7 +32,7 @@ class IDragonCardDataController(ABC):
         pass
 
     @abstractmethod
-    def set_dragon_cards(self, dragon_cards: List[DragonCard]) ->None:
+    def set_dragon_cards(self, dragon_cards: List[DragonCard]) -> None:
         """
         The set_dragon_cards function is used to set the dragon cards for a player.
 
@@ -77,7 +78,10 @@ class DragonCardDataController(IDragonCardDataController):
         """
         return self._dragon_cards
 
-    def set_dragon_cards(self, dragon_cards: List[DragonCard]) ->None:
+    def to_json_format(self) -> List[dict]:
+        return [{"value": card.value, "character": card.character} for card in self._dragon_cards]
+
+    def set_dragon_cards(self, dragon_cards: List[DragonCard]) -> None:
         """
         The set_dragon_cards function takes a list of DragonCard objects and sets the _dragon_cards attribute to that list.
 
@@ -99,7 +103,7 @@ class DragonCardDataController(IDragonCardDataController):
         """
         dragon_cards: List[DragonCard] = []
         for dragon in self._config_data:
-            value, character = dragon["value"] , dragon["animal"]
+            value, character = dragon["value"], dragon["character"]
             if character == CharacterImage.PIRATE.name:
                 dragon_cards.append(PirateDragonCard(CharacterImage[character], int(value)))
             else:
