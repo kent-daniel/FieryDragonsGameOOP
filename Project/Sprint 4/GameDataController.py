@@ -13,7 +13,7 @@ class GameProgressData:
         self.time_saved = timestamp
         self.player_info = self.parse_players_info(data["players_info"])
         self.caves = self.parse_caves(data["caves"])
-        self.tiles = self.parse_tiles(data["tiles"])
+        self.squares = self.parse_squares(data["squares"])
         self.dragon_cards = self.parse_dragon_cards(data["dragon_cards"])
 
     def parse_players_info(self, players_info):
@@ -28,13 +28,15 @@ class GameProgressData:
     def parse_caves(self, caves):
         return [
             {
+                "animal": cave["animal"],
                 "position": cave["position"],
-                "owner": cave['owner']
+                "owner": cave['owner'],
+                "occupant": cave['occupant']
             }
             for cave in caves
         ]
 
-    def parse_tiles(self, tiles):
+    def parse_squares(self, tiles):
         return [
             {
                 "occupant": tile["occupant"],
@@ -95,12 +97,17 @@ class GameDataController:
             if game.time_saved == date:
                 self.player_data_controller = PlayerDataController(game.player_info)
                 self.dragon_card_data_controller = DragonCardDataController(game.dragon_cards)
-                self.location_data_controller = LocationDataController(game.tiles,
+                self.location_data_controller = LocationDataController(game.squares,
                                                                        game.caves,
                                                                        self.player_data_controller.get_players())
 
-    def load_from_default_config(self):
-        pass
+    def load_from_new_game(self, num_players: int):
+        # generate json from num players
+        num_squares = 24
+        caves = num_players
+
+
+
 
     def get_saved_games(self) -> List[GameProgressData]:
         return self.game_progress_list

@@ -7,27 +7,29 @@
                 {"id": 4, "steps_to_win": 28}
             ],
             "caves": [
-                {"position": 1, "owner": 1},
-                {"position": 8, "owner": 2},
-                {"position": 15, "owner": 3},
-                {"position": 22, "owner": 4}
+                {"animal":"SPIDER","position": 1, "owner": 1 ,
+                    "occupant": 1
+                },
+                {"animal":"SALAMANDER","position": 9, "owner": 2 , "occupant": 2},
+                {"animal":"SPIDER","position": 15, "owner": 3, "occupant": 3},
+                {"animal":"BABY_DRAGON","position": 22, "owner": 4, "occupant": null}
             ],
-            "tiles": [
+            "squares": [
                 {"animal": "BABY_DRAGON", "occupant": null},
                 {"animal": "BAT", "occupant": null},
-                {"animal": "SPIDER", "occupant": 1},
+                {"animal": "SPIDER", "occupant": null},
                 {"animal": "SALAMANDER", "occupant": null},
                 {"animal": "SPIDER", "occupant": null},
                 {"animal": "BAT", "occupant": null},
                 {"animal": "SPIDER", "occupant": null},
-                {"animal": "SALAMANDER", "occupant": 2},
+                {"animal": "SALAMANDER", "occupant": null},
                 {"animal": "BABY_DRAGON", "occupant": null},
                 {"animal": "BAT", "occupant": null},
                 {"animal": "BAT", "occupant": null},
                 {"animal": "BABY_DRAGON", "occupant": null},
                 {"animal": "SALAMANDER", "occupant": null},
                 {"animal": "BABY_DRAGON", "occupant": null},
-                {"animal": "SPIDER", "occupant": 3},
+                {"animal": "SPIDER", "occupant": null},
                 {"animal": "BABY_DRAGON", "occupant": null},
                 {"animal": "SALAMANDER", "occupant": null},
                 {"animal": "BAT", "occupant": null},
@@ -39,8 +41,7 @@
                 {"animal": "SALAMANDER", "occupant": null},
                 {"animal": "BAT", "occupant": null},
                 {"animal": "BABY_DRAGON", "occupant": null},
-                {"animal": "SALAMANDER", "occupant": null},
-                {"animal": "SPIDER", "occupant": null}
+                {"animal": "SALAMANDER", "occupant": null}
             ],
             "dragon_cards": [
                 {"value": 1, "animal": "SALAMANDER"},

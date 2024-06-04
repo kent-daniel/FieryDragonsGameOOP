@@ -253,17 +253,8 @@ class PirateDragonCard(DragonCard):
         """
         super().__init__(character, value, is_flipped)
 
-    def action(self, square: Square) -> Movement:
-        """
-        The action function takes a square as an argument and returns a movement.
-        The movement is the number of squares to move backwards, and the destination
-        square.
-
-        :param self: Access the attributes of the class
-        :param square: Square: Get the square that is being moved from
-        :return: A movement object
-        """
-        destination = square
+    def action(self, tile: Tile) -> Movement:
+        destination = tile
         for i in range(self.value):
             destination = destination.prev
         return Movement(-self.value, destination)
