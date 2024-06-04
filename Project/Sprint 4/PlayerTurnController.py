@@ -4,7 +4,7 @@ from MovementEventManager import IMovementEventListener
 from Movement import Movement
 from GameDataController import IPlayerDataController
 from NotificationManager import NotificationManager
-
+from queue import Queue
 
 class IPlayerTurnController(IMovementEventListener):
     """
@@ -46,7 +46,12 @@ class PlayerTurnController(IPlayerTurnController):
         self._data_controller = data_controller
         self._players = self._data_controller.get_players()
         self._notification_manager = notification_manager
-        self.current_player = self._players[0]
+        self._players_queue = Queue()
+
+        for player in self._players:
+            self._players_queue.put(player)
+
+        self.current_player = self._players_queue.queue[0]
 
     def get_current_player(self) -> Player:
         """
@@ -71,7 +76,7 @@ class PlayerTurnController(IPlayerTurnController):
         """
         Switches to the next player and sends a notification about the switch.
         """
-        player_index = (self.current_player.id + 1) % self._players.__len__()
-        self.current_player = self._players[player_index-1]
+        self._players_queue.put(self._players_queue.get())  # Move the current player to the end of the queue
+        self.current_player = self._players_queue.queue[0]
         self._notification_manager.add_notification(f"switching to player {self.get_current_player().id}'s turn")
 
