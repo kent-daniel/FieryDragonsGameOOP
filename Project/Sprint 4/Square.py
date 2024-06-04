@@ -4,8 +4,6 @@ from GameConstants import CharacterImage, GameElementStyles, GameStyles
 from Drawable import Drawable
 from Player import Player
 from Cave import Cave
-from Movement import Movement
-import CardEffectVisitor
 
 
 class Square(Drawable):
@@ -104,6 +102,3 @@ class Square(Drawable):
         self._combined_surface = pygame.Surface(
             (self._width, self._height + cave.get_surface().get_rect().height), pygame.SRCALPHA)
         self._cave = cave
-
-    def accept_visitor(self, visitor: CardEffectVisitor) -> Movement:
-        return visitor.visit(self)

@@ -1,5 +1,12 @@
-from DragonCard import AnimalDragonCard, PirateDragonCard
-from CardEffectVisitor import AnimalDragonCardEffectVisitor, PirateDragonCardEffectVisitor
+from Square import Square
+from DragonCard import AnimalDragonCard
+from DragonCard import PirateDragonCard
+from DragonCard import SpecialDragonCard
+from PlayerMoveController import PlayerMoveController
+from SpecialEffectController import SpecialEffectController
+from Movement import Movement
+from Player import Player
+
 
 class CardEffectsController:
     def __init__(self):

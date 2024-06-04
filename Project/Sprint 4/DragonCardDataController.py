@@ -1,7 +1,7 @@
 import random
 from abc import ABC, abstractmethod
 from typing import List
-from DragonCard import DragonCard, PirateDragonCard, AnimalDragonCard
+from DragonCard import DragonCard, PirateDragonCard, AnimalDragonCard, SpecialDragonCard
 from GameConstants import CharacterImage
 
 
@@ -112,6 +112,8 @@ class DragonCardDataController(IDragonCardDataController):
             value, character = dragon.split("x")
             if character == CharacterImage.PIRATE.name:
                 dragon_cards.append(PirateDragonCard(CharacterImage[character], int(value)))
+            elif character == CharacterImage.SPECIAL.name:
+                dragon_cards.append(SpecialDragonCard(CharacterImage[character], int(value)))
             else:
                 dragon_cards.append(AnimalDragonCard(CharacterImage[character], int(value)))
 

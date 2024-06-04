@@ -1,7 +1,9 @@
 from Square import Square
+
+
 class Movement:
-    def __init__(self,value:int , destination: Square):
-        self._value  = value
+    def __init__(self, value: int, destination: Square):
+        self._value = value
         self._destination = destination
 
     @property

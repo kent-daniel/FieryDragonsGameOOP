@@ -13,6 +13,7 @@ from GameDataController import IPlayerDataController, IDragonCardDataController
 from NotificationTabUI import NotificationTabUI
 from Win import Win
 from Player import Player
+from CardEffectsController import CardEffectsController
 import time
 
 WIN_EVENT = pygame.USEREVENT + 1
@@ -24,7 +25,7 @@ class Game:
     Author: Kent Daniel and Guntaj Singh
     """
 
-    def __init__(self, data_controller: GameDataController,
+    def __init__(self, data_controller: GameDataController, effect_controller: CardEffectsController,
                  screen: pygame.surface.Surface):
         """
         :param data_controller:
@@ -35,6 +36,7 @@ class Game:
         self.winner = None
         self.screen_width, self.screen_height = pygame.display.get_desktop_sizes()[0]
         self._data_controller = data_controller
+        self.card_effects_controller = effect_controller
         self._screen = screen
         self._is_running: bool = True
         self.initialise_game()

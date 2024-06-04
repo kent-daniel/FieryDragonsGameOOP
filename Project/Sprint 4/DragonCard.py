@@ -1,11 +1,13 @@
 from abc import ABC, abstractmethod
 from typing import Tuple
 from Square import Square
+from Player import Player
 import pygame
 from GameConstants import CharacterImage
 from Drawable import Drawable
 from GameConstants import GameStyles
 from Movement import Movement
+from CardEffectsController import CardEffectsController
 
 UNFLIP_EVENT = pygame.USEREVENT + 1
 FLIP_TIME = 1000
@@ -43,7 +45,9 @@ class DragonCard(Drawable, ABC):
        @abstractmethod action(square: Square) -> Movement:
            An abstract method that subclasses must implement to define the card's action when played.
     """
-    def __init__(self, character: CharacterImage, value: int, is_flipped: bool = False, radius: int = 45):
+
+    def __init__(self, character: CharacterImage, effect_controller: CardEffectsController, value: int,
+                 is_flipped: bool = False, radius: int = 45):
         """
         The __init__ function is called when the class is instantiated.
         It sets up the initial state of the object.
@@ -206,7 +210,8 @@ class AnimalDragonCard(DragonCard):
        action(square: Square) -> Movement:
            Moves the character on the given square forward by the value of the card.
     """
-    def __init__(self, character: CharacterImage, value: int, is_flipped: bool = False, radius: int = 30):
+
+    def __init__(self, character: CharacterImage, value: int, is_flipped: bool = False):
         """
         The __init__ function is called when the object is created.
         It sets up the initial state of the object.
@@ -221,7 +226,7 @@ class AnimalDragonCard(DragonCard):
         """
         super().__init__(character, value, is_flipped)
 
-    def action(self, square: Square) -> Movement:
+    def action(self, player: Player):
         """
         The action function takes a square as an argument and returns a movement.
         The movement is the number of squares to move, and the destination square.
@@ -240,7 +245,6 @@ class AnimalDragonCard(DragonCard):
 
         return Movement(self.value, destination)
 
-
 class PirateDragonCard(DragonCard):
     """
     PirateDragonCard
@@ -256,7 +260,8 @@ class PirateDragonCard(DragonCard):
        action(square: Square) -> Movement:
            Moves the character on the given square backward by the value of the card.
     """
-    def __init__(self, character: CharacterImage, value: int, is_flipped: bool = False, radius: int = 30):
+
+    def __init__(self, character: CharacterImage, value: int, is_flipped: bool = False):
         """
         The __init__ function is called when the object is created.
         It sets up the initial state of the object.
@@ -266,12 +271,11 @@ class PirateDragonCard(DragonCard):
         :param character: CharacterImage: Set the character image of the card
         :param value: int: Set the value of the card
         :param is_flipped: bool: Determine if the card is flipped or not
-        :param radius: int: Set the radius of the circle
         :return: The super class, which is a card
         """
         super().__init__(character, value, is_flipped)
 
-    def action(self, square: Square) -> Movement:
+    def action(self, player: Player):
         """
         The action function takes a square as an argument and returns a movement.
         The movement is the number of squares to move backwards, and the destination
@@ -281,7 +285,12 @@ class PirateDragonCard(DragonCard):
         :param square: Square: Get the square that is being moved from
         :return: A movement object
         """
-        destination = square
-        for i in range(self.value):
-            destination = destination.prev
-        return Movement(-self.value, destination)
+        super()._effect_controller.pirate_effect(self, player)
+
+
+class SpecialDragonCard(DragonCard):
+    def __init__(self, character: CharacterImage, value: int, is_flipped: bool = False):
+        super().__init__(character, value, is_flipped)
+
+    def action(self, player: Player):
+        self._effect_controller.special_effect(self, player)

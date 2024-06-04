@@ -8,6 +8,7 @@ class CharacterImage(Enum):
     SPIDER = 'Assets/BabySpider.png'
     SALAMANDER = 'Assets/Salamander.png'
     PIRATE = 'Assets/Cave.png'
+    SPECIAL = 'Assets/SpecialDragonCard.png'
 
 
 class GameImage(Enum):
