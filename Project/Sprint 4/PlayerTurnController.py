@@ -1,3 +1,4 @@
+import threading
 from abc import abstractmethod
 from Player import Player
 from MovementEventManager import IMovementEventListener
@@ -42,6 +43,8 @@ class PlayerTurnController(IPlayerTurnController):
         current_player (Player): The current player.
     """
 
+    TURN_TIME_LIMIT = 15  # Time limit for each turn in seconds
+
     def __init__(self, data_controller: IPlayerDataController, notification_manager=NotificationManager()):
         self._data_controller = data_controller
         self._players = self._data_controller.get_players()
@@ -52,6 +55,8 @@ class PlayerTurnController(IPlayerTurnController):
             self._players_queue.put(player)
 
         self.current_player = self._players_queue.queue[0]
+        self._turn_timer = None
+        self.start_turn_timer()
 
     def get_current_player(self) -> Player:
         """
@@ -79,4 +84,22 @@ class PlayerTurnController(IPlayerTurnController):
         self._players_queue.put(self._players_queue.get())  # Move the current player to the end of the queue
         self.current_player = self._players_queue.queue[0]
         self._notification_manager.add_notification(f"switching to player {self.get_current_player().id}'s turn")
+        self.start_turn_timer()
+
+    def start_turn_timer(self):
+        """
+        Starts or restarts the turn timer.
+        """
+        if self._turn_timer:
+            self._turn_timer.cancel()
+
+        self._turn_timer = threading.Timer(self.TURN_TIME_LIMIT, self.switch_player)
+        self._turn_timer.start()
+
+    def stop_turn_timer(self):
+        """
+        Stops the turn timer.
+        """
+        if self._turn_timer:
+            self._turn_timer.cancel()
 
