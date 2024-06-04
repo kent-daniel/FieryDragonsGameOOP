@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+from collections import OrderedDict
 from datetime import datetime
 from typing import List
 from PlayerDataController import IPlayerDataController, PlayerDataController
@@ -77,23 +78,39 @@ class GameDataController:
         return os.path.join(base_path, relative_path)
 
     def save_data(self):
-        #maximum 3 games saved basically
-        #TODO if 3 games saved , only pick the last 2 games + new saved data
-        # timestamp = Date()
-        # "players_info" = self.player_data_controller.to_config_format()
-        pass
+        # Read existing data from the JSON file
+        file_path = self.resource_path('config.json')
+        with open(file_path, 'r') as file:
+            data = json.load(file)
 
-        #
-        # self.dragon_card_data_controller.get_dragon_cards_config_data()
-        # self.location_data_controller.get_squares_config_data()
-        # self.location_data_controller.get_cave_config_data()
-        # data = {
-        #     players_info
-        #     caves
-        #     square_animals
-        #     dragon_cards
-        # }
-        # modify / delete / create new file
+        # Check the number of saved games
+        if len(data) >= 3:
+            # Remove the oldest game data
+            oldest_game = sorted(data.keys())[0]
+            del data[oldest_game]
+
+        # Prepare new game data
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        players_info = self.player_data_controller.to_json_format()
+        squares_data = self.location_data_controller.to_json_format_square()
+        caves_data = self.location_data_controller.to_json_format_cave()
+        dragon_cards = self.dragon_card_data_controller.to_json_format()
+
+        # Add new game data
+        new_game_data = {
+            timestamp: {
+                "players_info": players_info,
+                "caves": caves_data,
+                "squares": squares_data,
+                "dragon_cards": dragon_cards
+            }
+        }
+        print(new_game_data)
+        data.update(new_game_data)
+
+        # Write the updated data back to the JSON file
+        with open(file_path, 'w') as file:
+            json.dump(OrderedDict(sorted(data.items())), file, indent=4)
 
     def load_from_game(self, game_data: GameProgressData):
         print(game_data.caves)

@@ -10,7 +10,7 @@ class StartGameMenu:
     def __init__(self, game_data_controller: GameDataController, colour=GameStyles.COLOR_BROWN_DARK.value):
         self.main_start_game_menu = None
         pygame.init()
-        self.player_number = None
+        self.player_number = 2
         self.colour = colour
         self.game_data_controller = game_data_controller
         self.screen_width, self.screen_height = pygame.display.get_desktop_sizes()[0]

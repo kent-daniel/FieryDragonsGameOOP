@@ -23,6 +23,10 @@ class IPlayerDataController(ABC):
     def set_players(self, players: deque[Player]) -> None:
         pass
 
+    @abstractmethod
+    def to_json_format(self) -> List[dict]:
+        pass
+
 
 class PlayerDataController(IPlayerDataController):
     """

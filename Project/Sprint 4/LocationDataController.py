@@ -29,6 +29,14 @@ class ILocationDataController(ABC):
     def get_caves(self) -> List[Cave]:
         pass
 
+    @abstractmethod
+    def to_json_format_square(self) -> List[dict]:
+        pass
+
+    @abstractmethod
+    def to_json_format_cave(self) -> List[dict]:
+        pass
+
 
 class LocationDataController(ILocationDataController):
 
@@ -49,8 +57,18 @@ class LocationDataController(ILocationDataController):
         self.squares = squares
 
     def to_json_format_square(self) -> List[dict]:
-        return [{"animal": square.character, "occupant": square.get_occupant().id if square.get_occupant() else None}
+        return [{"animal": square.character.name, "occupant": square.get_occupant().id if square.get_occupant() else None}
                 for square in self.squares]
+
+    def to_json_format_cave(self) -> List[dict]:
+        caves = []
+        for square in self.squares:
+            if square.cave:
+                caves.append({"animal": square.cave.character.name,
+                              "position": square.id,
+                              "owner": square.cave.get_owner().id,
+                              "occupant": square.cave.get_occupant().id if square.cave.get_occupant() else None})
+        return caves
 
     def _create_tiles(self) -> List[Square]:
         squares: List[Square] = []

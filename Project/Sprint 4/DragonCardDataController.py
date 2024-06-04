@@ -42,6 +42,9 @@ class IDragonCardDataController(ABC):
         """
         pass
 
+    @abstractmethod
+    def to_json_format(self) -> List[dict]:
+        pass
 
 class DragonCardDataController(IDragonCardDataController):
     """
@@ -79,7 +82,7 @@ class DragonCardDataController(IDragonCardDataController):
         return self._dragon_cards
 
     def to_json_format(self) -> List[dict]:
-        return [{"value": card.value, "character": card.character} for card in self._dragon_cards]
+        return [{"value": card.value, "character": card.character.name} for card in self._dragon_cards]
 
     def set_dragon_cards(self, dragon_cards: List[DragonCard]) -> None:
         """

@@ -179,4 +179,5 @@ class Game:
         :return: None
         """
         self.end_game()
+        self._data_controller.save_data()
         pygame.quit()
