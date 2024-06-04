@@ -46,6 +46,7 @@ class Cave(Tile):
         # draw character image on top of cave image
         character_rect = self._character_image.get_rect(center=self._rect.center)
         self._surface.blit(self._character_image, character_rect.topleft)
+        print(self.get_occupant())
         if self._occupant == self._cave_owner:
             self._draw_player()
 
