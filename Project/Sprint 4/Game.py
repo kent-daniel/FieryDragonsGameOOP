@@ -124,7 +124,8 @@ class Game:
         processes the movements of the player based on the dragon card they pick
         """
         current_player = self._player_turn_controller.get_current_player()
-        self._player_move_controller.process_movement(current_player, card)
+        card.action(current_player)
+
 
     def check_winner(self, player: Player) -> Optional[Player]:
         """

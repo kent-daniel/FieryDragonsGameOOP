@@ -61,6 +61,7 @@ class DragonCard(Drawable, ABC):
         :return: The self
         """
         self._character = character
+        self._effect_controller = effect_controller
         self._value = value
         self._character = character
         self._radius = radius
@@ -182,7 +183,7 @@ class DragonCard(Drawable, ABC):
         return self._value
 
     @abstractmethod
-    def action(self, square: Square) -> Movement:
+    def action(self, player):
         """
         The action function is the main function of your agent. It takes a single argument, square, which is a Square
         object representing the state of the board at that moment in time. The action function must return an instance
@@ -237,13 +238,8 @@ class AnimalDragonCard(DragonCard):
         :param square: Square: Get the square that is being moved to
         :return: A movement object, which is a namedtuple that contains the value of the card and the destination square
         """
-        if square.character != self.character:
-            return Movement(0, square)
-        destination = square
-        for i in range(self.value):
-            destination = destination.next
+        super()._effect_controller.animal_effect(self, player)
 
-        return Movement(self.value, destination)
 
 class PirateDragonCard(DragonCard):
     """
