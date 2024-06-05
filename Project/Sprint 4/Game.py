@@ -149,11 +149,17 @@ class Game:
         self._player_turn_controller: IPlayerTurnController = PlayerTurnController(
             self._data_controller.player_data_controller)
         self._player_move_controller: IPlayerMoveController = PlayerMoveController(
-            self._movement_manager,
             self._data_controller.player_data_controller)
         self._location_manager = LocationManager(self._data_controller.location_data_controller)
-        self.special_effect_controller: SpecialEffectController = SpecialEffectController(self._data_controller.player_data_controller, self._location_manager)
-        self.card_effects_controller: CardEffectsController = CardEffectsController(self._player_move_controller, self.special_effect_controller,self._location_manager)
+        self.special_effect_controller: SpecialEffectController = SpecialEffectController(
+            self._data_controller.player_data_controller,
+            self._location_manager)
+        self.card_effects_controller: CardEffectsController = CardEffectsController(
+            self._player_move_controller,
+            self.special_effect_controller,
+            self._location_manager,
+            self._movement_manager
+        )
         self._movement_manager.add_listener(self._board)
         self._movement_manager.add_listener(self._dragon_cards)
         self._movement_manager.add_listener(self._player_turn_controller)

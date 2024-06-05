@@ -14,6 +14,14 @@ class IPlayerMoveController(ABC):
     def process_movement(self, player: Player):
         pass
 
+    @abstractmethod
+    def move_forward(self, player: Player, origin_location: Tile, steps: int) -> Movement:
+        pass
+
+    @abstractmethod
+    def move_backward(self, player: Player, origin_location: Tile, steps: int) -> Movement:
+        pass
+
 
 class PlayerMoveController(IPlayerMoveController):
     """
@@ -36,22 +44,47 @@ class PlayerMoveController(IPlayerMoveController):
                 Returns the current location of the player.
         """
 
-    def __init__(self, movement_publisher: IMovementEventManager, player_data_controller: IPlayerDataController,
+    def __init__(self, player_data_controller: IPlayerDataController,
                  notification_manager=NotificationManager()):
-        self._movement_publisher = movement_publisher
+
         self._player_data_controller = player_data_controller
         self._notification_manager = notification_manager
 
-    def process_movement(self, player: Player, movement: Movement,player_location: Tile):
+    def process_movement(self, player: Player, movement: Movement, player_location: Tile) -> Movement:
         final_movement = self._validate_and_return_movement(movement, player, player_location)
-        player.steps_to_win -= final_movement.value
+
         return final_movement
+
+    def move_forward(self, player: Player, origin_location: Tile, steps: int) -> Movement:
+        destination = origin_location
+        for step in range(steps):
+            destination = destination.next
+            # if destination.cave and destination.cave.get_occupant() and destination.cave.get_occupant().id == player.id:
+            #     if step < steps - 1:  # if player is passing cave but not at the final step
+            #         self._notification_manager.add_notification(f"Player {player.id} cannot pass cave")
+            #         return Movement(0, origin_location)
+            #     else:  # move player to enter cave
+            #         return Movement(step + 1, destination if destination.is_cave() else destination.cave)  # return the movement to the cave
+        if destination.get_occupant():  # check if destination is occupied
+            self._notification_manager.add_notification(f"destination is occupied")
+        return Movement(steps, destination)
+
+    def move_backward(self, player: Player, origin_location: Tile, steps: int) -> Movement:
+        destination = origin_location
+        for step in range(steps):
+            if destination.is_cave() or destination.cave and destination.cave.get_occupant().id == player.id and step < steps - 1: # if player is passing cave but not at the final step
+                self._notification_manager.add_notification(f"player {player.id} cannot go behind cave")
+                return Movement(0, origin_location)
+            destination = destination.prev
+        if destination.get_occupant():
+            self._notification_manager.add_notification(f"destination is occupied")
+        return Movement(-steps, destination)
 
     def _validate_and_return_movement(self, movement: Movement, player: Player, player_location: Tile) -> Movement:
         final_movement = movement
         #print(self.get_tiles_between(player_location, movement.destination))
         # player can only move to their own cave
-        if movement.destination.is_cave() and movement.destination.get_owner() != player:
+        if movement.destination.is_cave() and movement.destination.get_owner().id != player.id:
             final_movement = Movement(movement.value, movement.destination.next)
         if final_movement.value == 0:
             self._notification_manager.add_notification(f"player {player.id} didn't get a matching card")
@@ -63,8 +96,6 @@ class PlayerMoveController(IPlayerMoveController):
                 f"player {player.id} is moving to Tile {final_movement.destination.id}")
         else:
             self._notification_manager.add_notification(f"player {player.id} didn't move")
-
-        self._movement_publisher.publish_event(final_movement)
         return final_movement
 
     def _check_destination_is_occupied(self, movement: Movement) -> bool:
@@ -89,4 +120,3 @@ class PlayerMoveController(IPlayerMoveController):
                 self._notification_manager.add_notification(f"player {player.id} cannot pass cave")
                 return True
         return False
-
