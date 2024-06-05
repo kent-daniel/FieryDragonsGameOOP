@@ -135,6 +135,7 @@ class Game:
         """
         if player.steps_to_win == 0:
             return player
+
         return None
 
     def initialise_game(self):

@@ -77,9 +77,12 @@ class PlayerTurnController(IPlayerTurnController):
         """
         self.current_player.lives -= 1
         self._notification_manager.add_notification(f" player {self.get_current_player().id} has {self.current_player.lives} lives remaining. ")
+
         if self.current_player.lives <= 0:
             self._notification_manager.add_notification(f"Player {self.current_player.id} has been eliminated.")
             self._data_controller.get_players().remove(self.current_player)
+        if not self._data_controller.get_players():
+            return
 
         self._data_controller.get_players().rotate(-1)
         self.current_player = self._data_controller.get_players()[0]
