@@ -199,6 +199,8 @@ class DragonCard(Drawable,IDecodable, ABC):
     def decode_from_json(json_data: Dict) -> 'IDecodable':
         if json_data["character"] == CharacterImage.PIRATE.name:
             return PirateDragonCard(CharacterImage[json_data["character"]], json_data["value"])
+        elif json_data["character"] == CharacterImage.SPECIAL.name:
+            return SpecialDragonCard(CharacterImage[json_data["character"]], json_data["value"])
         else:
             return AnimalDragonCard(CharacterImage[json_data["character"]], json_data["value"])
 

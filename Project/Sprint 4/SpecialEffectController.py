@@ -1,8 +1,9 @@
 from typing import List
 from Player import Player
-from Square import Square
+from Tile import Tile
 from PlayerMoveController import PlayerMoveController
 from PlayerDataController import IPlayerDataController
+from LocationDataController import ILocationDataController
 from LocationManager import LocationManager
 
 
@@ -21,8 +22,11 @@ class SpecialEffectController:
             current_player_square = self.location_manager.get_player_location(current_player)
             closest_player_square = self.location_manager.get_player_location(closest_player)
 
-            self.location_manager.update_player_location(current_player, closest_player_square)
-            self.location_manager.update_player_location(closest_player, current_player_square)
+            self.location_manager.remove_player_location(current_player_square)
+            self.location_manager.remove_player_location(closest_player_square)
+
+            self.location_manager.set_player_location(current_player, closest_player_square)
+            self.location_manager.set_player_location(closest_player, current_player_square)
 
     def find_closest_player(self, current_player: Player) -> Player or None:
         players = self.player_data_controller.get_players()
@@ -34,7 +38,7 @@ class SpecialEffectController:
         for player in players:
             if player != current_player:
                 player_square = self.location_manager.get_player_location(player)
-                distance = self.calculate_distance(current_player_square, player_square)
+                distance = len(self.location_manager.get_tiles_between(current_player_square, player_square))
 
                 if distance < min_distance:
                     min_distance = distance
@@ -42,10 +46,12 @@ class SpecialEffectController:
 
         return closest_player
 
-    def calculate_distance(self, square1: Square, square2: Square) -> int:
-        squares = self.player_data_controller.get_squares()
-        index1 = squares.index(square1)
-        index2 = squares.index(square2)
-
-        distance = min(abs(index1 - index2), len(squares) - abs(index1 - index2))
-        return distance
+    # def calculate_distance(self, tile1: Tile, tile2: Tile) -> int:
+    #     # squares = self.location_data_controller.get_squares()
+    #     # index1 = squares.index(tile1)
+    #     # index2 = squares.index(tile2)
+    #     #
+    #     # distance = min(abs(index1 - index2), len(squares) - abs(index1 - index2))
+    #     # return distance
+    #     distance = len(self.location_manager.get_tiles_between(tile1, tile2))
+    #     return distance

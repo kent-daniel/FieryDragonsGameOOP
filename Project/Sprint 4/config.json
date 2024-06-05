@@ -1,9 +1,9 @@
 {
-    "2024-06-05 18:37:05": {
+    "2024-06-05 22:06:54": {
         "players_info": [
             {
                 "id": 1,
-                "steps_to_win": 26
+                "steps_to_win": 24
             },
             {
                 "id": 2,
@@ -12,558 +12,6 @@
             {
                 "id": 3,
                 "steps_to_win": 26
-            },
-            {
-                "id": 4,
-                "steps_to_win": 26
-            }
-        ],
-        "squares": [
-            {
-                "id": 1,
-                "occupant": null,
-                "animal": "BABY_DRAGON",
-                "cave": null
-            },
-            {
-                "id": 2,
-                "occupant": null,
-                "animal": "BAT",
-                "cave": {
-                    "id": 32,
-                    "owner": {
-                        "id": 1,
-                        "steps_to_win": 26
-                    },
-                    "occupant": {
-                        "id": 1,
-                        "steps_to_win": 26
-                    },
-                    "animal": "SPIDER"
-                }
-            },
-            {
-                "id": 3,
-                "occupant": null,
-                "animal": "SPIDER",
-                "cave": null
-            },
-            {
-                "id": 4,
-                "occupant": null,
-                "animal": "SALAMANDER",
-                "cave": null
-            },
-            {
-                "id": 5,
-                "occupant": null,
-                "animal": "SPIDER",
-                "cave": null
-            },
-            {
-                "id": 6,
-                "occupant": null,
-                "animal": "BAT",
-                "cave": null
-            },
-            {
-                "id": 7,
-                "occupant": null,
-                "animal": "SPIDER",
-                "cave": null
-            },
-            {
-                "id": 8,
-                "occupant": null,
-                "animal": "SALAMANDER",
-                "cave": {
-                    "id": 33,
-                    "owner": {
-                        "id": 2,
-                        "steps_to_win": 26
-                    },
-                    "occupant": {
-                        "id": 2,
-                        "steps_to_win": 26
-                    },
-                    "animal": "SALAMANDER"
-                }
-            },
-            {
-                "id": 9,
-                "occupant": null,
-                "animal": "BABY_DRAGON",
-                "cave": null
-            },
-            {
-                "id": 10,
-                "occupant": null,
-                "animal": "BAT",
-                "cave": null
-            },
-            {
-                "id": 11,
-                "occupant": null,
-                "animal": "BAT",
-                "cave": null
-            },
-            {
-                "id": 12,
-                "occupant": null,
-                "animal": "BABY_DRAGON",
-                "cave": null
-            },
-            {
-                "id": 13,
-                "occupant": null,
-                "animal": "SALAMANDER",
-                "cave": null
-            },
-            {
-                "id": 14,
-                "occupant": null,
-                "animal": "BABY_DRAGON",
-                "cave": {
-                    "id": 34,
-                    "owner": {
-                        "id": 3,
-                        "steps_to_win": 26
-                    },
-                    "occupant": {
-                        "id": 3,
-                        "steps_to_win": 26
-                    },
-                    "animal": "SPIDER"
-                }
-            },
-            {
-                "id": 15,
-                "occupant": null,
-                "animal": "SPIDER",
-                "cave": null
-            },
-            {
-                "id": 16,
-                "occupant": null,
-                "animal": "BABY_DRAGON",
-                "cave": null
-            },
-            {
-                "id": 17,
-                "occupant": null,
-                "animal": "SALAMANDER",
-                "cave": null
-            },
-            {
-                "id": 18,
-                "occupant": null,
-                "animal": "BAT",
-                "cave": null
-            },
-            {
-                "id": 19,
-                "occupant": null,
-                "animal": "SALAMANDER",
-                "cave": null
-            },
-            {
-                "id": 20,
-                "occupant": null,
-                "animal": "BABY_DRAGON",
-                "cave": {
-                    "id": 35,
-                    "owner": {
-                        "id": 4,
-                        "steps_to_win": 26
-                    },
-                    "occupant": {
-                        "id": 4,
-                        "steps_to_win": 26
-                    },
-                    "animal": "BABY_DRAGON"
-                }
-            },
-            {
-                "id": 21,
-                "occupant": null,
-                "animal": "BAT",
-                "cave": null
-            },
-            {
-                "id": 22,
-                "occupant": null,
-                "animal": "BAT",
-                "cave": null
-            },
-            {
-                "id": 23,
-                "occupant": null,
-                "animal": "BABY_DRAGON",
-                "cave": null
-            },
-            {
-                "id": 24,
-                "occupant": null,
-                "animal": "SALAMANDER",
-                "cave": null
-            }
-        ],
-        "dragon_cards": [
-            {
-                "value": 1,
-                "character": "SALAMANDER"
-            },
-            {
-                "value": 2,
-                "character": "SALAMANDER"
-            },
-            {
-                "value": 3,
-                "character": "SALAMANDER"
-            },
-            {
-                "value": 1,
-                "character": "BAT"
-            },
-            {
-                "value": 2,
-                "character": "BAT"
-            },
-            {
-                "value": 3,
-                "character": "BAT"
-            },
-            {
-                "value": 1,
-                "character": "SPIDER"
-            },
-            {
-                "value": 2,
-                "character": "SPIDER"
-            },
-            {
-                "value": 3,
-                "character": "SPIDER"
-            },
-            {
-                "value": 1,
-                "character": "BABY_DRAGON"
-            },
-            {
-                "value": 2,
-                "character": "BABY_DRAGON"
-            },
-            {
-                "value": 3,
-                "character": "BABY_DRAGON"
-            },
-            {
-                "value": 1,
-                "character": "PIRATE"
-            },
-            {
-                "value": 1,
-                "character": "PIRATE"
-            },
-            {
-                "value": 2,
-                "character": "PIRATE"
-            },
-            {
-                "value": 2,
-                "character": "PIRATE"
-            }
-        ]
-    },
-    "2024-06-05 18:38:43": {
-        "players_info": [
-            {
-                "id": 1,
-                "steps_to_win": 26
-            },
-            {
-                "id": 2,
-                "steps_to_win": 26
-            },
-            {
-                "id": 3,
-                "steps_to_win": 26
-            },
-            {
-                "id": 4,
-                "steps_to_win": 26
-            }
-        ],
-        "squares": [
-            {
-                "id": 1,
-                "occupant": null,
-                "animal": "BABY_DRAGON",
-                "cave": null
-            },
-            {
-                "id": 2,
-                "occupant": null,
-                "animal": "BAT",
-                "cave": {
-                    "id": 32,
-                    "owner": {
-                        "id": 1,
-                        "steps_to_win": 26
-                    },
-                    "occupant": {
-                        "id": 1,
-                        "steps_to_win": 26
-                    },
-                    "animal": "SPIDER"
-                }
-            },
-            {
-                "id": 3,
-                "occupant": null,
-                "animal": "SPIDER",
-                "cave": null
-            },
-            {
-                "id": 4,
-                "occupant": null,
-                "animal": "SALAMANDER",
-                "cave": null
-            },
-            {
-                "id": 5,
-                "occupant": null,
-                "animal": "SPIDER",
-                "cave": null
-            },
-            {
-                "id": 6,
-                "occupant": null,
-                "animal": "BAT",
-                "cave": null
-            },
-            {
-                "id": 7,
-                "occupant": null,
-                "animal": "SPIDER",
-                "cave": null
-            },
-            {
-                "id": 8,
-                "occupant": null,
-                "animal": "SALAMANDER",
-                "cave": {
-                    "id": 33,
-                    "owner": {
-                        "id": 2,
-                        "steps_to_win": 26
-                    },
-                    "occupant": {
-                        "id": 2,
-                        "steps_to_win": 26
-                    },
-                    "animal": "SALAMANDER"
-                }
-            },
-            {
-                "id": 9,
-                "occupant": null,
-                "animal": "BABY_DRAGON",
-                "cave": null
-            },
-            {
-                "id": 10,
-                "occupant": null,
-                "animal": "BAT",
-                "cave": null
-            },
-            {
-                "id": 11,
-                "occupant": null,
-                "animal": "BAT",
-                "cave": null
-            },
-            {
-                "id": 12,
-                "occupant": null,
-                "animal": "BABY_DRAGON",
-                "cave": null
-            },
-            {
-                "id": 13,
-                "occupant": null,
-                "animal": "SALAMANDER",
-                "cave": null
-            },
-            {
-                "id": 14,
-                "occupant": null,
-                "animal": "BABY_DRAGON",
-                "cave": {
-                    "id": 34,
-                    "owner": {
-                        "id": 3,
-                        "steps_to_win": 26
-                    },
-                    "occupant": {
-                        "id": 3,
-                        "steps_to_win": 26
-                    },
-                    "animal": "SPIDER"
-                }
-            },
-            {
-                "id": 15,
-                "occupant": null,
-                "animal": "SPIDER",
-                "cave": null
-            },
-            {
-                "id": 16,
-                "occupant": null,
-                "animal": "BABY_DRAGON",
-                "cave": null
-            },
-            {
-                "id": 17,
-                "occupant": null,
-                "animal": "SALAMANDER",
-                "cave": null
-            },
-            {
-                "id": 18,
-                "occupant": null,
-                "animal": "BAT",
-                "cave": null
-            },
-            {
-                "id": 19,
-                "occupant": null,
-                "animal": "SALAMANDER",
-                "cave": null
-            },
-            {
-                "id": 20,
-                "occupant": null,
-                "animal": "BABY_DRAGON",
-                "cave": {
-                    "id": 35,
-                    "owner": {
-                        "id": 4,
-                        "steps_to_win": 26
-                    },
-                    "occupant": {
-                        "id": 4,
-                        "steps_to_win": 26
-                    },
-                    "animal": "BABY_DRAGON"
-                }
-            },
-            {
-                "id": 21,
-                "occupant": null,
-                "animal": "BAT",
-                "cave": null
-            },
-            {
-                "id": 22,
-                "occupant": null,
-                "animal": "BAT",
-                "cave": null
-            },
-            {
-                "id": 23,
-                "occupant": null,
-                "animal": "BABY_DRAGON",
-                "cave": null
-            },
-            {
-                "id": 24,
-                "occupant": null,
-                "animal": "SALAMANDER",
-                "cave": null
-            }
-        ],
-        "dragon_cards": [
-            {
-                "value": 1,
-                "character": "SALAMANDER"
-            },
-            {
-                "value": 2,
-                "character": "SALAMANDER"
-            },
-            {
-                "value": 3,
-                "character": "SALAMANDER"
-            },
-            {
-                "value": 1,
-                "character": "BAT"
-            },
-            {
-                "value": 2,
-                "character": "BAT"
-            },
-            {
-                "value": 3,
-                "character": "BAT"
-            },
-            {
-                "value": 1,
-                "character": "SPIDER"
-            },
-            {
-                "value": 2,
-                "character": "SPIDER"
-            },
-            {
-                "value": 3,
-                "character": "SPIDER"
-            },
-            {
-                "value": 1,
-                "character": "BABY_DRAGON"
-            },
-            {
-                "value": 2,
-                "character": "BABY_DRAGON"
-            },
-            {
-                "value": 3,
-                "character": "BABY_DRAGON"
-            },
-            {
-                "value": 1,
-                "character": "PIRATE"
-            },
-            {
-                "value": 1,
-                "character": "PIRATE"
-            },
-            {
-                "value": 2,
-                "character": "PIRATE"
-            },
-            {
-                "value": 2,
-                "character": "PIRATE"
-            }
-        ]
-    },
-    "2024-06-05 20:51:20": {
-        "players_info": [
-            {
-                "id": 1,
-                "steps_to_win": 23
-            },
-            {
-                "id": 2,
-                "steps_to_win": 23
-            },
-            {
-                "id": 3,
-                "steps_to_win": 25
             },
             {
                 "id": 4,
@@ -593,16 +41,16 @@
             },
             {
                 "id": 3,
-                "occupant": null,
-                "animal": "SPIDER",
-                "cave": null
-            },
-            {
-                "id": 4,
                 "occupant": {
                     "id": 1,
-                    "steps_to_win": 23
+                    "steps_to_win": 24
                 },
+                "animal": "SPIDER",
+                "cave": null
+            },
+            {
+                "id": 4,
+                "occupant": null,
                 "animal": "SALAMANDER",
                 "cave": null
             },
@@ -634,7 +82,10 @@
                         "id": 2,
                         "steps_to_win": 26
                     },
-                    "occupant": null,
+                    "occupant": {
+                        "id": 2,
+                        "steps_to_win": 26
+                    },
                     "animal": "SALAMANDER"
                 }
             },
@@ -646,10 +97,283 @@
             },
             {
                 "id": 10,
+                "occupant": null,
+                "animal": "BAT",
+                "cave": null
+            },
+            {
+                "id": 11,
+                "occupant": null,
+                "animal": "BAT",
+                "cave": null
+            },
+            {
+                "id": 12,
+                "occupant": null,
+                "animal": "BABY_DRAGON",
+                "cave": null
+            },
+            {
+                "id": 13,
+                "occupant": null,
+                "animal": "SALAMANDER",
+                "cave": null
+            },
+            {
+                "id": 14,
+                "occupant": null,
+                "animal": "BABY_DRAGON",
+                "cave": {
+                    "id": 34,
+                    "owner": {
+                        "id": 3,
+                        "steps_to_win": 26
+                    },
+                    "occupant": {
+                        "id": 3,
+                        "steps_to_win": 26
+                    },
+                    "animal": "SPIDER"
+                }
+            },
+            {
+                "id": 15,
+                "occupant": null,
+                "animal": "SPIDER",
+                "cave": null
+            },
+            {
+                "id": 16,
+                "occupant": null,
+                "animal": "BABY_DRAGON",
+                "cave": null
+            },
+            {
+                "id": 17,
+                "occupant": null,
+                "animal": "SALAMANDER",
+                "cave": null
+            },
+            {
+                "id": 18,
+                "occupant": null,
+                "animal": "BAT",
+                "cave": null
+            },
+            {
+                "id": 19,
+                "occupant": null,
+                "animal": "SALAMANDER",
+                "cave": null
+            },
+            {
+                "id": 20,
+                "occupant": null,
+                "animal": "BABY_DRAGON",
+                "cave": {
+                    "id": 35,
+                    "owner": {
+                        "id": 4,
+                        "steps_to_win": 26
+                    },
+                    "occupant": {
+                        "id": 4,
+                        "steps_to_win": 26
+                    },
+                    "animal": "BABY_DRAGON"
+                }
+            },
+            {
+                "id": 21,
+                "occupant": null,
+                "animal": "BAT",
+                "cave": null
+            },
+            {
+                "id": 22,
+                "occupant": null,
+                "animal": "BAT",
+                "cave": null
+            },
+            {
+                "id": 23,
+                "occupant": null,
+                "animal": "BABY_DRAGON",
+                "cave": null
+            },
+            {
+                "id": 24,
+                "occupant": null,
+                "animal": "SALAMANDER",
+                "cave": null
+            }
+        ],
+        "dragon_cards": [
+            {
+                "value": 1,
+                "character": "SALAMANDER"
+            },
+            {
+                "value": 2,
+                "character": "SALAMANDER"
+            },
+            {
+                "value": 3,
+                "character": "SALAMANDER"
+            },
+            {
+                "value": 1,
+                "character": "BAT"
+            },
+            {
+                "value": 2,
+                "character": "BAT"
+            },
+            {
+                "value": 3,
+                "character": "BAT"
+            },
+            {
+                "value": 1,
+                "character": "SPIDER"
+            },
+            {
+                "value": 2,
+                "character": "SPIDER"
+            },
+            {
+                "value": 3,
+                "character": "SPIDER"
+            },
+            {
+                "value": 1,
+                "character": "BABY_DRAGON"
+            },
+            {
+                "value": 2,
+                "character": "BABY_DRAGON"
+            },
+            {
+                "value": 3,
+                "character": "BABY_DRAGON"
+            },
+            {
+                "value": 1,
+                "character": "PIRATE"
+            },
+            {
+                "value": 1,
+                "character": "PIRATE"
+            },
+            {
+                "value": 2,
+                "character": "PIRATE"
+            },
+            {
+                "value": 1,
+                "character": "SPECIAL"
+            }
+        ]
+    },
+    "2024-06-05 23:50:08": {
+        "players_info": [
+            {
+                "id": 1,
+                "steps_to_win": 23
+            },
+            {
+                "id": 2,
+                "steps_to_win": 23
+            },
+            {
+                "id": 3,
+                "steps_to_win": 18
+            },
+            {
+                "id": 4,
+                "steps_to_win": 25
+            }
+        ],
+        "squares": [
+            {
+                "id": 1,
+                "occupant": null,
+                "animal": "BABY_DRAGON",
+                "cave": null
+            },
+            {
+                "id": 2,
+                "occupant": null,
+                "animal": "BAT",
+                "cave": {
+                    "id": 32,
+                    "owner": {
+                        "id": 1,
+                        "steps_to_win": 26
+                    },
+                    "occupant": null,
+                    "animal": "SPIDER"
+                }
+            },
+            {
+                "id": 3,
+                "occupant": null,
+                "animal": "SPIDER",
+                "cave": null
+            },
+            {
+                "id": 4,
                 "occupant": {
                     "id": 2,
                     "steps_to_win": 23
                 },
+                "animal": "SALAMANDER",
+                "cave": null
+            },
+            {
+                "id": 5,
+                "occupant": null,
+                "animal": "SPIDER",
+                "cave": null
+            },
+            {
+                "id": 6,
+                "occupant": null,
+                "animal": "BAT",
+                "cave": null
+            },
+            {
+                "id": 7,
+                "occupant": null,
+                "animal": "SPIDER",
+                "cave": null
+            },
+            {
+                "id": 8,
+                "occupant": null,
+                "animal": "SALAMANDER",
+                "cave": {
+                    "id": 33,
+                    "owner": {
+                        "id": 2,
+                        "steps_to_win": 26
+                    },
+                    "occupant": null,
+                    "animal": "SALAMANDER"
+                }
+            },
+            {
+                "id": 9,
+                "occupant": null,
+                "animal": "BABY_DRAGON",
+                "cave": null
+            },
+            {
+                "id": 10,
+                "occupant": {
+                    "id": 1,
+                    "steps_to_win": 23
+                },
                 "animal": "BAT",
                 "cave": null
             },
@@ -673,10 +397,7 @@
             },
             {
                 "id": 14,
-                "occupant": {
-                    "id": 3,
-                    "steps_to_win": 25
-                },
+                "occupant": null,
                 "animal": "BABY_DRAGON",
                 "cave": {
                     "id": 34,
@@ -720,7 +441,10 @@
             },
             {
                 "id": 20,
-                "occupant": null,
+                "occupant": {
+                    "id": 3,
+                    "steps_to_win": 18
+                },
                 "animal": "BABY_DRAGON",
                 "cave": {
                     "id": 35,
@@ -728,12 +452,258 @@
                         "id": 4,
                         "steps_to_win": 26
                     },
-                    "occupant": {
-                        "id": 4,
-                        "steps_to_win": 26
-                    },
+                    "occupant": null,
                     "animal": "BABY_DRAGON"
                 }
+            },
+            {
+                "id": 21,
+                "occupant": {
+                    "id": 4,
+                    "steps_to_win": 25
+                },
+                "animal": "BAT",
+                "cave": null
+            },
+            {
+                "id": 22,
+                "occupant": null,
+                "animal": "BAT",
+                "cave": null
+            },
+            {
+                "id": 23,
+                "occupant": null,
+                "animal": "BABY_DRAGON",
+                "cave": null
+            },
+            {
+                "id": 24,
+                "occupant": null,
+                "animal": "SALAMANDER",
+                "cave": null
+            }
+        ],
+        "dragon_cards": [
+            {
+                "value": 1,
+                "character": "SALAMANDER"
+            },
+            {
+                "value": 2,
+                "character": "SALAMANDER"
+            },
+            {
+                "value": 3,
+                "character": "SALAMANDER"
+            },
+            {
+                "value": 1,
+                "character": "BAT"
+            },
+            {
+                "value": 2,
+                "character": "BAT"
+            },
+            {
+                "value": 3,
+                "character": "BAT"
+            },
+            {
+                "value": 1,
+                "character": "SPIDER"
+            },
+            {
+                "value": 2,
+                "character": "SPIDER"
+            },
+            {
+                "value": 3,
+                "character": "SPIDER"
+            },
+            {
+                "value": 1,
+                "character": "BABY_DRAGON"
+            },
+            {
+                "value": 2,
+                "character": "BABY_DRAGON"
+            },
+            {
+                "value": 3,
+                "character": "BABY_DRAGON"
+            },
+            {
+                "value": 1,
+                "character": "PIRATE"
+            },
+            {
+                "value": 1,
+                "character": "PIRATE"
+            },
+            {
+                "value": 2,
+                "character": "PIRATE"
+            },
+            {
+                "value": 1,
+                "character": "SPECIAL"
+            }
+        ]
+    },
+    "2024-06-06 01:07:59": {
+        "players_info": [
+            {
+                "id": 1,
+                "steps_to_win": 16
+            },
+            {
+                "id": 2,
+                "steps_to_win": 22
+            }
+        ],
+        "squares": [
+            {
+                "id": 1,
+                "occupant": null,
+                "animal": "BABY_DRAGON",
+                "cave": null
+            },
+            {
+                "id": 2,
+                "occupant": null,
+                "animal": "BAT",
+                "cave": {
+                    "id": 32,
+                    "owner": {
+                        "id": 1,
+                        "steps_to_win": 26
+                    },
+                    "occupant": null,
+                    "animal": "SPIDER"
+                }
+            },
+            {
+                "id": 3,
+                "occupant": null,
+                "animal": "SPIDER",
+                "cave": null
+            },
+            {
+                "id": 4,
+                "occupant": null,
+                "animal": "SALAMANDER",
+                "cave": null
+            },
+            {
+                "id": 5,
+                "occupant": null,
+                "animal": "SPIDER",
+                "cave": null
+            },
+            {
+                "id": 6,
+                "occupant": null,
+                "animal": "BAT",
+                "cave": null
+            },
+            {
+                "id": 7,
+                "occupant": null,
+                "animal": "SPIDER",
+                "cave": null
+            },
+            {
+                "id": 8,
+                "occupant": null,
+                "animal": "SALAMANDER",
+                "cave": null
+            },
+            {
+                "id": 9,
+                "occupant": null,
+                "animal": "BABY_DRAGON",
+                "cave": null
+            },
+            {
+                "id": 10,
+                "occupant": null,
+                "animal": "BAT",
+                "cave": null
+            },
+            {
+                "id": 11,
+                "occupant": {
+                    "id": 1,
+                    "steps_to_win": 16
+                },
+                "animal": "BAT",
+                "cave": null
+            },
+            {
+                "id": 12,
+                "occupant": null,
+                "animal": "BABY_DRAGON",
+                "cave": null
+            },
+            {
+                "id": 13,
+                "occupant": null,
+                "animal": "SALAMANDER",
+                "cave": null
+            },
+            {
+                "id": 14,
+                "occupant": null,
+                "animal": "BABY_DRAGON",
+                "cave": {
+                    "id": 33,
+                    "owner": {
+                        "id": 2,
+                        "steps_to_win": 26
+                    },
+                    "occupant": null,
+                    "animal": "SALAMANDER"
+                }
+            },
+            {
+                "id": 15,
+                "occupant": null,
+                "animal": "SPIDER",
+                "cave": null
+            },
+            {
+                "id": 16,
+                "occupant": null,
+                "animal": "BABY_DRAGON",
+                "cave": null
+            },
+            {
+                "id": 17,
+                "occupant": {
+                    "id": 2,
+                    "steps_to_win": 22
+                },
+                "animal": "SALAMANDER",
+                "cave": null
+            },
+            {
+                "id": 18,
+                "occupant": null,
+                "animal": "BAT",
+                "cave": null
+            },
+            {
+                "id": 19,
+                "occupant": null,
+                "animal": "SALAMANDER",
+                "cave": null
+            },
+            {
+                "id": 20,
+                "occupant": null,
+                "animal": "BABY_DRAGON",
+                "cave": null
             },
             {
                 "id": 21,
@@ -822,8 +792,8 @@
                 "character": "PIRATE"
             },
             {
-                "value": 2,
-                "character": "PIRATE"
+                "value": 1,
+                "character": "SPECIAL"
             }
         ]
     }
