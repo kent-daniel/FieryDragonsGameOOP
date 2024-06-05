@@ -4,9 +4,8 @@ from Movement import Movement
 from Square import Square
 from MovementEventManager import IMovementEventManager
 from PlayerDataController import IPlayerDataController
-from GameDataController import IPlayerDataController, ILocationDataController
+from LocationDataController import ILocationDataController
 from NotificationManager import NotificationManager
-from DragonCard import DragonCard
 from Tile import Tile
 
 

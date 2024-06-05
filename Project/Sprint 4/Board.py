@@ -4,7 +4,7 @@ import pygame
 from VolcanoCard import VolcanoCard
 from GameConstants import GameStyles, GameElementStyles
 from PlayerDataController import IPlayerDataController
-from GameDataController import ILocationDataController
+from LocationDataController import ILocationDataController
 from Drawable import Drawable
 from MovementEventManager import IMovementEventListener
 from Movement import Movement
