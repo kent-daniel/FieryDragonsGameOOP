@@ -24,7 +24,9 @@ class LocationManager:
     def set_player_location(self, player: Player, tile: Tile) -> None:
         squares = self._location_data_controller.get_squares()
         for i in range(len(squares)):
-            if squares[i].id == tile.id:
+            if tile.is_cave() and squares[i].cave and squares[i].cave.id == tile.id:
+                squares[i].cave.set_occupant(player)
+            elif squares[i].id == tile.id:
                 squares[i].set_occupant(player)
         self._location_data_controller.set_squares(squares)
 

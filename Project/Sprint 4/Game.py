@@ -9,8 +9,6 @@ from DragonCard import DragonCard
 from PlayerMoveController import IPlayerMoveController, PlayerMoveController
 from MovementEventManager import IMovementEventManager, MovementEventManager
 from PlayerTurnController import IPlayerTurnController, PlayerTurnController
-from PlayerDataController import IPlayerDataController
-from DragonCardDataController import IDragonCardDataController
 from NotificationTabUI import NotificationTabUI
 from Win import Win
 from Player import Player
