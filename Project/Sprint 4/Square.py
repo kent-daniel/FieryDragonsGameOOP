@@ -1,18 +1,21 @@
-from typing import Tuple, Optional
+from typing import Tuple, Optional, Dict
 import pygame
 from GameConstants import CharacterImage, GameElementStyles, GameStyles
-from Drawable import Drawable
-from Player import Player
 from Cave import Cave
 from Tile import Tile
+from IDecodable import IDecodable
+from Player import Player
 
 
-class Square(Tile):
+class Square(Tile, IDecodable):
+
     def __init__(self, id: int, character: CharacterImage,
                  width: int = GameElementStyles.SQUARE_LENGTH.value,
-                 height: int = GameElementStyles.SQUARE_LENGTH.value) -> None:
-        super().__init__(id, character, width, height)
-        self._cave: Optional[Cave] = None
+                 height: int = GameElementStyles.SQUARE_LENGTH.value,
+                 cave: Optional[Cave] = None,
+                 occupant: Optional[Player] = None) -> None:
+        super().__init__(id, character, width, height, occupant)
+        self._cave: Optional[Cave] = cave
         self._rect = None
         self._image: pygame.Surface = pygame.image.load(self._character.value).convert_alpha()
         self._image = pygame.transform.smoothscale(self._image, (self.width * 0.8, self.height * 0.8))
@@ -23,7 +26,8 @@ class Square(Tile):
     def redraw_view(self) -> None:
         self._rect: pygame.Rect = self._combined_surface.get_rect()
         self._draw_square()
-        self._draw_cave()
+        if self._cave:
+            self._draw_cave()
         if self._occupant:
             self._draw_player()
 
@@ -62,7 +66,23 @@ class Square(Tile):
     def get_surface(self) -> pygame.Surface:
         return self._combined_surface
 
-    def attach_cave(self, cave: Cave) -> None:
+    def set_cave(self, cave: Cave) -> None:
         self._combined_surface = pygame.Surface(
-            (self.width, self.height + cave.get_surface().get_rect().height), pygame.SRCALPHA)
+            (self.width, self.height + self._cave.get_surface().get_rect().height), pygame.SRCALPHA)
         self._cave = cave
+
+    @staticmethod
+    def decode_from_json(json_data: Dict) -> 'IDecodable':
+        return Square(json_data["id"],
+                      CharacterImage[json_data["animal"]],
+                      occupant=Player.decode_from_json(json_data["occupant"]) if json_data["occupant"] else None ,
+                      cave=Cave.decode_from_json(json_data["cave"]) if json_data["cave"] else None
+                      )
+
+    def encode_to_json(self) -> Dict:
+        return {
+            "id": self.id,
+            "occupant": self.get_occupant().encode_to_json() if self.get_occupant() else None,
+            "animal": self.character.name,
+            "cave": self.cave.encode_to_json() if self.cave else None
+        }

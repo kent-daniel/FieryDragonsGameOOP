@@ -23,7 +23,6 @@ def main():
         pygame.display.flip()
         clock.tick(FPS)  # Frame rate
 
-
 if __name__ == '__main__':
 
     main()

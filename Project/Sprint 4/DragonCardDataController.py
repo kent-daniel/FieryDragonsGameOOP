@@ -66,10 +66,8 @@ class DragonCardDataController(IDragonCardDataController):
            Loads the DragonCard objects from the configuration string and
            creates a shuffled list of AnimalDragonCard and PirateDragonCard objects.
     """
-    def __init__(self, dragon_card_config_data: List[dict]):
-        self._config_data = dragon_card_config_data
-        self._dragon_cards: List[DragonCard] = []
-        self.load_data()
+    def __init__(self, dragon_cards: List[DragonCard]):
+        self._dragon_cards: List[DragonCard] = dragon_cards
 
     def get_dragon_cards(self) -> List[DragonCard]:
         """
@@ -82,7 +80,7 @@ class DragonCardDataController(IDragonCardDataController):
         return self._dragon_cards
 
     def to_json_format(self) -> List[dict]:
-        return [{"value": card.value, "character": card.character.name} for card in self._dragon_cards]
+        return [card.encode_to_json() for card in self._dragon_cards]
 
     def set_dragon_cards(self, dragon_cards: List[DragonCard]) -> None:
         """
@@ -93,24 +91,4 @@ class DragonCardDataController(IDragonCardDataController):
         :param dragon_cards: List[DragonCard]: Set the dragon_cards attribute of the dragoncards class
         :return: None
         """
-        self._dragon_cards = dragon_cards
-
-    def load_data(self) -> None:
-        """
-        The load_data function is responsible for loading the data from the config file.
-        It will split each line of the config file into a list, and then iterate through that list to create DragonCard objects.
-        The function will also shuffle those cards before returning them.
-
-        :param self: Refer to the current instance of a class
-        :return: A list of dragoncard objects
-        """
-        dragon_cards: List[DragonCard] = []
-        for dragon in self._config_data:
-            value, character = dragon["value"], dragon["character"]
-            if character == CharacterImage.PIRATE.name:
-                dragon_cards.append(PirateDragonCard(CharacterImage[character], int(value)))
-            else:
-                dragon_cards.append(AnimalDragonCard(CharacterImage[character], int(value)))
-
-        random.shuffle(dragon_cards)
         self._dragon_cards = dragon_cards
