@@ -5,7 +5,6 @@ from MovementEventManager import IMovementEventListener
 from Movement import Movement
 from GameDataController import IPlayerDataController
 from NotificationManager import NotificationManager
-from queue import Queue
 
 class IPlayerTurnController(IMovementEventListener):
     """
@@ -49,12 +48,7 @@ class PlayerTurnController(IPlayerTurnController):
         self._data_controller = data_controller
         self._players = self._data_controller.get_players()
         self._notification_manager = notification_manager
-        self._players_queue = Queue()
-
-        for player in self._players:
-            self._players_queue.put(player)
-
-        self.current_player = self._players_queue.queue[0]
+        self.current_player = self._data_controller.get_players()[0]
         self._turn_timer = None
         self.start_turn_timer()
 
@@ -81,8 +75,14 @@ class PlayerTurnController(IPlayerTurnController):
         """
         Switches to the next player and sends a notification about the switch.
         """
-        self._players_queue.put(self._players_queue.get())  # Move the current player to the end of the queue
-        self.current_player = self._players_queue.queue[0]
+        self.current_player.lives -= 1
+        self._notification_manager.add_notification(f" player {self.get_current_player().id} has {self.current_player.lives} lives remaining. ")
+        if self.current_player.lives <= 0:
+            self._notification_manager.add_notification(f"Player {self.current_player.id} has been eliminated.")
+            self._data_controller.get_players().remove(self.current_player)
+
+        self._data_controller.get_players().rotate(-1)
+        self.current_player = self._data_controller.get_players()[0]
         self._notification_manager.add_notification(f"switching to player {self.get_current_player().id}'s turn")
         self.start_turn_timer()
 

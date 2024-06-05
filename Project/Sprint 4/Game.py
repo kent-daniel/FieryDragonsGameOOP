@@ -13,7 +13,7 @@ from GameDataController import IPlayerDataController, IDragonCardDataController
 from NotificationTabUI import NotificationTabUI
 from Win import Win
 from Player import Player
-import time
+
 
 WIN_EVENT = pygame.USEREVENT + 1
 QUIT_TIME = 5000
@@ -42,6 +42,9 @@ class Game:
         self._win_time = float(inf)
         self.win_no = 0  #used to check if a player has been defined
 
+
+
+
     def render_game(self):
         """
         rendering the UI components updates of the game for every tick of the game
@@ -51,6 +54,7 @@ class Game:
         self._draw_board()
         self._draw_notification_tab()
         self._draw_win_notification()
+
 
     def _draw_win_notification(self):
         if self.winner is not None:

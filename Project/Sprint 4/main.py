@@ -13,7 +13,10 @@ def main():
     game_data_controller = GameDataController("config.ini")
     game = Game(game_data_controller, screen)
     FPS = 60
+
+
     while game.is_running:
+
         game.handle_events()
         screen.fill(GameConstants.GameStyles.COLOR_GRAY_700.value)
         game.render_game()
