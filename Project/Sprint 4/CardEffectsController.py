@@ -27,25 +27,15 @@ class CardEffectsController(ICardEffectsController):
             final_movement = Movement(0, current_square)
             self._notification_manager.add_notification(f"player {player.id} didn't get a matching card")
         else:
-            final_movement = self.player_move_controller.move_forward(player, current_square, animal_card.value)
-
-        if final_movement.value != 0:
-            self.location_manager.remove_player_location(current_square)
-            self.location_manager.set_player_location(player, final_movement.destination)
-            self._notification_manager.add_notification(f"player {player.id} is moving forward to tile {final_movement.destination.id}")
-            player.steps_to_win -= final_movement.value
+            final_movement = self.player_move_controller.create_movement(player, current_square, animal_card.value)
         self.movement_publisher.publish_event(final_movement)
 
     def pirate_effect(self, pirate_card, player: Player):
         current_square = self.location_manager.get_player_location(player)
 
-        final_movement = self.player_move_controller.move_backward(player, current_square,pirate_card.value)
-
-        if final_movement.value != 0:
-            self.location_manager.remove_player_location(current_square)
-            self.location_manager.set_player_location(player, final_movement.destination)
-            self._notification_manager.add_notification(f"player {player.id} is moving back to tile {final_movement.destination.id}")
-            player.steps_to_win += final_movement.value
+        final_movement = self.player_move_controller.move_backward(player,
+                                                                   current_square,
+                                                                   -pirate_card.value)
         self.movement_publisher.publish_event(final_movement)
 
     def special_effect(self, special_card, player: Player):

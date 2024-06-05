@@ -141,26 +141,8 @@ class Game:
         initialises the different graphical components, managers and controllers of the game
         :return: None
         """
-        self._setup_data()
         self._setup_views()
-        self._movement_manager: IMovementEventManager = MovementEventManager()
-        self._player_turn_controller: IPlayerTurnController = PlayerTurnController(
-            self._data_controller.player_data_controller)
-        self._player_move_controller: IPlayerMoveController = PlayerMoveController(
-            self._data_controller.player_data_controller)
-        self._location_manager = LocationManager(self._data_controller.location_data_controller)
-        self.special_effect_controller: SpecialEffectController = SpecialEffectController(
-            self._data_controller.player_data_controller,
-            self._location_manager)
-        self.card_effects_controller: CardEffectsController = CardEffectsController(
-            self._player_move_controller,
-            self.special_effect_controller,
-            self._location_manager,
-            self._movement_manager
-        )
-        self._movement_manager.add_listener(self._board)
-        self._movement_manager.add_listener(self._dragon_cards)
-        self._movement_manager.add_listener(self._player_turn_controller)
+        self._setup_controllers()
 
     def _setup_views(self) -> None:
         """
@@ -174,16 +156,30 @@ class Game:
             self._data_controller.dragon_card_data_controller)
         self._notification_tab = NotificationTabUI()
 
-    def _setup_data(self) -> None:
+    def _setup_controllers(self) -> None:
         """
         Setting up the data controllers for player and dragon card
         :return: None
         """
-        pass
-        # self._data_controller.load_from_game("2024-06-01 12:00:00")
-        # self._data_controller.load_from_new_game(4)
-        # self._player_data_controller: IPlayerDataController = self._data_controller.create_player_data_controller()
-        # self._dragon_cards_data_controller: IDragonCardDataController = self._data_controller.create_dragon_card_data_controller()
+        self._movement_manager: IMovementEventManager = MovementEventManager()
+        self._player_turn_controller: IPlayerTurnController = PlayerTurnController(
+            self._data_controller.player_data_controller)
+        self._location_manager = LocationManager(self._data_controller.location_data_controller)
+        self._player_move_controller: IPlayerMoveController = PlayerMoveController(
+            self._location_manager)
+        self.special_effect_controller: SpecialEffectController = SpecialEffectController(
+            self._data_controller.player_data_controller,
+            self._location_manager)
+        self.card_effects_controller: CardEffectsController = CardEffectsController(
+            self._player_move_controller,
+            self.special_effect_controller,
+            self._location_manager,
+            self._movement_manager
+        )
+        self._movement_manager.add_listener(self._board)
+        self._movement_manager.add_listener(self._dragon_cards)
+        self._movement_manager.add_listener(self._player_turn_controller)
+
 
     def quit(self) -> None:
         """

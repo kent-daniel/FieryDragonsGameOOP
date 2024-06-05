@@ -3,7 +3,7 @@ from Player import Player
 from Movement import Movement
 from MovementEventManager import IMovementEventManager
 from PlayerDataController import IPlayerDataController
-from LocationDataController import ILocationDataController
+from LocationManager import LocationManager
 from NotificationManager import NotificationManager
 from Tile import Tile
 
@@ -16,6 +16,10 @@ class IPlayerMoveController(ABC):
 
     @abstractmethod
     def move_backward(self, player: Player, origin_location: Tile, steps: int) -> Movement:
+        pass
+
+    @abstractmethod
+    def create_movement(self, player: Player, origin_location: Tile, steps: int) -> Movement:
         pass
 
 
@@ -40,11 +44,28 @@ class PlayerMoveController(IPlayerMoveController):
                 Returns the current location of the player.
         """
 
-    def __init__(self, player_data_controller: IPlayerDataController,
-                 notification_manager=NotificationManager()):
+    def __init__(self,
+                 location_manager: LocationManager,
+                 notification_manager=NotificationManager(),
+                 ):
 
-        self._player_data_controller = player_data_controller
+        self._location_manager = location_manager
         self._notification_manager = notification_manager
+
+    def create_movement(self, player: Player, origin_location: Tile, steps: int) -> Movement:
+        final_movement = Movement(0, origin_location)
+        if steps < 0:
+            final_movement = self.move_backward(player, origin_location, steps)
+            self._notification_manager.add_notification(
+                f"player {player.id} is moving back to tile {final_movement.destination.id}")
+        else:
+            final_movement = self.move_forward(player, origin_location, steps)
+            self._notification_manager.add_notification(f"player {player.id} is moving forward to tile {final_movement.destination.id}")
+        if final_movement.value != 0:
+            self._location_manager.remove_player_location(origin_location)
+            self._location_manager.set_player_location(player, final_movement.destination)
+            player.steps_to_win -= final_movement.value
+        return final_movement
 
     def move_forward(self, player: Player, origin_location: Tile, steps: int) -> Movement:
         destination = origin_location
@@ -55,14 +76,15 @@ class PlayerMoveController(IPlayerMoveController):
             self._notification_manager.add_notification(f"Player {player.id} cannot pass cave")
             return Movement(0, origin_location)
         if player.steps_to_win == steps:  # move player to cave
-            return Movement(steps, destination if destination.is_cave() else destination.cave)  # return the movement to the cave
+            return Movement(steps,
+                            destination if destination.is_cave() else destination.cave)  # return the movement to the cave
         if self._check_destination_is_occupied(destination):  # check if destination is occupied
             return Movement(0, origin_location)
         return Movement(steps, destination)
 
     def move_backward(self, player: Player, origin_location: Tile, steps: int) -> Movement:
         destination = origin_location
-        for step in range(steps):
+        for step in range(abs(steps)):
             if origin_location.is_cave() or destination.cave and destination.cave.get_owner().id == player.id:  # if player is passing their cave
                 self._notification_manager.add_notification(f"player {player.id} cannot go behind cave")
                 return Movement(0, origin_location)

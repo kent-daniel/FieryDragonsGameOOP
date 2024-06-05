@@ -792,8 +792,8 @@
                 "character": "PIRATE"
             },
             {
-                "value": 2,
-                "character": "PIRATE"
+                "value": 0,
+                "character": "SPECIAL"
             }
         ]
     }
