@@ -1,10 +1,10 @@
+import threading
 from abc import abstractmethod
 from Player import Player
 from MovementEventManager import IMovementEventListener
 from Movement import Movement
 from GameDataController import IPlayerDataController
 from NotificationManager import NotificationManager
-
 
 class IPlayerTurnController(IMovementEventListener):
     """
@@ -42,11 +42,15 @@ class PlayerTurnController(IPlayerTurnController):
         current_player (Player): The current player.
     """
 
+    TURN_TIME_LIMIT = 15  # Time limit for each turn in seconds
+
     def __init__(self, data_controller: IPlayerDataController, notification_manager=NotificationManager()):
         self._data_controller = data_controller
         self._players = self._data_controller.get_players()
         self._notification_manager = notification_manager
-        self.current_player = self._players[0]
+        self.current_player = self._data_controller.get_players()[0]
+        self._turn_timer = None
+        self.start_turn_timer()
 
     def get_current_player(self) -> Player:
         """
@@ -71,7 +75,34 @@ class PlayerTurnController(IPlayerTurnController):
         """
         Switches to the next player and sends a notification about the switch.
         """
-        player_index = (self.current_player.id + 1) % self._players.__len__()
-        self.current_player = self._players[player_index-1]
+        self.current_player.lives -= 1
+        self._notification_manager.add_notification(f" player {self.get_current_player().id} has {self.current_player.lives} lives remaining. ")
+
+        if self.current_player.lives <= 0:
+            self._notification_manager.add_notification(f"Player {self.current_player.id} has been eliminated.")
+            self._data_controller.get_players().remove(self.current_player)
+        if not self._data_controller.get_players():
+            return
+
+        self._data_controller.get_players().rotate(-1)
+        self.current_player = self._data_controller.get_players()[0]
         self._notification_manager.add_notification(f"switching to player {self.get_current_player().id}'s turn")
+        self.start_turn_timer()
+
+    def start_turn_timer(self):
+        """
+        Starts or restarts the turn timer.
+        """
+        if self._turn_timer:
+            self._turn_timer.cancel()
+
+        self._turn_timer = threading.Timer(self.TURN_TIME_LIMIT, self.switch_player)
+        self._turn_timer.start()
+
+    def stop_turn_timer(self):
+        """
+        Stops the turn timer.
+        """
+        if self._turn_timer:
+            self._turn_timer.cancel()
 

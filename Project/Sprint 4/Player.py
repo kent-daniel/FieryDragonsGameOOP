@@ -17,6 +17,7 @@ class Player(Drawable, IDecodable):
                  height: int = GameElementStyles.PLAYER_HEIGHT.value):
         self.colour = colour
         self.id = id
+        self.lives = 20
         self.steps_to_win = steps_to_win
         self._player_surface: pygame.Surface = pygame.Surface((width, height), pygame.SRCALPHA)
         self._rect = self._player_surface.get_rect()

@@ -44,6 +44,9 @@ class Game:
         self._win_time = float(inf)
         self.win_no = 0  #used to check if a player has been defined
 
+
+
+
     def render_game(self):
         """
         rendering the UI components updates of the game for every tick of the game
@@ -53,6 +56,7 @@ class Game:
         self._draw_board()
         self._draw_notification_tab()
         self._draw_win_notification()
+
 
     def _draw_win_notification(self):
         if self.winner is not None:
@@ -134,6 +138,9 @@ class Game:
         """
         if player.steps_to_win == 0:
             return player
+        if len(self._player_data_controller.get_players()) == 1:
+            return self._player_data_controller.get_players()[0]
+
         return None
 
     def initialise_game(self):
