@@ -6,6 +6,8 @@ from GameConstants import CharacterImage
 from Drawable import Drawable
 from GameConstants import GameStyles
 from CardEffectsController import CardEffectsController
+from Movement import Movement
+from Tile import Tile
 
 UNFLIP_EVENT = pygame.USEREVENT + 1
 FLIP_TIME = 1000
@@ -264,6 +266,7 @@ class PirateDragonCard(DragonCard):
         :param character: CharacterImage: Set the character image of the card
         :param value: int: Set the value of the card
         :param is_flipped: bool: Determine if the card is flipped or not
+        :param radius: int: Set the radius of the circle
         :return: The super class, which is a card
         """
         super().__init__(character, value, is_flipped)

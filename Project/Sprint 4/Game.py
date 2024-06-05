@@ -146,10 +146,11 @@ class Game:
         self._setup_views()
         self._movement_manager: IMovementEventManager = MovementEventManager()
         self._player_turn_controller: IPlayerTurnController = PlayerTurnController(
-            self._player_data_controller)
+            self._data_controller.player_data_controller)
         self._player_move_controller: IPlayerMoveController = PlayerMoveController(
             self._movement_manager,
-            self._player_data_controller)
+            self._data_controller.player_data_controller,
+            self._data_controller.location_data_controller)
         self.special_effect_controller: SpecialEffectController = SpecialEffectController(self._player_move_controller, self._player_data_controller)
         self.card_effects_controller: CardEffectsController = CardEffectsController(self._player_move_controller, self.special_effect_controller)
         self._movement_manager.add_listener(self._board)
@@ -163,9 +164,9 @@ class Game:
         """
         self._board = Board(int(self._screen.get_width() * 0.7),
                             self._screen.get_height(),
-                            self._player_data_controller)
+                            self._data_controller.location_data_controller)
         self._dragon_cards = DragonCardsGroup(
-            self._dragon_cards_data_controller)
+            self._data_controller.dragon_card_data_controller)
         self._notification_tab = NotificationTabUI()
 
     def _setup_data(self) -> None:
@@ -173,8 +174,11 @@ class Game:
         Setting up the data controllers for player and dragon card
         :return: None
         """
-        self._player_data_controller: IPlayerDataController = self._data_controller.create_player_data_controller()
-        self._dragon_cards_data_controller: IDragonCardDataController = self._data_controller.create_dragon_card_data_controller()
+        pass
+        # self._data_controller.load_from_game("2024-06-01 12:00:00")
+        # self._data_controller.load_from_new_game(4)
+        # self._player_data_controller: IPlayerDataController = self._data_controller.create_player_data_controller()
+        # self._dragon_cards_data_controller: IDragonCardDataController = self._data_controller.create_dragon_card_data_controller()
 
     def quit(self) -> None:
         """
@@ -182,4 +186,5 @@ class Game:
         :return: None
         """
         self.end_game()
+        self._data_controller.save_data()
         pygame.quit()

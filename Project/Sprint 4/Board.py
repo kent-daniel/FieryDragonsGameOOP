@@ -4,12 +4,13 @@ import pygame
 from VolcanoCard import VolcanoCard
 from GameConstants import GameStyles, GameElementStyles
 from PlayerDataController import IPlayerDataController
+from GameDataController import ILocationDataController
 from Drawable import Drawable
 from MovementEventManager import IMovementEventListener
 from Movement import Movement
 
 class Board(Drawable, IMovementEventListener):
-    def __init__(self, width: int, height: int, data_controller: IPlayerDataController,
+    def __init__(self, width: int, height: int, data_controller: ILocationDataController,
                  color: pygame.color = GameStyles.COLOR_TRANSPARENT.value):
         super().__init__()
         self.width = width
