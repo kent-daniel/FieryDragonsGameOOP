@@ -7,6 +7,7 @@ from typing import List
 from PlayerDataController import IPlayerDataController, PlayerDataController
 from DragonCardDataController import IDragonCardDataController, DragonCardDataController
 from LocationDataController import ILocationDataController, LocationDataController
+from LocationManager import LocationManager
 
 
 class GameProgressData:
@@ -58,6 +59,7 @@ class GameProgressData:
 
 class GameDataController:
     def __init__(self, config_path: str = 'config.json'):
+        self.location_manager = None
         self.config = self._parse_config(config_path)
         self.game_progress_list: List[GameProgressData] = [GameProgressData(self.config[timestamp], timestamp) for
                                                            timestamp in self.config]
@@ -119,6 +121,7 @@ class GameDataController:
         self.location_data_controller = LocationDataController(game_data.squares,
                                                                game_data.caves,
                                                                self.player_data_controller.get_players())
+        self.location_manager = LocationManager(self.location_data_controller, self.player_data_controller)
 
     def load_from_new_game(self, num_players: int):
         default_config = self._parse_config('config.default.json')

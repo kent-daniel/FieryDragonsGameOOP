@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 from Player import Player
-from GameDataController import ILocationDataController
+from LocationDataController import ILocationDataController
 from Tile import Tile
 
 
