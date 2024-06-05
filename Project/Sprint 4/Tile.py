@@ -9,12 +9,12 @@ from Drawable import Drawable
 
 
 class Tile(Drawable, ABC):
-    def __init__(self, index: int, character: CharacterImage, width: int, height: int) -> None:
+    def __init__(self, index: int, character: CharacterImage, width: int, height: int, occupant: Optional[Player] = None) -> None:
         self._id = index
         self._character: CharacterImage = character
         self._next: Optional[Tile] = None
         self._prev: Optional[Tile] = None
-        self._occupant: Optional[Player] = None
+        self._occupant: Optional[Player] = occupant
         self.width = width
         self.height = height
 

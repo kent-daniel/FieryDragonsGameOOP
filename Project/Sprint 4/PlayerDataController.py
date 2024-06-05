@@ -40,11 +40,8 @@ class PlayerDataController(IPlayerDataController):
         _squares (List[Square]): A list of Square objects.
     """
 
-    def __init__(self, players_config_data: List[dict]):
-        self._players_data = players_config_data
-        self._players: deque[Player] = deque()
-        self._squares: List[Square] = []
-        self.load_data()
+    def __init__(self, players: List[Player]):
+        self._players: deque[Player] = deque(players)
 
     def get_players(self) -> deque[Player]:
         return self._players
@@ -52,14 +49,5 @@ class PlayerDataController(IPlayerDataController):
     def set_players(self, players: deque[Player]) -> None:
         self._players = players
 
-    def _create_players(self) -> None:
-        for player in self._players_data:
-            self._players.append(Player(player["id"], player["steps_to_win"], pygame.Color(randint(50, 255),
-                                                                                           randint(50, 255),
-                                                                                           randint(50, 255))))
-
     def to_json_format(self) -> List[dict]:
-        return [{"id": player.id , "steps_to_win": player.steps_to_win} for player in self._players]
-
-    def load_data(self):
-        self._create_players()
+        return [player.encode_to_json() for player in self._players]

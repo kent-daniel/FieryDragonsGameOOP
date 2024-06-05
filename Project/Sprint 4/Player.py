@@ -1,11 +1,13 @@
-from typing import Tuple
+from random import randint
+from typing import Tuple, Dict
 
 import pygame.sprite
 from Drawable import Drawable
 from GameConstants import GameStyles, GameElementStyles
+from IDecodable import IDecodable
 
 
-class Player(Drawable):
+class Player(Drawable, IDecodable):
     """
     Author: Kent Daniel and Guntaj Singh
     """
@@ -38,3 +40,12 @@ class Player(Drawable):
 
     def redraw_view(self) -> None:
         pass
+
+    @staticmethod
+    def decode_from_json(json_data: Dict) -> 'IDecodable':
+        return Player(json_data["id"], json_data["steps_to_win"], pygame.Color(randint(50, 255),
+                                                                               randint(50, 255),
+                                                                               randint(50, 255)))
+
+    def encode_to_json(self) -> Dict:
+        return {"id": self.id, "steps_to_win": self.steps_to_win}

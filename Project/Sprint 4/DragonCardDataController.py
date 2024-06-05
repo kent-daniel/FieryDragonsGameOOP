@@ -66,10 +66,8 @@ class DragonCardDataController(IDragonCardDataController):
            Loads the DragonCard objects from the configuration string and
            creates a shuffled list of AnimalDragonCard and PirateDragonCard objects.
     """
-    def __init__(self, dragon_card_config_data: List[dict]):
-        self._config_data = dragon_card_config_data
-        self._dragon_cards: List[DragonCard] = []
-        self.load_data()
+    def __init__(self, dragon_cards: List[DragonCard]):
+        self._dragon_cards: List[DragonCard] = dragon_cards
 
     def get_dragon_cards(self) -> List[DragonCard]:
         """
@@ -82,7 +80,7 @@ class DragonCardDataController(IDragonCardDataController):
         return self._dragon_cards
 
     def to_json_format(self) -> List[dict]:
-        return [{"value": card.value, "character": card.character.name} for card in self._dragon_cards]
+        return [card.encode_to_json() for card in self._dragon_cards]
 
     def set_dragon_cards(self, dragon_cards: List[DragonCard]) -> None:
         """

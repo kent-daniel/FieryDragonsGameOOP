@@ -1,60 +1,31 @@
 import json
 import os
+import random
 import sys
 from collections import OrderedDict
 from datetime import datetime
-from typing import List
+from typing import List, Callable
 from PlayerDataController import IPlayerDataController, PlayerDataController
 from DragonCardDataController import IDragonCardDataController, DragonCardDataController
 from LocationDataController import ILocationDataController, LocationDataController
+from Player import Player
+from Square import Square
+from Cave import Cave
+from DragonCard import DragonCard
+from IDecodable import IDecodable
+from GameConstants import CharacterImage
 from LocationManager import LocationManager
 
 
 class GameProgressData:
-    def __init__(self, jsonData, timestamp):
+    def __init__(self, json_data, timestamp):
         self.time_saved = timestamp
-        self.player_info = self.parse_players_info(jsonData["players_info"])
-        self.caves = self.parse_caves(jsonData["caves"])
-        self.squares = self.parse_squares(jsonData["squares"])
-        self.dragon_cards = self.parse_dragon_cards(jsonData["dragon_cards"])
+        self.players = self._decode_from_json(json_data["players_info"], Player.decode_from_json)
+        self.squares = self._decode_from_json(json_data["squares"], Square.decode_from_json)
+        self.dragon_cards = self._decode_from_json(json_data["dragon_cards"], DragonCard.decode_from_json)
 
-    def parse_players_info(self, players_info):
-        return [
-            {
-                "id": player["id"],
-                "steps_to_win": player["steps_to_win"]
-            }
-            for player in players_info
-        ]
-
-    def parse_caves(self, caves):
-        return [
-            {
-                "animal": cave["animal"],
-                "position": cave["position"],
-                "owner": cave['owner'],
-                "occupant": cave['occupant']
-            }
-            for cave in caves
-        ]
-
-    def parse_squares(self, tiles):
-        return [
-            {
-                "occupant": tile["occupant"],
-                "animal": tile["animal"]
-            }
-            for tile in tiles
-        ]
-
-    def parse_dragon_cards(self, dragon_cards):
-        return [
-            {
-                "value": card["value"],
-                "character": card["character"]
-            }
-            for card in dragon_cards
-        ]
+    def _decode_from_json(self, json_list: list[dict], decoder: Callable) -> List[IDecodable]:
+        return [decoder(data) for data in json_list]
 
 
 class GameDataController:
@@ -91,32 +62,16 @@ class GameDataController:
             oldest_game = sorted(data.keys())[0]
             del data[oldest_game]
 
-        # Prepare new game data
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        players_info = self.player_data_controller.to_json_format()
-        squares_data = self.location_data_controller.to_json_format_square()
-        caves_data = self.location_data_controller.to_json_format_cave()
-        dragon_cards = self.dragon_card_data_controller.to_json_format()
-
         # Add new game data
-        new_game_data = {
-            timestamp: {
-                "players_info": players_info,
-                "caves": caves_data,
-                "squares": squares_data,
-                "dragon_cards": dragon_cards
-            }
-        }
-        print(new_game_data)
-        data.update(new_game_data)
+        game_data = self.get_current_game_json()
+        data.update(game_data)
 
         # Write the updated data back to the JSON file
         with open(file_path, 'w') as file:
             json.dump(OrderedDict(sorted(data.items())), file, indent=4)
 
     def load_from_game(self, game_data: GameProgressData):
-        print(game_data.caves)
-        self.player_data_controller = PlayerDataController(game_data.player_info)
+        self.player_data_controller = PlayerDataController(game_data.players)
         self.dragon_card_data_controller = DragonCardDataController(game_data.dragon_cards)
         self.location_data_controller = LocationDataController(game_data.squares,
                                                                game_data.caves,
@@ -125,45 +80,31 @@ class GameDataController:
 
     def load_from_new_game(self, num_players: int):
         default_config = self._parse_config('config.default.json')
-        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        default_game = GameProgressData(default_config["default"], current_time)
-        default_game.player_info = default_game.player_info[:num_players]
         cave_spacing = 24 // num_players
         # Initialize position of the caves
-        caves = []
+        default_game_caves = default_config["default"]["caves"][:num_players]
         position = 1
-        for cave in default_game.caves:
-            cave["position"] = position
-            caves.append(cave)
+        for cave in default_game_caves:
+            default_config["default"]["squares"][position]["cave"] = cave
             position += cave_spacing
-        default_game.caves = caves[:num_players]
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        default_game = GameProgressData(default_config["default"], current_time)
+        default_game.players = default_game.players[:num_players]
         self.load_from_game(default_game)
 
-    def to_json(self, players, caves, squares, dragon_cards) -> dict:
-        players_info = [
-            {'id': player.id,
-             'steps_to_win': player.steps_to_win
-             } for player in players]
-        caves_info = [
-            {'animal': cave.character.name,
-             'position': cave.id,
-             'owner': cave.get_owner().id,
-             'occupant': cave.get_owner().id if cave.get_occupant() else None
-             } for cave in caves]
-        squares_info = [
-            {'animal': square.character.name,
-             'occupant': square.get_occupant().id if square.get_occupant() else None
-             } for square in squares]
-        dragon_cards_info = [
-            {'value': card.value,
-             'character': card.character.name}
-            for card in dragon_cards]
+    def get_current_game_json(self) -> dict:
+        # Prepare new game data
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        players_info = self.player_data_controller.to_json_format()
+        squares_data = self.location_data_controller.to_json_format_square()
+        dragon_cards = self.dragon_card_data_controller.to_json_format()
 
         return {
-            'players_info': players_info,
-            'caves': caves_info,
-            'squares': squares_info,
-            'dragon_cards': dragon_cards_info
+            timestamp: {
+                "players_info": players_info,
+                "squares": squares_data,
+                "dragon_cards": dragon_cards
+            }
         }
 
     def get_saved_games(self) -> List[GameProgressData]:

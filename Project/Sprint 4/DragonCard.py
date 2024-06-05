@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Tuple
+from typing import Tuple, Dict
 from Player import Player
 import pygame
 from GameConstants import CharacterImage
@@ -8,12 +8,13 @@ from GameConstants import GameStyles
 from CardEffectsController import CardEffectsController
 from Movement import Movement
 from Tile import Tile
+from IDecodable import IDecodable
 
 UNFLIP_EVENT = pygame.USEREVENT + 1
 FLIP_TIME = 1000
 
 
-class DragonCard(Drawable, ABC):
+class DragonCard(Drawable,IDecodable, ABC):
     """
     DragonCard
 
@@ -194,6 +195,16 @@ class DragonCard(Drawable, ABC):
         """
         pass
 
+    @staticmethod
+    def decode_from_json(json_data: Dict) -> 'IDecodable':
+        if json_data["character"] == CharacterImage.PIRATE.name:
+            return PirateDragonCard(CharacterImage[json_data["character"]], json_data["value"])
+        else:
+            return AnimalDragonCard(CharacterImage[json_data["character"]], json_data["value"])
+
+
+    def encode_to_json(self) -> Dict:
+        return {"value": self.value, "character": self.character.name}
 
 class AnimalDragonCard(DragonCard):
     """
