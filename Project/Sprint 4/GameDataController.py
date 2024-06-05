@@ -73,7 +73,8 @@ class GameDataController:
     def load_from_game(self, game_data: GameProgressData):
         self.player_data_controller = PlayerDataController(game_data.players)
         self.dragon_card_data_controller = DragonCardDataController(game_data.dragon_cards)
-        self.location_data_controller = LocationDataController(game_data.squares, self.player_data_controller.get_players())
+        self.location_data_controller = LocationDataController(game_data.squares,
+                                                               len(self.player_data_controller.get_players())*2)
         self.location_manager = LocationManager(self.location_data_controller)
 
     def load_from_new_game(self, num_players: int):

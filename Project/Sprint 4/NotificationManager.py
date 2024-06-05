@@ -26,8 +26,8 @@ class NotificationManager:
             cls._instance._notifications = deque(maxlen=5)
         return cls._instance
 
-    def add_notification(self, message: str):
-        self._notifications.append(message)
+    def add_notification(self, message: str, level: str = "info"):
+        self._notifications.append({"message": message, "level": level})
 
     @property
     def notifications(self):

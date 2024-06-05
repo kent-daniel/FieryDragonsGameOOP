@@ -15,6 +15,7 @@ from Player import Player
 from SpecialEffectController import SpecialEffectController
 from CardEffectsController import CardEffectsController
 from LocationManager import LocationManager
+from PlayerLivesManager import PlayerLivesManager
 import time
 
 WIN_EVENT = pygame.USEREVENT + 1
@@ -44,9 +45,6 @@ class Game:
         self._win_time = float(inf)
         self.win_no = 0  #used to check if a player has been defined
 
-
-
-
     def render_game(self):
         """
         rendering the UI components updates of the game for every tick of the game
@@ -56,7 +54,6 @@ class Game:
         self._draw_board()
         self._draw_notification_tab()
         self._draw_win_notification()
-
 
     def _draw_win_notification(self):
         if self.winner is not None:
@@ -128,8 +125,7 @@ class Game:
         processes the movements of the player based on the dragon card they pick
         """
         current_player = self._player_turn_controller.get_current_player()
-        card.action(self.card_effects_controller, current_player)
-
+        card.action(self._card_effects_controller, current_player)
 
     def check_winner(self, player: Player) -> Optional[Player]:
         """
@@ -138,8 +134,8 @@ class Game:
         """
         if player.steps_to_win == 0:
             return player
-        if len(self._player_data_controller.get_players()) == 1:
-            return self._player_data_controller.get_players()[0]
+        if len(self._data_controller.player_data_controller.get_players()) == 1:
+            return self._data_controller.player_data_controller.get_players()[0]
 
         return None
 
@@ -174,19 +170,24 @@ class Game:
         self._location_manager = LocationManager(self._data_controller.location_data_controller)
         self._player_move_controller: IPlayerMoveController = PlayerMoveController(
             self._location_manager)
-        self.special_effect_controller: SpecialEffectController = SpecialEffectController(
+        self._player_lives_manager: PlayerLivesManager = PlayerLivesManager(
+            self._data_controller.player_data_controller,
+            self._player_turn_controller,
+            self._location_manager,
+            )
+
+        self._special_effect_controller: SpecialEffectController = SpecialEffectController(
             self._data_controller.player_data_controller,
             self._location_manager)
-        self.card_effects_controller: CardEffectsController = CardEffectsController(
+        self._card_effects_controller: CardEffectsController = CardEffectsController(
             self._player_move_controller,
-            self.special_effect_controller,
+            self._special_effect_controller,
             self._location_manager,
             self._movement_manager
         )
-        self._movement_manager.add_listener(self._board)
         self._movement_manager.add_listener(self._dragon_cards)
+        self._movement_manager.add_listener(self._player_lives_manager)
         self._movement_manager.add_listener(self._player_turn_controller)
-
 
     def quit(self) -> None:
         """

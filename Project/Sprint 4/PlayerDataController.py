@@ -1,12 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import List
 from Square import Square
-from Cave import Cave
-import pygame
 from Player import Player
-from GameConstants import CharacterImage
 from collections import deque
-from random import randint
 
 
 class IPlayerDataController(ABC):
@@ -21,6 +17,14 @@ class IPlayerDataController(ABC):
 
     @abstractmethod
     def set_players(self, players: deque[Player]) -> None:
+        pass
+
+    @abstractmethod
+    def update_player(self, player: Player) -> None:
+        pass
+
+    @abstractmethod
+    def delete_player(self, player_id: int) -> None:
         pass
 
     @abstractmethod
@@ -48,6 +52,24 @@ class PlayerDataController(IPlayerDataController):
 
     def set_players(self, players: deque[Player]) -> None:
         self._players = players
+
+    def update_player(self, updated_player: Player) -> None:
+        players = self.get_players()
+        for i, player in enumerate(players):
+            if player.id == updated_player.id:
+                players[i] = updated_player
+                self.set_players(players)
+                return
+        raise ValueError(f"Player with id {updated_player.id} not found")
+
+    def delete_player(self, player_id: int) -> None:
+        players = self.get_players()
+        for player in players:
+            if player.id == player_id:
+                players.remove(player)
+                self.set_players(players)
+                return
+        raise ValueError(f"Player with id {player_id} not found")
 
     def to_json_format(self) -> List[dict]:
         return [player.encode_to_json() for player in self._players]

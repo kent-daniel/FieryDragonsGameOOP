@@ -9,7 +9,7 @@ from Drawable import Drawable
 from MovementEventManager import IMovementEventListener
 from Movement import Movement
 
-class Board(Drawable, IMovementEventListener):
+class Board(Drawable):
     def __init__(self, width: int, height: int, data_controller: ILocationDataController,
                  color: pygame.color = GameStyles.COLOR_TRANSPARENT.value):
         super().__init__()
@@ -24,6 +24,7 @@ class Board(Drawable, IMovementEventListener):
         self.redraw_view()
 
     def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
+        self.redraw_view()
         self.rect.center = location
         destination_surface.blit(self.board_surface, self.rect.topleft)
 
@@ -39,9 +40,6 @@ class Board(Drawable, IMovementEventListener):
     def redraw_view(self) -> None:
         self._arrange_volcano_cards()
         self._draw_volcano_cards()
-
-    def on_movement_event(self, movement: Movement) -> None:
-        self.redraw_view()
 
     def _arrange_volcano_cards(self) -> None:
         squares = self._data_controller.get_squares()

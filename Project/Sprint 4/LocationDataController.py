@@ -1,10 +1,6 @@
 from abc import ABC, abstractmethod
-from collections import deque
 from typing import List
-from Cave import Cave
 from Square import Square
-from GameConstants import CharacterImage
-from Player import Player
 
 
 class ILocationDataController(ABC):
@@ -32,8 +28,8 @@ class ILocationDataController(ABC):
 
 class LocationDataController(ILocationDataController):
 
-    def __init__(self, squares: List[Square], players: deque[Player]):
-        self.players = players
+    def __init__(self, squares: List[Square], num_volcanoes: int):
+        self.num_volcanoes = num_volcanoes
         self.squares = self.create_tiles(squares)
 
     def get_squares(self) -> List[Square]:
@@ -64,4 +60,4 @@ class LocationDataController(ILocationDataController):
         return square_tiles
 
     def get_num_volcanoes(self) -> int:
-        return len(self.players) * 2
+        return self.num_volcanoes

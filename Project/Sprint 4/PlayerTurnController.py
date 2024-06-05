@@ -49,8 +49,8 @@ class PlayerTurnController(IPlayerTurnController):
         self._players = self._data_controller.get_players()
         self._notification_manager = notification_manager
         self.current_player = self._data_controller.get_players()[0]
-        self._turn_timer = None
-        self.start_turn_timer()
+        # self._turn_timer = None
+        # self.start_turn_timer()
 
     def get_current_player(self) -> Player:
         """
@@ -75,34 +75,26 @@ class PlayerTurnController(IPlayerTurnController):
         """
         Switches to the next player and sends a notification about the switch.
         """
-        self.current_player.lives -= 1
-        self._notification_manager.add_notification(f" player {self.get_current_player().id} has {self.current_player.lives} lives remaining. ")
-
-        if self.current_player.lives <= 0:
-            self._notification_manager.add_notification(f"Player {self.current_player.id} has been eliminated.")
-            self._data_controller.get_players().remove(self.current_player)
-        if not self._data_controller.get_players():
-            return
 
         self._data_controller.get_players().rotate(-1)
         self.current_player = self._data_controller.get_players()[0]
         self._notification_manager.add_notification(f"switching to player {self.get_current_player().id}'s turn")
-        self.start_turn_timer()
+        # self.start_turn_timer()
 
-    def start_turn_timer(self):
-        """
-        Starts or restarts the turn timer.
-        """
-        if self._turn_timer:
-            self._turn_timer.cancel()
-
-        self._turn_timer = threading.Timer(self.TURN_TIME_LIMIT, self.switch_player)
-        self._turn_timer.start()
-
-    def stop_turn_timer(self):
-        """
-        Stops the turn timer.
-        """
-        if self._turn_timer:
-            self._turn_timer.cancel()
-
+    # def start_turn_timer(self):
+    #     """
+    #     Starts or restarts the turn timer.
+    #     """
+    #     if self._turn_timer:
+    #         self._turn_timer.cancel()
+    #
+    #     self._turn_timer = threading.Timer(self.TURN_TIME_LIMIT, self.switch_player)
+    #     self._turn_timer.start()
+    #
+    # def stop_turn_timer(self):
+    #     """
+    #     Stops the turn timer.
+    #     """
+    #     if self._turn_timer:
+    #         self._turn_timer.cancel()
+    #
