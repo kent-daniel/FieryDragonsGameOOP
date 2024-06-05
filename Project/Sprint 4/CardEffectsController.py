@@ -23,14 +23,14 @@ class CardEffectsController(ICardEffectsController):
     def animal_effect(self, animal_card, player: Player):
         square = self.location_manager.get_player_location(player)
         if square.character != animal_card.character:
-            final_movement= self.player_move_controller.process_movement(player, Movement(0, square),square)
-            self.location_manager.update_player_location(player, final_movement)
+            final_movement = self.player_move_controller.process_movement(player, Movement(0, square),square)
+            self.location_manager.update_player_location(player, final_movement.destination)
         destination = square
         for i in range(animal_card.value):
             destination = destination.next
 
         final_movement = self.player_move_controller.process_movement(player, Movement(animal_card.value, destination),square)
-        self.location_manager.update_player_location(player, final_movement)
+        self.location_manager.update_player_location(player, final_movement.destination)
 
 
     def pirate_effect(self, pirate_card, player: Player):
@@ -39,7 +39,7 @@ class CardEffectsController(ICardEffectsController):
         for i in range(pirate_card.value):
             destination = destination.prev
         final_movement = self.player_move_controller.process_movement(player, Movement(-pirate_card.value, destination),square)
-        self.location_manager.update_player_location(player, final_movement)
+        self.location_manager.update_player_location(player, final_movement.destination)
 
 
     def special_effect(self, special_card, player: Player):
