@@ -51,7 +51,7 @@ class Cave(Tile, IDecodable):
         # draw character image on top of cave image
         character_rect = self._character_image.get_rect(center=self._rect.center)
         self._surface.blit(self._character_image, character_rect.topleft)
-        if self.get_occupant().id == self._cave_owner.id:
+        if self.get_occupant() is not None and self.get_occupant().id == self._cave_owner.id:
             self._draw_player()
 
     def is_cave(self) -> bool:

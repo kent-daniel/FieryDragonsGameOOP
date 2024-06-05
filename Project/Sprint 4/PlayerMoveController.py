@@ -43,9 +43,9 @@ class PlayerMoveController(IPlayerMoveController):
         self._notification_manager = notification_manager
 
     def process_movement(self, player: Player, movement: Movement,player_location: Tile):
-        # player_location = self._location_manager.get_player_location(player)
         final_movement = self._validate_and_return_movement(movement, player, player_location)
         player.steps_to_win -= final_movement.value
+        return final_movement
 
     def _validate_and_return_movement(self, movement: Movement, player: Player, player_location: Tile) -> Movement:
         final_movement = movement
@@ -59,7 +59,6 @@ class PlayerMoveController(IPlayerMoveController):
         #                                                                                       final_movement):
         #     final_movement = Movement(0, player_location)
         elif final_movement.value != 0:
-
             self._notification_manager.add_notification(
                 f"player {player.id} is moving to Tile {final_movement.destination.id}")
         else:
