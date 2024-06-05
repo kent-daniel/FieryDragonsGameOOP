@@ -48,6 +48,6 @@ class CardEffectsController(ICardEffectsController):
             player.steps_to_win += final_movement.value
         self.movement_publisher.publish_event(final_movement)
 
-
     def special_effect(self, special_card, player: Player):
-            self.special_effect_controller.apply_special_effect(player)
+        self.special_effect_controller.apply_special_effect(player)
+        self.movement_publisher.publish_event(Movement(0, self.location_manager.get_player_location(player)))
