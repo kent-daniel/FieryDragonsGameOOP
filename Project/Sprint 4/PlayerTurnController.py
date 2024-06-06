@@ -84,14 +84,8 @@ class PlayerTurnController(IPlayerTurnController):
         self._data_controller.get_players().rotate(-1)
         self.current_player = self._data_controller.get_players()[0]
         self._notification_manager.add_notification(f"switching to player {self.get_current_player().id}'s turn")
+        self.timer.update_time()
 
-
-    def start_turn_timer(self):
-        """
-        Starts or restarts the turn timer.
-        """
-        if self._turn_timer:
-            self._turn_timer.cancel()
 
     def check_time(self):
         time = float(self.timer.get_time())

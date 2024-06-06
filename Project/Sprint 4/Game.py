@@ -177,9 +177,11 @@ class Game:
         Setting up the data controllers for player and dragon card
         :return: None
         """
+        self.timer = TimerController()
+        self._timer = TimerUI(self.timer)
         self._movement_manager: IMovementEventManager = MovementEventManager()
         self._player_turn_controller: IPlayerTurnController = PlayerTurnController(
-            self._data_controller.player_data_controller)
+            self._data_controller.player_data_controller, self.timer)
         self._location_manager = LocationManager(self._data_controller.location_data_controller)
         self._player_move_controller: IPlayerMoveController = PlayerMoveController(
             self._location_manager)
@@ -188,8 +190,7 @@ class Game:
             self._player_turn_controller,
             self._location_manager,
             )
-        self.timer = TimerController()
-        self._timer = TimerUI(self.timer)
+
 
         self._special_effect_controller: SpecialEffectController = SpecialEffectController(
             self._data_controller.player_data_controller,
