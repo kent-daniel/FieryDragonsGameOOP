@@ -65,7 +65,7 @@ class Game:
         :return: None
         """
         self._player_turn_controller.check_time()
-        self._timer.draw(self._screen, self._screen.get_rect().bottomright)
+        self._timer.draw(self._screen, self._notification_tab.get_surface().get_rect().topright)
 
 
     def _draw_win_notification(self):

@@ -18,12 +18,12 @@ class TimerUI(Drawable):
                          border_radius=GameStyles.BORDER_RADIUS_SMALL.value)
         self.rect: pygame.Rect = self.timer_surface.get_rect()
         self.redraw_view()
-        self.timer_emoji = " Timer: "
+        self.timer_emoji = "Turn Timer:"
 
     def draw(self, destination_surface: pygame.Surface, location: Tuple[int, int]) -> None:
         self.text = self.timer_emoji + self._timer_controller.get_time()
         self.redraw_view()
-        destination_surface.blit(self.timer_surface, self.location.topleft)
+        destination_surface.blit(self.timer_surface, self.rect.topright)
 
     def get_surface(self):
         pass

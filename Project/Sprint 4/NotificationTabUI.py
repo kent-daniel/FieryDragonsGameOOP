@@ -46,7 +46,7 @@ class NotificationTabUI(Drawable):
         destination_surface.blit(self.notification_surface, self.rect.topleft)
 
     def get_surface(self) -> pygame.Surface:
-        pass
+        return self.notification_surface
 
     def redraw_view(self) -> None:
         self.notification_surface.fill(GameStyles.COLOR_GRAY_500.value)
