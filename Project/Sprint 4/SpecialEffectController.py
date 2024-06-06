@@ -5,13 +5,15 @@ from PlayerMoveController import PlayerMoveController
 from PlayerDataController import IPlayerDataController
 from LocationDataController import ILocationDataController
 from LocationManager import LocationManager
+from NotificationManager import NotificationManager
 
 
 class SpecialEffectController:
-    def __init__(self, player_data_controller: IPlayerDataController, location_manager: LocationManager):
+    def __init__(self, player_data_controller: IPlayerDataController, location_manager: LocationManager, notification_manager=NotificationManager()):
 
         self.player_data_controller = player_data_controller
         self.location_manager = location_manager
+        self.notification_manager = notification_manager
 
     def apply_special_effect(self, current_player: Player):
         # Find the closest player to the current player
@@ -27,6 +29,10 @@ class SpecialEffectController:
 
             self.location_manager.set_player_location(current_player, closest_player_square)
             self.location_manager.set_player_location(closest_player, current_player_square)
+
+            self.notification_manager.add_notification(f"player {current_player.id} and player {closest_player.id} swapped")
+        else:
+            self.notification_manager.add_notification(f"Players in cave cannot be swapped")
 
     def find_closest_player(self, current_player: Player) -> Player or None:
         players = self.player_data_controller.get_players()
