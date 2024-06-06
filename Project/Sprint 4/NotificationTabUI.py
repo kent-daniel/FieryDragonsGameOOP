@@ -46,14 +46,13 @@ class NotificationTabUI(Drawable):
         destination_surface.blit(self.notification_surface, self.rect.topleft)
 
     def get_surface(self) -> pygame.Surface:
-        pass
+        return self.notification_surface
 
     def redraw_view(self) -> None:
         self.notification_surface.fill(GameStyles.COLOR_GRAY_500.value)
         font = pygame.font.SysFont(None, GameStyles.FONT_SIZE_LARGE.value)
         text_surface = font.render("Notifications", True, GameStyles.COLOR_BLACK.value)
         self.notification_surface.blit(text_surface, text_surface.get_rect().topleft)
-
         notifications = self.notification_manager.notifications
         y_offset = text_surface.get_height() + 20  # Start drawing notifications below the title
         for notification in notifications:

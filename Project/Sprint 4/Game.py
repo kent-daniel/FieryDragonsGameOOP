@@ -12,6 +12,8 @@ from PlayerTurnController import IPlayerTurnController, PlayerTurnController
 from NotificationTabUI import NotificationTabUI
 from Win import Win
 from Player import Player
+from TimerController import TimerController
+from TimerUI import TimerUI
 from SpecialEffectController import SpecialEffectController
 from CardEffectsController import CardEffectsController
 from LocationManager import LocationManager
@@ -53,7 +55,18 @@ class Game:
         self._draw_dragon_cards()
         self._draw_board()
         self._draw_notification_tab()
+        self._draw_timer()
         self._draw_win_notification()
+
+
+    def _draw_timer(self):
+        """
+        draws the timer onto the screen
+        :return: None
+        """
+        self._player_turn_controller.check_time()
+        self._timer.draw(self._screen, self._notification_tab.get_surface().get_rect().topright)
+
 
     def _draw_win_notification(self):
         if self.winner is not None:
@@ -164,9 +177,11 @@ class Game:
         Setting up the data controllers for player and dragon card
         :return: None
         """
+        self.timer = TimerController()
+        self._timer = TimerUI(self.timer)
         self._movement_manager: IMovementEventManager = MovementEventManager()
         self._player_turn_controller: IPlayerTurnController = PlayerTurnController(
-            self._data_controller.player_data_controller)
+            self._data_controller.player_data_controller, self.timer)
         self._location_manager = LocationManager(self._data_controller.location_data_controller)
         self._player_move_controller: IPlayerMoveController = PlayerMoveController(
             self._location_manager)
@@ -175,6 +190,7 @@ class Game:
             self._player_turn_controller,
             self._location_manager,
             )
+
 
         self._special_effect_controller: SpecialEffectController = SpecialEffectController(
             self._data_controller.player_data_controller,
