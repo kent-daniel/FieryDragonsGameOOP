@@ -11,7 +11,7 @@ class TimerController:
         self.start_ticks = pygame.time.get_ticks()
 
     def get_time(self):
-        time = math.floor(self.time - (pygame.time.get_ticks() - self.start_ticks)/1000)
+        time = math.floor(self.time - (pygame.time.get_ticks() - self.start_ticks) / 1000)
         if time < 1:
             self.start_ticks = pygame.time.get_ticks()
             return " " + str(0) + " "
@@ -21,8 +21,5 @@ class TimerController:
         else:
             return " " + str(time) + " "
 
-
     def update_time(self):
         self.start_ticks = pygame.time.get_ticks()
-
-
