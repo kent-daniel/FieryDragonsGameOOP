@@ -48,7 +48,7 @@ class DragonCard(Drawable,IDecodable, ABC):
     """
 
     def __init__(self, character: CharacterImage, value: int,
-                 is_flipped: bool = False, radius: int = 45):
+                 is_flipped: bool = False, radius: int = 40):
         """
         The __init__ function is called when the class is instantiated.
         It sets up the initial state of the object.

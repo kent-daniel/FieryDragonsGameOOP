@@ -78,6 +78,7 @@
                 {"value": 1, "character": "PIRATE"},
                 {"value": 1, "character": "PIRATE"},
                 {"value": 2, "character": "PIRATE"},
+                {"value": 2, "character": "PIRATE"},
                 {"value": 1, "character": "SPECIAL"}
             ]
         }
