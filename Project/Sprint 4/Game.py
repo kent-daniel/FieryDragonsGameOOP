@@ -14,6 +14,8 @@ from NotificationTabUI import NotificationTabUI
 from Win import Win
 from Player import Player
 import time
+from TimerController import TimerController
+from TimerUI import TimerUI
 
 WIN_EVENT = pygame.USEREVENT + 1
 QUIT_TIME = 5000
@@ -50,7 +52,18 @@ class Game:
         self._draw_dragon_cards()
         self._draw_board()
         self._draw_notification_tab()
+        self._draw_timer()
         self._draw_win_notification()
+
+
+    def _draw_timer(self):
+        """
+        draws the timer onto the screen
+        :return: None
+        """
+        self._player_turn_controller.check_time()
+        self._timer.draw(self._screen, self._screen.get_rect().bottomright)
+
 
     def _draw_win_notification(self):
         if self.winner is not None:
@@ -140,15 +153,19 @@ class Game:
         """
         self._setup_data()
         self._setup_views()
+        self.timer = TimerController()
+        self._timer = TimerUI(self.timer)
         self._movement_manager: IMovementEventManager = MovementEventManager()
         self._player_turn_controller: IPlayerTurnController = PlayerTurnController(
-            self._player_data_controller)
+            self._player_data_controller, self.timer)
         self._player_move_controller: IPlayerMoveController = PlayerMoveController(
             self._movement_manager,
             self._player_data_controller)
         self._movement_manager.add_listener(self._board)
         self._movement_manager.add_listener(self._dragon_cards)
         self._movement_manager.add_listener(self._player_turn_controller)
+
+
 
     def _setup_views(self) -> None:
         """
