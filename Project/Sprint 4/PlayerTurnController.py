@@ -29,6 +29,7 @@ class IPlayerTurnController(IMovementEventListener):
         Abstract method to switch to the next player.
         """
         pass
+
     @abstractmethod
     def check_time(self):
         pass
@@ -49,13 +50,13 @@ class PlayerTurnController(IPlayerTurnController):
 
     TURN_TIME_LIMIT = 15  # Time limit for each turn in seconds
 
-    def __init__(self, data_controller: IPlayerDataController, timer: TimerController, notification_manager=NotificationManager()):
+    def __init__(self, data_controller: IPlayerDataController, timer: TimerController,
+                 notification_manager=NotificationManager()):
         self._data_controller = data_controller
         self._players = self._data_controller.get_players()
         self._notification_manager = notification_manager
         self.timer = timer
         self.current_player = self._data_controller.get_players()[0]
-
 
     def get_current_player(self) -> Player:
         """
@@ -86,9 +87,8 @@ class PlayerTurnController(IPlayerTurnController):
         self._notification_manager.add_notification(f"switching to player {self.get_current_player().id}'s turn")
         self.timer.update_time()
 
-
     def check_time(self):
         time = float(self.timer.get_time())
         if time <= 0:
+            self._notification_manager.add_notification(f"Player {self.get_current_player().id}'s time is up", "warning")
             self.switch_player()
-
