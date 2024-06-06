@@ -1,7 +1,6 @@
 /.venv/
 /build/
 /dist/
-/*.spec
 *.pyc
 *.pyo
 __pycache__/
