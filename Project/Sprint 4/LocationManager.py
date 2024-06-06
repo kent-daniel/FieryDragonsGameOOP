@@ -39,34 +39,45 @@ class LocationManager:
                 squares[i].remove_occupant()
         self._location_data_controller.set_squares(squares)
 
+    def get_closest_forward(self, tile_1: Tile, tile_2: Tile) -> List[Tile]:
+        path = []
+        current_tile = tile_1
+        while current_tile is not None:
+            if current_tile == tile_2:
+                return path
+            current_tile = current_tile.next
+            path.append(current_tile)
+        return []
+
+    def get_closest_backward(self, tile_1: Tile, tile_2: Tile) -> List[Tile]:
+        path = []
+        current_tile = tile_1
+        while current_tile is not None:
+            if current_tile == tile_2:
+                return path
+            current_tile = current_tile.prev
+            path.append(current_tile)
+        return []
+
     def get_tiles_between(self, tile_1: Tile, tile_2: Tile) -> List[Tile]:
-        """Get all tiles between two tiles, the output will be the shortest tiles path to between tile_1 and tile_2"""
+        """Get all tiles between two tiles. The output will be the shortest path between tile_1 and tile_2."""
         if tile_1 == tile_2:
             return [tile_1]
 
-        forward_tiles_1 = []
-        forward_tiles_2 = []
+        # Get the forward and backward paths
+        forward_path = self.get_closest_forward(tile_1, tile_2)
+        backward_path = self.get_closest_backward(tile_1, tile_2)
 
-        current_tile_1 = tile_1
-        current_tile_2 = tile_2
+        # Check which path is shorter
+        if not forward_path and not backward_path:
+            return []
+        if not forward_path:
+            return backward_path[::-1]
+        if not backward_path:
+            return forward_path
 
-        # Simultaneous traversal from both tiles
-        while True:
-            if current_tile_1 is not None:
-                forward_tiles_1.append(current_tile_1)
-                if current_tile_1 == tile_2:
-                    return forward_tiles_1
-                current_tile_1 = current_tile_1.next
+        return forward_path if len(forward_path) <= len(backward_path) else backward_path[::-1]
 
-            if current_tile_2 is not None:
-                forward_tiles_2.append(current_tile_2)
-                if current_tile_2 == tile_1:
-                    return forward_tiles_2[::-1]
-                current_tile_2 = current_tile_2.next
-
-            # If we reach the end in either direction without finding the target tile
-            if current_tile_1 is None and current_tile_2 is None:
-                break
 
     def get_player_location(self, player) -> Tile:
         for square in self._location_data_controller.get_squares():
