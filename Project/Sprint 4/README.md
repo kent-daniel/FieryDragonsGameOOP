@@ -3,8 +3,7 @@
 - StartGameMenu
 - Timer
 - Player Lives
-- Card effects Game Controller
-- Special effects Controller
+- Special Dragon Card
 - Saving and Loading from external file
 - Changing Number of players
 
