@@ -90,7 +90,7 @@ class PlayerMoveController(IPlayerMoveController):
             destination = destination.prev
         if self._check_destination_is_occupied(destination):  # check if destination is occupied
             return Movement(0, origin_location)
-        return Movement(-steps, destination)
+        return Movement(steps, destination)
 
     def _check_destination_is_occupied(self, destination: Tile) -> bool:
         if destination.get_occupant() is None:

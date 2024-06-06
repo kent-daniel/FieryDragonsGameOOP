@@ -33,9 +33,9 @@ class CardEffectsController(ICardEffectsController):
     def pirate_effect(self, pirate_card, player: Player):
         current_square = self.location_manager.get_player_location(player)
 
-        final_movement = self.player_move_controller.move_backward(player,
-                                                                   current_square,
-                                                                   -pirate_card.value)
+        final_movement = self.player_move_controller.create_movement(player,
+                                                                     current_square,
+                                                                     -pirate_card.value)
         self.movement_publisher.publish_event(final_movement)
 
     def special_effect(self, special_card, player: Player):
