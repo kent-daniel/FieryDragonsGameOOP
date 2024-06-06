@@ -4,7 +4,8 @@ from MovementEventManager import IMovementEventListener
 from Movement import Movement
 from GameDataController import IPlayerDataController
 from NotificationManager import NotificationManager
-
+from queue import Queue
+from TimerController import TimerController
 
 class IPlayerTurnController(IMovementEventListener):
     """
@@ -29,6 +30,11 @@ class IPlayerTurnController(IMovementEventListener):
         """
         pass
 
+    @abstractmethod
+    def check_time(self):
+        pass
+
+
 #Garv Vohra
 class PlayerTurnController(IPlayerTurnController):
     """
@@ -42,11 +48,15 @@ class PlayerTurnController(IPlayerTurnController):
         current_player (Player): The current player.
     """
 
-    def __init__(self, data_controller: IPlayerDataController, notification_manager=NotificationManager()):
+    TURN_TIME_LIMIT = 15  # Time limit for each turn in seconds
+
+    def __init__(self, data_controller: IPlayerDataController, timer: TimerController,
+                 notification_manager=NotificationManager()):
         self._data_controller = data_controller
         self._players = self._data_controller.get_players()
         self._notification_manager = notification_manager
-        self.current_player = self._players[0]
+        self.timer = timer
+        self.current_player = self._data_controller.get_players()[0]
 
     def get_current_player(self) -> Player:
         """
@@ -71,7 +81,14 @@ class PlayerTurnController(IPlayerTurnController):
         """
         Switches to the next player and sends a notification about the switch.
         """
-        player_index = (self.current_player.id + 1) % self._players.__len__()
-        self.current_player = self._players[player_index-1]
-        self._notification_manager.add_notification(f"switching to player {self.get_current_player().id}'s turn")
 
+        self._data_controller.get_players().rotate(-1)
+        self.current_player = self._data_controller.get_players()[0]
+        self._notification_manager.add_notification(f"switching to player {self.get_current_player().id}'s turn")
+        self.timer.update_time()
+
+    def check_time(self):
+        time = float(self.timer.get_time())
+        if time <= 0:
+            self._notification_manager.add_notification(f"Player {self.get_current_player().id}'s time is up", "warning")
+            self.switch_player()
