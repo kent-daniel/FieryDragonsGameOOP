@@ -1,39 +1,39 @@
 {
         "default": {
             "players_info": [
-                {"id": 1, "steps_to_win": 26, "lives": 9},
-                {"id": 2, "steps_to_win": 26, "lives": 9},
-                {"id": 3, "steps_to_win": 26, "lives": 9},
-                {"id": 4, "steps_to_win": 26, "lives": 9}
+                {"id": 1, "steps_to_win": 26, "lives": 20},
+                {"id": 2, "steps_to_win": 26, "lives": 20},
+                {"id": 3, "steps_to_win": 26, "lives": 20},
+                {"id": 4, "steps_to_win": 26, "lives": 20}
             ],
             "caves": [
                 {
                     "id": 32,
                     "animal": "SPIDER",
                     "position": 1,
-                    "owner": {"id": 1, "steps_to_win": 26, "lives": 9},
-                    "occupant": {"id": 1, "steps_to_win": 26, "lives": 9}
+                    "owner": {"id": 1, "steps_to_win": 26, "lives": 20},
+                    "occupant": {"id": 1, "steps_to_win": 26, "lives": 20}
                 },
                 {
                     "id": 33,
                     "animal": "SALAMANDER",
                     "position": 9,
-                    "owner": {"id": 2, "steps_to_win": 26, "lives": 9},
-                    "occupant": {"id": 2, "steps_to_win": 26, "lives": 9}
+                    "owner": {"id": 2, "steps_to_win": 26, "lives": 20},
+                    "occupant": {"id": 2, "steps_to_win": 26, "lives": 20}
                 },
                 {
                     "id": 34,
                     "animal": "SPIDER",
                     "position": 15,
-                    "owner": {"id": 3, "steps_to_win": 26, "lives": 9},
-                    "occupant": {"id": 3, "steps_to_win": 26, "lives": 9}
+                    "owner": {"id": 3, "steps_to_win": 26, "lives": 20},
+                    "occupant": {"id": 3, "steps_to_win": 26, "lives": 20}
                 },
                 {
                     "id": 35,
                     "animal": "BABY_DRAGON",
                     "position": 22,
-                    "owner": {"id": 4, "steps_to_win": 26, "lives": 9},
-                    "occupant": {"id": 4, "steps_to_win": 26, "lives": 9}
+                    "owner": {"id": 4, "steps_to_win": 26, "lives": 20},
+                    "occupant": {"id": 4, "steps_to_win": 26, "lives": 20}
                 }
             ],
             "squares": [
