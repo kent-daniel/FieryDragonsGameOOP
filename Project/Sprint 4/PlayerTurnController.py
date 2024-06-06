@@ -81,7 +81,8 @@ class PlayerTurnController(IPlayerTurnController):
         """
         Switches to the next player and sends a notification about the switch.
         """
-
+        if len(self._data_controller.get_players()) == 0:
+            return
         self._data_controller.get_players().rotate(-1)
         self.current_player = self._data_controller.get_players()[0]
         self._notification_manager.add_notification(f"switching to player {self.get_current_player().id}'s turn")
