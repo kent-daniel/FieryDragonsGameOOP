@@ -81,6 +81,7 @@ class GameDataController:
         default_config = self._parse_config('config.default.json')
         cave_spacing = 24 // num_players
         # Initialize position of the caves
+        random.shuffle(default_config["default"]["dragon_cards"])
         default_game_caves = default_config["default"]["caves"][:num_players]
         position = 1
         for cave in default_game_caves:
