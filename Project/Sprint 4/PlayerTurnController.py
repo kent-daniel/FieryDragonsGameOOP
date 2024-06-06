@@ -1,4 +1,3 @@
-import threading
 from abc import abstractmethod
 from Player import Player
 from MovementEventManager import IMovementEventListener

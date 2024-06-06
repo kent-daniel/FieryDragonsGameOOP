@@ -13,7 +13,6 @@ from GameDataController import IPlayerDataController, IDragonCardDataController
 from NotificationTabUI import NotificationTabUI
 from Win import Win
 from Player import Player
-import time
 from TimerController import TimerController
 from TimerUI import TimerUI
 
