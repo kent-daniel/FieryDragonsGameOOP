@@ -1,8 +1,8 @@
 import random
 from abc import ABC, abstractmethod
 from typing import List
-from DragonCard import DragonCard, PirateDragonCard, AnimalDragonCard
 from GameConstants import CharacterImage
+from DragonCard import DragonCard, AnimalDragonCard, PirateDragonCard, SpecialDragonCard
 
 
 class IDragonCardDataController(ABC):
@@ -20,6 +20,7 @@ class IDragonCardDataController(ABC):
        @abstractmethod set_dragon_cards(dragon_cards: List[DragonCard]) -> None:
            Sets the list of DragonCard objects.
     """
+
     @abstractmethod
     def get_dragon_cards(self) -> List[DragonCard]:
         """
@@ -31,7 +32,7 @@ class IDragonCardDataController(ABC):
         pass
 
     @abstractmethod
-    def set_dragon_cards(self, dragon_cards: List[DragonCard]) ->None:
+    def set_dragon_cards(self, dragon_cards: List[DragonCard]) -> None:
         """
         The set_dragon_cards function is used to set the dragon cards for a player.
 
@@ -41,6 +42,9 @@ class IDragonCardDataController(ABC):
         """
         pass
 
+    @abstractmethod
+    def to_json_format(self) -> List[dict]:
+        pass
 
 class DragonCardDataController(IDragonCardDataController):
     """
@@ -62,19 +66,8 @@ class DragonCardDataController(IDragonCardDataController):
            Loads the DragonCard objects from the configuration string and
            creates a shuffled list of AnimalDragonCard and PirateDragonCard objects.
     """
-    def __init__(self, dragon_card_config_data: str):
-        """
-        The __init__ function is the constructor for a class. It is called when an object of that class
-        is instantiated, and it sets up the attributes of that object. In this case, we are setting up
-        the DragonCardManager with a string containing all of our dragon card data.
-
-        :param self: Represent the instance of the class
-        :param dragon_card_config_data: str: Pass in the data to be used by the class
-        :return: None
-        """
-        self._config_data = dragon_card_config_data
-        self._dragon_cards: List[DragonCard] = []
-        self.load_data()
+    def __init__(self, dragon_cards: List[DragonCard]):
+        self._dragon_cards: List[DragonCard] = dragon_cards
 
     def get_dragon_cards(self) -> List[DragonCard]:
         """
@@ -86,7 +79,10 @@ class DragonCardDataController(IDragonCardDataController):
         """
         return self._dragon_cards
 
-    def set_dragon_cards(self, dragon_cards: List[DragonCard]) ->None:
+    def to_json_format(self) -> List[dict]:
+        return [card.encode_to_json() for card in self._dragon_cards]
+
+    def set_dragon_cards(self, dragon_cards: List[DragonCard]) -> None:
         """
         The set_dragon_cards function takes a list of DragonCard objects and sets the _dragon_cards attribute to that list.
 
@@ -106,12 +102,13 @@ class DragonCardDataController(IDragonCardDataController):
         :param self: Refer to the current instance of a class
         :return: A list of dragoncard objects
         """
-        dragons = self._config_data.split(",")
         dragon_cards: List[DragonCard] = []
-        for dragon in dragons:
-            value, character = dragon.split("x")
+        for dragon in self._config_data:
+            value, character = dragon["value"], dragon["character"]
             if character == CharacterImage.PIRATE.name:
                 dragon_cards.append(PirateDragonCard(CharacterImage[character], int(value)))
+            elif character == CharacterImage.SPECIAL.name:
+                dragon_cards.append(SpecialDragonCard(CharacterImage[character], int(value)))
             else:
                 dragon_cards.append(AnimalDragonCard(CharacterImage[character], int(value)))
 

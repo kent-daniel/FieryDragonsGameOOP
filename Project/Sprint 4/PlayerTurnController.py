@@ -54,14 +54,8 @@ class PlayerTurnController(IPlayerTurnController):
         self._players = self._data_controller.get_players()
         self._notification_manager = notification_manager
         self.timer = timer
-        self._players_queue = Queue()
+        self.current_player = self._data_controller.get_players()[0]
 
-        for player in self._players:
-            self._players_queue.put(player)
-
-        self.current_player = self._players_queue.queue[0]
-        # self._turn_timer = None
-        # self.start_turn_timer()
 
     def get_current_player(self) -> Player:
         """
@@ -86,28 +80,18 @@ class PlayerTurnController(IPlayerTurnController):
         """
         Switches to the next player and sends a notification about the switch.
         """
-        self._players_queue.put(self._players_queue.get())  # Move the current player to the end of the queue
-        self.current_player = self._players_queue.queue[0]
-        self._notification_manager.add_notification(f"switching to player {self.get_current_player().id}'s turn")
-        self.timer.update_time()
-        # self.start_turn_timer()
 
-    # def start_turn_timer(self):
-    #     """
-    #     Starts or restarts the turn timer.
-    #     """
-    #     if self._turn_timer:
-    #         self._turn_timer.cancel()
-    #
-    #     self._turn_timer = threading.Timer(self.TURN_TIME_LIMIT, self.switch_player)
-    #     self._turn_timer.start()
-    #
-    # def stop_turn_timer(self):
-    #     """
-    #     Stops the turn timer.
-    #     """
-    #     if self._turn_timer:
-    #         self._turn_timer.cancel()
+        self._data_controller.get_players().rotate(-1)
+        self.current_player = self._data_controller.get_players()[0]
+        self._notification_manager.add_notification(f"switching to player {self.get_current_player().id}'s turn")
+
+
+    def start_turn_timer(self):
+        """
+        Starts or restarts the turn timer.
+        """
+        if self._turn_timer:
+            self._turn_timer.cancel()
 
     def check_time(self):
         time = float(self.timer.get_time())

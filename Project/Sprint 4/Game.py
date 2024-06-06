@@ -9,12 +9,16 @@ from DragonCard import DragonCard
 from PlayerMoveController import IPlayerMoveController, PlayerMoveController
 from MovementEventManager import IMovementEventManager, MovementEventManager
 from PlayerTurnController import IPlayerTurnController, PlayerTurnController
-from GameDataController import IPlayerDataController, IDragonCardDataController
 from NotificationTabUI import NotificationTabUI
 from Win import Win
 from Player import Player
 from TimerController import TimerController
 from TimerUI import TimerUI
+from SpecialEffectController import SpecialEffectController
+from CardEffectsController import CardEffectsController
+from LocationManager import LocationManager
+from PlayerLivesManager import PlayerLivesManager
+import time
 
 WIN_EVENT = pygame.USEREVENT + 1
 QUIT_TIME = 5000
@@ -134,7 +138,7 @@ class Game:
         processes the movements of the player based on the dragon card they pick
         """
         current_player = self._player_turn_controller.get_current_player()
-        self._player_move_controller.process_movement(current_player, card)
+        card.action(self._card_effects_controller, current_player)
 
     def check_winner(self, player: Player) -> Optional[Player]:
         """
@@ -143,6 +147,9 @@ class Game:
         """
         if player.steps_to_win == 0:
             return player
+        if len(self._data_controller.player_data_controller.get_players()) == 1:
+            return self._data_controller.player_data_controller.get_players()[0]
+
         return None
 
     def initialise_game(self):
@@ -150,21 +157,8 @@ class Game:
         initialises the different graphical components, managers and controllers of the game
         :return: None
         """
-        self._setup_data()
         self._setup_views()
-        self.timer = TimerController()
-        self._timer = TimerUI(self.timer)
-        self._movement_manager: IMovementEventManager = MovementEventManager()
-        self._player_turn_controller: IPlayerTurnController = PlayerTurnController(
-            self._player_data_controller, self.timer)
-        self._player_move_controller: IPlayerMoveController = PlayerMoveController(
-            self._movement_manager,
-            self._player_data_controller)
-        self._movement_manager.add_listener(self._board)
-        self._movement_manager.add_listener(self._dragon_cards)
-        self._movement_manager.add_listener(self._player_turn_controller)
-
-
+        self._setup_controllers()
 
     def _setup_views(self) -> None:
         """
@@ -173,18 +167,42 @@ class Game:
         """
         self._board = Board(int(self._screen.get_width() * 0.7),
                             self._screen.get_height(),
-                            self._player_data_controller)
+                            self._data_controller.location_data_controller)
         self._dragon_cards = DragonCardsGroup(
-            self._dragon_cards_data_controller)
+            self._data_controller.dragon_card_data_controller)
         self._notification_tab = NotificationTabUI()
 
-    def _setup_data(self) -> None:
+    def _setup_controllers(self) -> None:
         """
         Setting up the data controllers for player and dragon card
         :return: None
         """
-        self._player_data_controller: IPlayerDataController = self._data_controller.create_player_data_controller()
-        self._dragon_cards_data_controller: IDragonCardDataController = self._data_controller.create_dragon_card_data_controller()
+        self._movement_manager: IMovementEventManager = MovementEventManager()
+        self._player_turn_controller: IPlayerTurnController = PlayerTurnController(
+            self._data_controller.player_data_controller)
+        self._location_manager = LocationManager(self._data_controller.location_data_controller)
+        self._player_move_controller: IPlayerMoveController = PlayerMoveController(
+            self._location_manager)
+        self._player_lives_manager: PlayerLivesManager = PlayerLivesManager(
+            self._data_controller.player_data_controller,
+            self._player_turn_controller,
+            self._location_manager,
+            )
+        self.timer = TimerController()
+        self._timer = TimerUI(self.timer)
+
+        self._special_effect_controller: SpecialEffectController = SpecialEffectController(
+            self._data_controller.player_data_controller,
+            self._location_manager)
+        self._card_effects_controller: CardEffectsController = CardEffectsController(
+            self._player_move_controller,
+            self._special_effect_controller,
+            self._location_manager,
+            self._movement_manager
+        )
+        self._movement_manager.add_listener(self._dragon_cards)
+        self._movement_manager.add_listener(self._player_lives_manager)
+        self._movement_manager.add_listener(self._player_turn_controller)
 
     def quit(self) -> None:
         """
@@ -192,4 +210,5 @@ class Game:
         :return: None
         """
         self.end_game()
+        self._data_controller.save_data()
         pygame.quit()

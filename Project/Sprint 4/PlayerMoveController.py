@@ -1,24 +1,25 @@
 from abc import ABC, abstractmethod
 from Player import Player
 from Movement import Movement
-from Square import Square
 from MovementEventManager import IMovementEventManager
-from GameDataController import IPlayerDataController
+from PlayerDataController import IPlayerDataController
+from LocationManager import LocationManager
 from NotificationManager import NotificationManager
-from DragonCard import DragonCard
+from Tile import Tile
 
 
 class IPlayerMoveController(ABC):
+
     @abstractmethod
-    def process_movement(self, player: Player, card: DragonCard):
+    def move_forward(self, player: Player, origin_location: Tile, steps: int) -> Movement:
         pass
 
     @abstractmethod
-    def update_player_location(self, player: Player, square: Square) -> None:
+    def move_backward(self, player: Player, origin_location: Tile, steps: int) -> Movement:
         pass
 
     @abstractmethod
-    def get_player_location(self, player) -> Square:
+    def create_movement(self, player: Player, origin_location: Tile, steps: int) -> Movement:
         pass
 
 
@@ -42,69 +43,57 @@ class PlayerMoveController(IPlayerMoveController):
             get_player_location(player: Player) -> Square:
                 Returns the current location of the player.
         """
-    def __init__(self, movement_publisher: IMovementEventManager, data_controller: IPlayerDataController,
-                 notification_manager=NotificationManager()):
-        self._movement_publisher = movement_publisher
-        self._data_controller = data_controller
+
+    def __init__(self,
+                 location_manager: LocationManager,
+                 notification_manager=NotificationManager(),
+                 ):
+
+        self._location_manager = location_manager
         self._notification_manager = notification_manager
 
-    def process_movement(self, player: Player, card: DragonCard):
-        player_location = self.get_player_location(
-            player)
-        final_movement = self._validate_and_return_movement(card.action(player_location), player, player_location)
-        player.steps_to_win -= final_movement.value
-
-    def _validate_and_return_movement(self, movement: Movement, player: Player, player_location: Square) -> Movement:
-        final_movement = movement
-        if final_movement.value == 0:
-            self._notification_manager.add_notification(f"player {player.id} didn't get a matching card")
-        elif self._check_destination_is_occupied(final_movement) or self._player_passing_cave(player, player_location,
-                                                                                        final_movement):
-            final_movement = Movement(0, player_location)
-        elif final_movement.value != 0:
-            self.update_player_location(player, final_movement.destination)
-            self._notification_manager.add_notification(
-                f"player {player.id} is moving to Square {final_movement.destination.id}")
+    def create_movement(self, player: Player, origin_location: Tile, steps: int) -> Movement:
+        final_movement = Movement(0, origin_location)
+        if steps < 0:
+            final_movement = self.move_backward(player, origin_location, steps)
         else:
-            self._notification_manager.add_notification(f"player {player.id} didn't move")
-
-        self._movement_publisher.publish_event(final_movement)
+            final_movement = self.move_forward(player, origin_location, steps)
+        if final_movement.value != 0:
+            self._location_manager.remove_player_location(origin_location)
+            self._location_manager.set_player_location(player, final_movement.destination)
+            player.steps_to_win -= final_movement.value
+            self._notification_manager.add_notification(
+                f"player {player.id} is moving to tile {final_movement.destination.id}")
         return final_movement
 
-    def _check_destination_is_occupied(self, movement: Movement) -> bool:
-        if movement.destination.get_occupant() is None:
+    def move_forward(self, player: Player, origin_location: Tile, steps: int) -> Movement:
+        destination = origin_location
+        for step in range(steps):
+            destination = destination.next
+
+        if player.steps_to_win - steps < 0:
+            self._notification_manager.add_notification(f"Player {player.id} cannot pass cave")
+            return Movement(0, origin_location)
+        if player.steps_to_win == steps:  # move player to cave
+            return Movement(steps,
+                            destination.prev.cave)  # return the movement to the cave
+        if self._check_destination_is_occupied(destination):  # check if destination is occupied
+            return Movement(0, origin_location)
+        return Movement(steps, destination)
+
+    def move_backward(self, player: Player, origin_location: Tile, steps: int) -> Movement:
+        destination = origin_location
+        for step in range(abs(steps)):
+            if origin_location.is_cave() or destination.cave and destination.cave.get_owner().id == player.id:  # if player is passing their cave
+                self._notification_manager.add_notification(f"player {player.id} cannot go behind cave")
+                return Movement(0, origin_location)
+            destination = destination.prev
+        if self._check_destination_is_occupied(destination):  # check if destination is occupied
+            return Movement(0, origin_location)
+        return Movement(-steps, destination)
+
+    def _check_destination_is_occupied(self, destination: Tile) -> bool:
+        if destination.get_occupant() is None:
             return False
         self._notification_manager.add_notification(f"destination is occupied")
         return True
-
-    def _player_passing_cave(self, player: Player, starting_square: Square, movement: Movement) -> bool:
-        # player cannot go backwards from initial game starting position
-        if movement.value < 0 and starting_square.cave and starting_square.cave.get_owner().id == player.id:
-            self._notification_manager.add_notification(f"player {player.id} cannot go behind cave")
-            return True
-        square = starting_square
-        steps = abs(movement.value)
-        for step in range(steps):
-            if movement.value < 0:
-                square = square.prev
-            else:
-                square = square.next
-            if square.cave and square.cave.get_owner().id == player.id and step + 1 < steps:  # check if player got into a cave before finishing movement
-                self._notification_manager.add_notification(f"player {player.id} cannot pass cave")
-                return True
-        return False
-
-    def update_player_location(self, player: Player, square: Square) -> None:
-        current_location = self.get_player_location(player)
-        squares = self._data_controller.get_squares()
-        for i in range(len(squares)):
-            if squares[i] == current_location:
-                squares[i].remove_player()
-            if squares[i] == square:
-                squares[i].set_occupant(player)
-        self._data_controller.set_squares(squares)
-
-    def get_player_location(self, player) -> Square:
-        for square in self._data_controller.get_squares():
-            if square.get_occupant() and square.get_occupant().id == player.id:
-                return square

@@ -4,7 +4,11 @@ import pygame
 from GameConstants import GameStyles
 from Drawable import Drawable
 
-
+NOTIFICATION_COLOUR_LEVEL = {
+    "info": GameStyles.COLOR_GRAY_300.value,
+    "success": GameStyles.COLOR_BLUE.value,
+    "warning": GameStyles.COLOR_ORANGE.value
+}
 class NotificationTabUI(Drawable):
     """
     Notification Tab UI
@@ -52,8 +56,8 @@ class NotificationTabUI(Drawable):
         notifications = self.notification_manager.notifications
         y_offset = text_surface.get_height() + 20  # Start drawing notifications below the title
         for notification in notifications:
-            notification_item = NotificationItem(notification, self.notification_surface.get_width() - 20,
-                                                 y_offset)
+            notification_item = NotificationItem(notification["message"], self.notification_surface.get_width() - 20,
+                                                 y_offset, level=notification["level"])
             notification_item.draw(self.notification_surface, (5, y_offset))
             y_offset += notification_item.surface.get_height() + 5  # spacing between notifications
 
@@ -77,10 +81,11 @@ class NotificationItem(Drawable):
                 Redraws the notification item view (currently does nothing).
         """
 
-    def __init__(self, message: str, surface_width: int, y_offset: int,
-                 font_size: int = GameStyles.FONT_SIZE_MEDIUM.value, colour=GameStyles.COLOR_GRAY_300.value):
+    def __init__(self, message: str, surface_width: int, y_offset: int, level:str,
+                 font_size: int = GameStyles.FONT_SIZE_MEDIUM.value):
         self.surface = pygame.Surface((surface_width, font_size + 20), pygame.SRCALPHA)
-        pygame.draw.rect(self.surface, colour, self.surface.get_rect(),
+        self.colour = NOTIFICATION_COLOUR_LEVEL[level]
+        pygame.draw.rect(self.surface, self.colour, self.surface.get_rect(),
                          border_radius=GameStyles.BORDER_RADIUS_SMALL.value)
         pygame.draw.rect(self.surface, GameStyles.COLOR_BLACK.value, self.surface.get_rect(), 2,
                          border_radius=GameStyles.BORDER_RADIUS_SMALL.value)  # Border
