@@ -72,7 +72,7 @@ class SpecialEffectController:
 
         for player in players:
             player_square = self.location_manager.get_player_location(player)
-            if player != current_player and not player_square.is_cave():
+            if player != current_player and player_square.is_cave() == False and current_player_square.is_cave() == False:
                 distance = len(self.location_manager.get_tiles_between(current_player_square, player_square))
 
                 if distance < min_distance:

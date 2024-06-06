@@ -6,7 +6,7 @@ TIMEREVENT = pygame.USEREVENT + 1
 
 class TimerController:
     def __init__(self):
-        self.time = 16
+        self.time = 21
         self.clock = pygame.time.Clock()
         self.start_ticks = pygame.time.get_ticks()
 
